@@ -1,0 +1,37 @@
+.TH pamfile 1 "06 August 2000"
+.IX pamfile
+.SH NAME
+pamfile - describe a Netpbm (PAM or PNM) file
+.SH SYNOPSIS
+.B pamfile
+.RB [ -allimages ]
+.RI [ "file ..." ]
+
+.SH DESCRIPTION
+Reads one or more Netpbm files as input.
+Writes out short descriptions of the image type, size, etc.
+This is mostly for use in shell scripts, so the format is not
+particularly pretty.
+
+.SH OPTIONS
+
+.TP
+.B -allimages
+Describe every image in each input file.  Without this option, 
+.B pamfile
+describes only the first image in each input file.  Note that before
+July 2000, a file could not contain more than one image and many
+programs ignore all but the first.
+
+.SH "SEE ALSO"
+.BR pam (5), 
+.BR file (1)
+
+.SH AUTHOR
+Copyright (C) 1991 by Jef Poskanzer.
+.\" Permission to use, copy, modify, and distribute this software and its
+.\" documentation for any purpose and without fee is hereby granted, provided
+.\" that the above copyright notice appear in all copies and that both that
+.\" copyright notice and this permission notice appear in supporting
+.\" documentation.  This software is provided "as is" without express or
+.\" implied warranty.

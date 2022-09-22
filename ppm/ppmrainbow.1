@@ -1,0 +1,84 @@
+.TH ppmrainbow 1 "1 July 2001"
+.IX ppmrainbow
+.SH NAME
+ppmrainbow - Generate a rainbow
+
+.SH SYNOPSIS
+.B ppmrainbow
+.RB [ "-width=\fInumber" ]
+.RB [ "-height=\fInumber" ]
+.br
+.RB [ "-tmpdir=\fIdirectory" ]
+.RB [ -verbose ]
+.IR color " ..."
+
+.PP
+All options can be abbreviated to their shortest unique prefix.  You
+may use two hyphens instead of one to designate an option.  You may
+use either white space or equals signs between an option name and its
+value.
+
+.SH DESCRIPTION
+.B ppmrainbow
+generates a PPM image that fades from one color to another to another
+from left to right, like a rainbow.  The colors are those you specify
+on the command line, in that order.  The first color is added again on
+the right end of the image.
+
+If you want a vertical or other non-horizontal rainbow, run the output
+through
+.BR pnmrotate .
+
+One use for such a rainbow is to compose it with another image under
+an alpha mask in order to add a rainbow area to another image.  In fact,
+you can make rainbow-colored text by using 
+.BR pbmtext ,
+.BR pnmcomp ,
+and 
+.BR ppmrainbow .
+
+.SH OPTIONS
+.TP
+.B -width \fInumber
+The width in pixels of the output image.
+
+Default is 600.
+.TP
+.B -height \fInumber
+The height in pixels of the output image.
+
+Default is 8.
+.TP
+.B -tmpdir
+The directory specification of the directory 
+.B ppmrainbow
+is to use for temporary files.
+
+Default is the value of the 
+.B TMPDIR 
+environment variable, or 
+.I /tmp
+if 
+.B TMPDIR 
+is not set.
+.TP
+.B -verbose
+Print the "commands" (invocations of other Netpbm programs) that
+.B ppmrainbow
+uses to create the image.
+
+.SH "SEE ALSO"
+.BR ppmmake (1), 
+.BR pnmcomp (1), 
+.BR pbmtext (1),
+.BR ppmfade (1),
+.BR ppm (5).
+
+.SH AUTHOR
+
+Arjen Bax wrote 
+.BR ppmrainbow 
+in June 2001 and contributed it to the Netpbm package.  Bryan
+Henderson wrote this man page in July 2001.
+\"Contributed to the public domain. This software is provided in
+\"the hope that it will be useful, but without warranty.

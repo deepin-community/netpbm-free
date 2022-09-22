@@ -1,0 +1,81 @@
+.TH palmtopnm 1 "15 December 2000"
+.IX palmtopnm
+.SH NAME
+palmtopnm - convert a Palm pixmap into a portable anymap
+.SH SYNOPSIS
+.B palmtopnm
+.RB [ -verbose ] 
+.RB [ -rendition 
+.IR N ] 
+.RB [ -showhist ] 
+.br
+.RB [ -forceplain ] 
+.RI [ pnmfile ]
+.br
+.B palmtopnm
+.B -transparent 
+.RB [ -verbose ] 
+.RI [ pnmfile ]
+
+.SH DESCRIPTION
+Reads a Palm pixmap as input, from stdin or 
+.IR pnmfile .
+Produces either a portable pixmap as output, or writes the value of
+the transparent color in the Palm pixmap to stdout.
+.SH OPTIONS
+.TP
+.B -verbose
+Display various interesting information about the input file and process.
+.TP
+.B -transparent
+If the Palm pixmap has a transparent color set, the RGB value for that
+color will be written to stdout as in the form \fC#RRGGBB\fR, where
+\fCRR\fR, \fCGG\fR, and \fCBB\fR are two-digit hexadecimal numbers
+indicating a value between 0 and 255.  If no transparent color is set
+in the bitmap, nothing will be output.  No additional output will be
+generated; no anymap will be output.
+.TP
+.B -rendition N
+Palm pixmaps may contain several different renditions of the same
+pixmap, with different depths.  By default, 
+.B palmtopnm 
+operates on the first rendition (rendition number 1) in the pixmap.
+This switch allows you to operate on a different rendition.  The value
+must be between 1 and the number of renditions in the pixmap,
+inclusive.
+.TP
+.B -showhist
+Writes a histogram of colors in the input file to stderr.
+.TP
+.B -forceplain
+Force the output anymap to be in ASCII 'plain' netpbm format.
+
+.SH "SEE ALSO"
+.BR pnmtopalm (1), 
+.BR pnm(5)
+
+.SH BUGS
+An additional compression format, "packbits," has been added with
+PalmOS 4.0.  This package should be updated to handle it.
+
+You currently cannot generate an alpha mask if the Palm pixmap has a
+transparent color.  However, you can still do this with
+.B ppmcolormask
+with a Netpbm pipe similar to:
+
+.B palmtopnm pixmap.palm | ppmcolormask `palmtopnm -transparent pixmap.palm`
+
+.SH AUTHORS
+This program was originally written as Tbmptopnm.c, by Ian Goldberg.
+It was heavily modified by Bill Janssen to add color, compression, and
+transparency function.
+.br
+Copyright 1995-2001 by Ian Goldberg and Bill Janssen.
+.\" Permission to use, copy, modify, and distribute this software and its
+.\" documentation for any purpose and without fee is hereby granted, provided
+.\" that the above copyright notice appear in all copies and that both that
+.\" copyright notice and this permission notice appear in supporting
+.\" documentation.  This software is provided "as is" without express or
+.\" implied warranty.
+.\"
+.\" This man-page was derived from pnmtorast.1 by Jef Poskanzer

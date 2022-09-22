@@ -1,0 +1,67 @@
+.TH ppmtowinicon 1 "22 May 2000"
+.IX ppmtowinicon
+
+.SH NAME
+ppmtowinicon \- convert 1 or more portable pixmaps into a Windows .ico 
+file
+
+.SH SYNOPSIS
+.B ppmtowinicon
+.RI [ \-andpgms ]
+.RI [ \-output\ output.ico ]
+.RI [ ppmfiles ... ]
+
+.SH DESCRIPTION
+Reads one or more portable pixmaps as input.
+Produces a Microsoft Windows .ico file as output.
+
+A Windows icon contains 1 or more images, at different resolutions
+and color depths. 
+
+Microsoft recommends including at least the following formats in each
+icon (size and bits-per-pixel):
+.PP
+16 x 16 - 4 bpp
+.PP
+32 x 32 - 4 bpp
+.PP
+48 x 48 - 8 bpp
+.PP
+Default I/O is STDIN/STDOUT.
+.IX WINICON
+.SH OPTIONS
+.TP
+.B \-andpgms
+If this option is given, every second file is read as an "and mask" to be
+used by windows for transparency data for the previous image. (These are
+set to fully opaque by default). The and mask is a PGM image, where any
+pixel with maxval intensity means opaque and any other pixel means not
+opaque. Note that as with all Netpbm programs, you may use a PBM file here
+and it will be used as if it were the equivalent PGM.
+
+The and mask is like an alpha mask, except for what it signifies in the
+"not opaque" areas. In the usual case, the foreground image is black in
+those areas, and in that case the areas are fully transparent -- the
+background shows through the icon. But in general, a not opaque pixel
+signifies that the background and foreground should be merged as follows:
+The intensities of the color components in the forgeground and background
+are represented as binary numbers, then corresponding bits of the
+background and foreground intensities are exlusive-or'ed together. So there
+is a sort of reverse video effect. 
+
+.TP
+.B \-output output.ico
+File to write.  By default, the icon is written to stdout.
+
+.SH "SEE ALSO"
+.BR winicontoppm (1),
+.BR ppm (5)
+
+.SH AUTHOR
+Copyright (C) 2000 by Lee Benfield.
+.\" Permission to use, copy, modify, and distribute this software and
+.\" its documentation for any purpose and without fee is hereby granted,
+.\" provided that the above copyright notice appear in all copies and
+.\" that both that copyright notice and this permission notice appear in
+.\" supporting documentation.  This software is provided "as is" without
+.\" express or implied warranty.

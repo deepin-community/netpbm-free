@@ -1,0 +1,51 @@
+.TH pcxtoppm 1 "9 April 1990"
+.IX pcxtoppm
+.SH NAME
+pcxtoppm - convert a PCX file into a portable pixmap
+
+.SH SYNOPSIS
+.B pcxtoppm
+.RB [ -stdpalette ]
+.RB [ -verbose ]
+.RI [ pcxfile ]
+
+.SH DESCRIPTION
+Reads a PCX file as input.
+.IX PCX
+Produces a portable pixmap as output.
+Supported PCX types are:
+.TP
+Colormapped files with 2-16 colors.
+"Packed pixel" format (1, 2 or 4 bits/pixel, 1 plane) or bitplane format (1
+bit/pixel, 1-4 planes).  The program checks the colormap and uses an internal
+one if the provided colormap is completely black.
+.TP
+Colormapped files with 256 colors
+8 bits/pixel, 1 plane, colormap at the end of the file.
+.TP
+24bit truecolor files
+24bit RGB: 8 bits/pixel, 3 planes.
+.TP
+32bit truecolor files
+24bit RGB + 8bit intensity: 8 bits/pixel, 4 planes.
+
+.SH OPTIONS
+.TP
+.B -stdpalette
+Enforce the use of the internal colormap for files with 16 colors or less.
+
+.SH "SEE ALSO"
+.BR ppmtopcx (1), 
+.BR ppm (5)
+
+.SH AUTHORS
+Copyright (C) 1990 by Michael Davidson.
+.br
+Modified 1994 by Ingo Wilken (Ingo.Wilken@informatik.uni-oldenburg.de)
+.\" Permission to use, copy, modify, and distribute this software and its
+.\" documentation for any purpose and without fee is hereby granted, provided
+.\" that the above copyright notice appear in all copies and that both that
+.\" copyright notice and this permission notice appear in supporting
+.\" documentation.  This software is provided "as is" without express or
+.\" implied warranty.
+

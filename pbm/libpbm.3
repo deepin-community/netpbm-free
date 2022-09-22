@@ -1,0 +1,478 @@
+.TH libpbm 3
+.SH NAME
+libpbm - functions to read and write PBM image files
+.SH SYNOPSIS
+.B #include <pbm.h>
+
+.B int pm_keymatch(char * 
+.IB str , 
+.B char * 
+.IB keyword , 
+.B int 
+.IB minchars );
+
+.B int pm_maxvaltobits(int
+.IB maxval );
+
+.B int pm_bitstomaxval(int
+.IB bits );
+
+.B unsigned int pm_lcm(unsigned int
+.IB x ,
+.B unsigned int
+.IB y ,
+.B unsigned int
+.IB z ,
+.B unsigned int
+.IB limit );
+
+.B void pm_message(char * 
+.IB fmt , 
+.B ... );
+
+.B void pm_error(char * 
+.IB fmt , 
+.B ... );
+
+.B void pm_perror(char * 
+.IB fmt , 
+.B ... );
+
+.B void pm_usage(char *
+.IB usage );
+
+.B FILE *pm_openr(char *
+.IB name )
+
+.B FILE *pm_openw(char *
+.IB name );
+
+.B FILE *pm_openr_seekable(const char *
+.IB name );
+
+.B FILE *pm_close(FILE *
+.IB fp );
+
+.B char *pm_read_unknown_size(FILE *
+.IB fp ", long *" nread );
+
+.B unsigned int pm_tell(FILE * 
+.IB fileP );
+
+.B void pm_seek(FILE * 
+.IB fileP ", unsigned long " filepos );
+
+.B bit **pbm_allocarray(int
+.IB cols ",  int " rows );
+
+.B bit *pbm_allocrow(int
+.IB cols );
+
+.B pbm_freearray(bit 
+.BI ** bits ", int " rows );
+
+.B pbm_freerow(bit
+.BI * bitrow );
+
+.B void pbm_readpbminit(FILE *
+.IB fp ", int *" colsP ", int *" rowsP ", int *" formatP );
+
+.B void pbm_readpbmrow(FILE *
+.IB fp ", bit *" bitrow ", int " cols ", int " format );
+
+.B void pbm_readpbmrow_packed(FILE *
+.IB fp , 
+.br
+.BI "unsigned char * const " packed_bits ,
+.BI "const int " cols ,
+.BI "const int " format );
+
+.B void bit** pbm_readpbm(FILE *
+.IB fp ", int *" colsP ", int *" rowsP );
+
+.B void pbm_writepbminit(FILE *
+.IB fp ", int " cols ", int " rows ", int " forceplain );
+
+.B void pbm_writepbmrow(FILE *
+.IB fp ", bit *" bitrow ", int " cols ", int " forceplain );
+
+.B void pbm_writepbmrow_packed(FILE *
+.IB fp , 
+.br
+.BI "unsigned char * const " packed_bits ,
+.BI "const int " cols ,
+.BI "const int " forceplain );
+
+.B void pbm_writepbm(FILE *
+.IB fp ", bit **" bits ", int " cols ", int " rows ", int " forceplain );
+
+.BI "#define pbm_packed_bytes(" cols ") ..."
+
+.B void pbm_nextimage(
+.BI "FILE *" file ,
+.BI "int * const " eofP );
+
+.B void pbm_check(
+.BI "FILE * " file ,
+.BI "const enum pm_check_type " check_type , 
+.BI "const int " format , 
+.BI "const int " cols , 
+.BI "const int " rows ,
+.BI "enum pm_check_code * const " retval );
+
+.BI "int pm_readbigshort(FILE *" in ", short *" sP );
+
+.BI "int pm_writebigshort(FILE *" out ", short " s );
+
+.BI "int pm_readbiglong(FILE *" in ", long *" lP );
+
+.BI "int pm_writebiglong(FILE *" out ", long " l );
+
+.BI "int pm_readlittleshort(FILE *" in ", short *" sP );
+
+.BI "int pm_writelittleshort(FILE *" out ", short " s );
+
+.BI "int pm_readlittlelong(FILE *" in ", long *" lP );
+
+.BI "int pm_writelittlelong(FILE *" out ", long " l );
+
+
+.SH DESCRIPTION - PACKAGE-WIDE ROUTINES
+
+.SS KEYWORD MATCHING
+.B pm_keymatch()
+does a case-insensitive match of
+.BR str
+against
+.BR keyword .
+.BR str
+can be a leading sunstring of
+.BR keyword ,
+but at least
+.BR minchars
+must be present.
+
+.SS MAXVAL ARITHMETIC
+.B pm_maxvaltobits()
+and 
+.B pm_bitstomaxval()
+convert between a maxval and the minimum number of bits required
+to hold it.
+
+.B pm_lcm()
+computes the least common multiple of 3 integers.  You also specify a
+limit and if the LCM would be higher than that limit,
+.B pm_lcm()
+just returns that limit.
+
+
+.SS MESSAGES AND ERRORS
+.B pm_message()
+is a
+.BR printf()
+style routine to write an informational message to the Standard Error
+file stream.
+.B pm_message()
+suppresses the message, however, if the user specified the
+.B -quiet
+option on the command line.  See the initialization functions, e.g.
+.BR pbm_init() ,
+for information on the 
+.B -quiet
+option.
+Note that Netpbm programs are often used interactively, but also often
+used by programs.  In the interactive case, it is nice to issue messages
+about what the program is doing, but in the program case, such messages
+are usually undesirable.  By using 
+.B pm_message()
+for all your messages, you make your program usable in both cases.
+Without any effort on your part, program users of your program can avoid
+the messages by specifying the 
+.B -quiet
+option.
+
+.B pm_error()
+is a 
+.BR printf()
+style routine that writes an error message to the Standard Error file
+stream and exits the program with an exit code of 1.
+
+.SS GENERIC FILE ACCESS
+.B pm_openr()
+opens the given file for reading, with appropriate error checking.
+A filename of 
+.B - 
+is taken to mean Standard Input.
+.B pm_openw()
+opens the given file for writing, with appropriate error checking.
+.B pm_close()
+closes the file descriptor, with appropriate error checking.
+
+.B pm_openr_seekable()
+appears to open the file just like 
+.BR pm_openr() ,
+but the file thus opened is guaranteed to be seekable (you can use
+ftell() and fseek() on it).  
+.B pm_openr_seekable() 
+pulls this off by copying the entire file to a temporary file and
+giving you the handle of the temporary file, if it has to.  If the 
+file you name is a regular file, it's already seekable so 
+.B pm_openr_seekable()
+just does the same thing as
+.BR pm_openr() .
+But if it is, say, a pipe, it isn't seekable.  So 
+.B pm_openr_seekable()
+reads the pipe until EOF into a temporary file, then opens that temporary
+file and returns the handle of the temporary file.  The temporary file is
+seekable.  
+
+The file
+.B pm_openr_seekable()
+creates is one that the operating system recognizes as temporary, so
+when you close the file, by any means, it gets deleted.
+
+You need a seekable file if you intend to make multiple passes through
+the file.  The only alternative is to read the entire image into
+memory and work from that copy.  That may use too much memory.  Note
+that the image takes less space in the file cache than in a buffer in
+memory.  As much as 96 times less space!  Each sample is an integer in
+the buffer, which is usually 96 bits.  In the file, a sample may be as
+small as 1 bit and rarely more than 8 bits.
+
+.B pm_read_unknown_size()
+reads an entire file or input stream of unknown size to a buffer.
+Allocate memory more memory as needed. The calling routine has to free
+the allocated buffer with
+.BR free() .
+
+.BR pm_read_unknown_size()
+returns a pointer to the allocated buffer. The
+.BR nread
+argument returns the number of bytes read.
+
+.BR pm_tell() 
+returns a handle for the current position of the file, whether it be
+the header or a row of the raster.  Use the handle as an argument to
+.B pm_seek()
+to reposition the file there later.  The file must be seekable (which 
+you can ensure by opening it with
+.BR pm_openr_seekable() ) or this may fail.
+
+.SS ENDIAN I/O
+.Ss
+.BR pm_readbigshort() , 
+.BR pm_writebigshort() ,
+.BR pm_readbiglong() , 
+.BR pm_writebiglong() ,
+.BR pm_readlittleshort() , 
+.BR pm_writelittleshort() ,
+.BR pm_readlittlelong() , 
+and
+.B pm_writelittlelong()
+are routines to read and write short and long ints in either big- or
+little-endian byte order.  The return value is
+.B 0
+upon success and
+.B -1 
+upon failure (either EOF or I/O error).
+
+.SH DESCRIPTION - PBM-SPECIFIC ROUTINES
+
+.SS TYPES AND CONSTANTS
+.B typedef ... bit;
+
+.B #define PBM_WHITE ...
+
+.B #define PBM_BLACK ...
+
+Each
+.BR bit
+should contain only the values of
+.BR PBM_WHITE
+or
+.BR PBM_BLACK .
+
+.B #define PBM_FORMAT ...
+
+.B #define RPBM_FORMAT ...
+
+.B #define PBM_TYPE PBM_FORMAT
+
+.B #define 
+.BI PBM_FORMAT_TYPE( f ") ..."
+
+These are for distinguishing different file formats and types.
+
+.SS INITIALIZATION
+All PBM programs must call 
+.B pbm_init
+just after invocation, before processing arguments.
+
+.SS MEMORY MANAGEMENT
+.B pbm_allocarray()
+allocates an array of bits.
+.B pbm_allocrow()
+allocates a row of the given number of bits.
+.B pbm_freearray()
+frees the array allocated with
+.BR pbm_allocarray()
+containing the given number of rows.
+.B pbm_freerow()
+frees a row of bits.
+
+.SS READING PBM IMAGE FILES
+.B pbm_readpbminit()
+reads the header from a PBM image in a PBM file, filling in the rows,
+cols and format variables.
+.B pbm_readpbmrow()
+reads a row of bits into the 
+.I bitrow 
+array.  Format and cols were filled in by
+.BR pbm_readpbminit() .
+.B pbm_readpbmrow_packed()
+is like 
+.B pbm_readrow()
+except instead of returning a 
+.B bits
+array, it returns an array 
+.I packed_bits
+of bytes with the pixels of the image row packed into them.  The
+pixels are in order from left to right across the row and from the
+beginning of the array to the end.  Within a byte, the bits are in
+order from the most significant bit to the least significant bit.  If
+the number of pixels in the row is not a multiple of 8, the last byte
+returned is padded on the least signficant bit side with undefined
+bits.  White is represented by a
+.B PBM_WHITE
+bit; black by
+.BR PBM_BLACK .
+
+.B pbm_readpbm()
+reads an entire bitmap file into memory, returning the allocated array and
+filling in the rows and cols variables.
+This function combines
+.BR pbm_readpbminit() ,
+.BR pbm_allocarray()
+and
+.BR pbm_readpbmrow() .
+
+.SS WRITING PBM IMAGE FILES
+.B pbm_writepbminit()
+writes the header for a PBM image in a PBM file.  
+.I forceplain
+is a boolean value specifying that a plain format (text) file to be
+written, as opposed to a raw format (binary) one.
+.B pbm_writepbmrow()
+writes a row to a PBM file.
+.B pbm_writepbmrow_packed()
+is the same as 
+.B pbm_writepbmrow()
+except that you supply the row to write as an array of bytes packed with
+bits instead of as a 
+.B bits
+array.  The format of
+.I packed_bits 
+is the same as that returned by 
+.BR pbm_readpbmrow() .
+
+.B pbm_writepbm()
+writes the header and all data for a PBM image to a PBM file.  This function
+combines
+.BR pbm_writepbminit()
+and
+.BR pbm_writepbmrow() .
+
+.SS MISCELLANEOUS
+
+.B pbm_nextimage()
+positions a PBM input file to the next image in it (so that a subsequent
+.B pbm_readpbminit()
+reads its header).
+
+Immediately before a call to 
+.BR pbm_nextimage() , 
+the file must be positioned either at its beginning (i.e. nothing has
+been read from the file yet) or just after an image (i.e. as left by a
+.B pbm_readpbmrow() 
+of the last row in the image).
+
+In effect, then, all
+.B pbm_nextimage()
+does is test whether there is a next image or the file is positioned at
+end-of-file.
+
+If 
+.B pbm_nextimage() 
+successfully positions to the next image, it returns 
+.BI * eofP
+false (0).  If there is no next image in the file, it returns
+.BI * eofP
+true (1).  If it can't position or determine the file status due to a
+file error, it issues an error message and exits the program with an
+error exit code.
+
+.B pbm_check()
+checks for the common file integrity error where the file is the wrong
+size to contain all the image data.
+.B pbm_check() 
+assumes the file is positioned after an image header (as if
+.B pbm_readpbminit() 
+was the last operation on the file).  It checks the file size to see if
+the number of bytes left in the file are the number required to contain
+the image raster.  If the file is too short, 
+.B pbm_check()
+causes the program to exit with an error message and error completion
+code.  Otherwise, it returns one of the following values (enumerations
+of the
+.B enum pm_check_code
+type) as 
+.BI * retval\fR:
+.TP
+.B PM_CHECK_OK
+The file's size is exactly what is required to hold the image raster.
+.TP
+.B PM_CHECK_UNKNOWN_TYPE
+.I format
+is not a format whose size 
+.B pbm_check()
+can anticipate.  The only format with which 
+.B pbm_check()
+can deal is raw PBM format.
+.TP
+.B PM_CHECK_TOO_LONG
+The file is longer than it needs to be to contain the image raster.  The
+extra data might be another image.
+.TP
+.B PM_CHECK_UNCHECKABLE
+The file is not a kind that has a predictable size, so there is no simple
+way for 
+.B pbm_check()
+to know if it is the right size.  Only a regular file has predictable
+size.  A pipe is a common example of a file that does not.
+
+.PP
+.I check_type
+must have the value
+.B PM_CHECK_BASIC 
+(an enumerated value of the 
+.B pm_check_type
+enumerated type).  Otherwise, the effect of
+.B pbm_check()
+is unpredictable.  This argument exists for future backward compatible
+expansion of the function of
+.BR pbm_check() .
+
+
+.SH "SEE ALSO"
+.BR libpgm (3), 
+.BR libppm (3), 
+.BR libpnm (3), 
+.BR pbm (5)
+.SH AUTHOR
+Copyright (C) 1989, 1991 by Tony Hansen and Jef Poskanzer.
+.\" Permission to use, copy, modify, and distribute this software and its
+.\" documentation for any purpose and without fee is hereby granted, provided
+.\" that the above copyright notice appear in all copies and that both that
+.\" copyright notice and this permission notice appear in supporting
+.\" documentation.  This software is provided "as is" without express or
+.\" implied warranty.

@@ -1,0 +1,160 @@
+.TH ppmlabel 1 "14 June 1995"
+.IX ppmlabel
+.SH NAME
+ppmlabel \- add text to a portable pixmap
+.SH SYNOPSIS
+.na
+.nh
+.B ppmlabel
+.RB [ \-angle
+.IR angle ]
+'in +9n
+.RB [ \-background
+.B transparent
+|
+.IR colour ]
+.RB [ \-colour
+.IR colour ]
+.RB [ \-file
+.IR filename ]
+.RB [ \-size
+.IR textsize ]
+.RB [ \-text
+.I 'text       
+.IR string' ]
+.RB [ \-x
+.IR column ]
+.RB [ \-y
+.IR row ] " ... "
+.RI [ ppmfile ]
+.in -9n
+.ad
+.hy
+.SH DESCRIPTION
+.B ppmlabel
+uses the text drawing facilities of
+.B ppmdraw
+to add text to a portable pixmap.  The location, size, baseline angle,
+colour of the text and background colour (if any) are controlled by
+command line arguments.  The text can be specified on the command line or
+read from files.  Any number of separate text strings can be
+added by one invocation of
+.BR ppmlabel ,
+limited only by the maximum length of the command line.
+.PP
+If no 
+.I ppmfile
+is specified,
+.B ppmdraw
+reads its input pixmap from standard input.
+.SH OPTIONS
+The arguments on the
+.B ppmlabel
+command line are not options in the strict sense; they are
+commands which control the placement and appearance of the
+text being added to the input pixmap.  They are executed left to right,
+and any number of arguments may appear.
+.PP
+All flags can be abbreviated to their shortest unique prefix.
+.TP 10
+.BI \-angle " angle"
+Sets the angle of the baseline of subsequent text.
+.I angle
+is specified as an integral number of degrees, measured
+counterclockwise from the row axis of the pixmap.
+.TP
+.BI "\-background transparent | " colour
+If the argument is
+.BR `` transparent '',
+text is drawn over the existing pixels in the pixmap.  If a
+.I colour
+is given (see the
+.B \-colour
+switch below for information on how to specify colours),
+rectangles enclosing subsequent text are filled with that colour.
+.TP
+.BI \-colour " colour"
+Sets the colour for subsequent text.
+The 
+.I colour
+can be specified in five ways:
+.RS 10
+.TP 
+\(bu
+A name, assuming
+that a pointer to an X11-style colour names file was compiled in.
+.TP 
+\(bu
+An X11-style hexadecimal specifier: rgb:r/g/b, where r g and b are
+each 1- to 4-digit hexadecimal numbers.
+.TP 
+\(bu
+An X11-style decimal specifier: rgbi:r/g/b, where r g and b are
+floating point numbers between 0 and 1.
+.TP 
+\(bu
+For backwards compatibility, an old-X11-style hexadecimal
+number: #rgb, #rrggbb, #rrrgggbbb, or #rrrrggggbbbb.
+.TP 
+\(bu
+For backwards compatibility, a triplet of numbers
+separated by commas: r,g,b, where r g and b are
+floating point numbers between 0 and 1.
+(This style was added before MIT came up with the similar rgbi style.)
+.RE
+.TP
+.BI \-file " filename"
+Reads text from the file
+.I filename
+and draws it on successive lines.
+.TP
+.BI \-size " textsize"
+Sets the height of the tallest characters above the baseline to
+.I textsize
+pixels.
+.TP
+.BI \-text " 'text string'"
+Draws the given text string (which must be quoted if it contains
+spaces).  The location for subsequent text is advanced by
+1.75 times the current
+.IR textsize ,
+which allows drawing multiple lines of text in a reasonable
+manner without specifying the position of each line.
+.TP
+.BI \-x " column"
+Sets the column at which subsequent text will be left justified.
+Depending on the shape of the first character, the actual text
+may begin a few pixels to the right of this point.
+.TP
+.BI \-y " row"
+Sets the row which will form the baseline of subsequent text.
+Characters with descenders, such as ``y'', will extend below
+this line.
+.SH BUGS
+.PP
+Text strings are restricted to 7 bit ASCII.  The text font used by
+.B ppmdraw
+doesn't include definitions for 8 bit ISO 8859/1 characters.
+.PP
+When drawing multiple lines of text with a non-transparent
+background, it should probably fill the space between the lines
+with the background colour.  This is tricky to get right when the
+text is rotated to a non-orthogonal angle.
+.PP
+The -size, -x, and -y options MUST precede the -text option specifying
+the string they apply to, or they will be silently ignored in favor of
+the defaults.
+.SH "SEE ALSO"
+.PD
+.BR ppmmake (1),
+.BR ppm (5)
+.ne 10
+.SH AUTHOR
+.ce 2
+Copyright (C) 1995 by John Walker (kelvin@fourmilab.ch)
+WWW home page: http://www.fourmilab.ch/
+.PP
+Permission to use, copy, modify, and distribute this software and its
+documentation for any purpose and without fee is hereby granted,
+without any conditions or restrictions.  This software is provided ``as
+is'' without express or implied warranty.

@@ -1,0 +1,64 @@
+.TH pamoil 1 "25 June 2001"
+.IX pamoil
+.SH NAME
+pamoil - turn a PAM image into an oil painting
+
+.SH SYNOPSIS
+.B pamoil
+.RB [ -n
+.IR N ]
+.RI [ pamfile ]
+
+.SH DESCRIPTION
+Reads a Netpbm image as input.
+Does an "oil transfer", and writes the same type of Netpbm image as output.
+.IX "oil transfer"
+.PP
+The oil transfer is described in "Beyond Photography" by Holzmann,
+chapter 4, photo 7.
+It's a sort of localized smearing.
+
+The smearing works like this: First, assume a grayscale image.  For
+each pixel in the image,
+.B pamoil
+looks at a square neighborhood around it.  
+.B pamoil
+determines what is the most common pixel intensity in the
+neighborhood, and puts a pixel of that intensity into the output in
+the same position as the input pixel.
+
+For color images, or any arbitrary multi-channel image, 
+.B pamoil
+computes each channel (e.g. red, green, and blue) separately the same
+way as the grayscale case above.
+
+At the edges of the image, where the regular neighborhood would run off
+the edge of the image, 
+.B pamoil
+uses a clipped neighborhood.
+
+.SH OPTIONS
+.TP
+.B -n \fIsize
+This is the size of the neighborhood used in the smearing.  The neighborhood
+is this many pixels in all four directions.
+
+The default is 3.
+
+.SH "SEE ALSO"
+.BR pgmbentley (1), 
+.BR ppmrelief (1), 
+.BR ppm (5)
+
+.SH AUTHOR
+Based on pgmoil Copyright (C) 1990 by Wilson Bent (whb@hoh-2.att.com)
+.PP
+Modified to ppm by Chris Sheppard, June 25, 2001
+.PP
+Modified to pnm, using pam functions, by Bryan Henderson June 28, 2001.
+.\" Permission to use, copy, modify, and distribute this software and its
+.\" documentation for any purpose and without fee is hereby granted, provided
+.\" that the above copyright notice appear in all copies and that both that
+.\" copyright notice and this permission notice appear in supporting
+.\" documentation.  This software is provided "as is" without express or
+.\" implied warranty.

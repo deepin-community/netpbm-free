@@ -1,0 +1,49 @@
+.TH sgitopnm 1 "29 Jul 2000"
+.IX sgitopnm
+.SH NAME
+sgitopnm - convert a SGI image file to a portable anymap
+.SH SYNOPSIS
+.B sgitopnm
+.RB [ -verbose ]
+.RB [ -channel
+.IR c ]
+.RI [ SGIfile ]
+.SH DESCRIPTION
+Reads an SGI image file as input.
+Produces a PGM image for a 2-dimensional (1 channel) input file, and a
+PPM image for a 3-dimensional (3 or more channels) input file.
+
+Alternatively, produces a PGM image of any one of the channels in the 
+input file.
+
+.SH OPTIONS
+.TP
+.B -verbose
+Give some information about the SGI image file.
+.TP
+.BI -channel " c"
+Extract channel
+.I c
+of the image as a PGM image.  Without this option, 
+.B sgitopnm
+extracts the first 3 channels as a PPM image or, if the input has only
+1 channel, extracts that as a PGM image, and if the input has 2
+channels, fails.
+
+.SH "REFERENCES"
+SGI Image File Format documentation (draft v0.95) by Paul Haeberli
+(paul@sgi.com).  Available via ftp at sgi.com:graphics/SGIIMAGESPEC.
+
+.SH "SEE ALSO"
+.BR pnm (5), 
+.BR pnmtosgi (1)
+
+.SH AUTHOR
+Copyright (C) 1994 by Ingo Wilken (Ingo.Wilken@informatik.uni-oldenburg.de)
+.\" Permission to use, copy, modify, and distribute this software and its
+.\" documentation for any purpose and without fee is hereby granted, provided
+.\" that the above copyright notice appear in all copies and that both that
+.\" copyright notice and this permission notice appear in supporting
+.\" documentation.  This software is provided "as is" without express or
+.\" implied warranty.
+

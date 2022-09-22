@@ -1,0 +1,33 @@
+.TH pamstretch-gen 1 "10 April 2000"
+.IX pamstretch-gen
+
+.SH NAME
+pamstretch-gen \- use pamstretch and pnmscale to scale by non-integer values
+
+.SH SYNOPSIS
+.B pamstretch-gen
+.I N
+.RI [ pnmfile ]
+
+.SH DESCRIPTION
+.B pamstretch-gen 
+is a program which uses
+.BR pamstretch (1),
+.BR pnmfile (1),
+and
+.BR pnmscale (1)
+to smoothly scale up a PNM file by any ratio; it's like a more general
+version of pamstretch (hence the name). But other than the `any ratio'
+bit, it's much the same as pamstretch. :-)
+
+.SH BUGS
+Uses awk just to make some simple floating-point calculations, which
+is probably overkill. But using dc makes my head hurt.
+
+.SH "SEE ALSO"
+.BR pamstretch (1),
+.BR pnmscale (1)
+
+.SH AUTHOR
+Russell Marks (russell.marks@ntlworld.com).
+.\" Copying policy: GNU GPL version 2 or later

@@ -1,0 +1,393 @@
+# This is a make file inclusion, to be included in all the
+# Netpbm make files.
+
+# This file is meant to contain rules that are substantially the same
+# in each of the pbm, pgm, ppm, and pnm subdirectory makes, to avoid
+# duplication of effort.
+
+# The following variables must be set in any make file that uses these
+# rules:
+#
+# SRCDIR: The top level directory of Netpbm source code.
+# BUILDDIR: The top level directory into which Netpbm is built (built,
+# not installed).  Right now, this is always = SRCDIR, but some day, they
+# may be separate.
+# OBJECTS: .o files to be built from .c files with the standard rule.
+# PORTBINARIES: list of conventional executables to be built with the standard
+#   rule
+# MATHBINARIES: list of conventional executables to be built with the standard
+#   rule, but that need math functions too.
+# LIBROOT: pbm, pgm, ppm, or pnm, whichever is the root of library names
+# for this build.
+# MAJ: major number of shared libraries
+# MIN: minor number of shared libraries
+#   The minor number in the filename corresponds to the point release of
+#   Netpbm at which the library last changed.  Do not change the major 
+#   number (and soname) unless the new library is not backward compatible.
+# LIBOBJECTS: list of the object files that make up the library, all of which
+#   are to be built with the standard rule for library objects.
+# LIBOBJECTS_X: same as LIBOBJECTS, but not built with standard rule
+# NETPBMLIBSUFFIX: the suffix, e.g. "so" for the main libraries we build,
+#   whatever type they may be.
+# STATICLIBSUFFIX: the suffix, e.g. "a" on a static library.  This need
+#   not be defined if the user doesn't want to build a static libraries in 
+#   addition to the main libraries.
+# BINARIES: list of all the executables that need to be installed.
+# MERGEBINARIES: subset of BINARIES that can be included in a merge build
+# NOMERGEBINARIES: subset of BINARIES that cannot be included in a merge build
+# INSTALLBINARIES: directory where binaries and Windows DLLs need to be 
+#   installed.
+# SCRIPTS: list of all the scripts that need to be installed
+# INSTALLSCRIPTS: directory where scripts need to be installed.
+# MANUALS1: list of all the topic names of Section 1 man pages that need
+# to be installed (e.g. "pnmtotiff" for the Pnmtotiff man page).
+# SUFFIXMANUALS1: suffix for Section 1 man pages (typically "1").
+# INSTALLMANUALS1: directory where Section 1 man pages need to go.
+# (Analogous variables for Sections 3 and 5)
+# INSTALLLIBS: directory where shared libraries (except Windows DLLs) and other
+#   data files need to be installed.
+# INSTALLSTATICLIBS: directory where link-time libraries (those used at
+#   link time but never run time -- i.e. static libraries and dynamic library
+#   stubs) need to be installed.
+# MANCP: command to use to copy man pages where they belong.  Typically "cp".
+# INSTALL: command to use to copy files to where they belong
+# INSTALL_PERM_BIN: file permissions for installed binaries
+# INSTALL_PERM_LIB: ...same for libraries
+# INSTALL_PERM_HDR: ...same for headers
+# INSTALL_PERM_MAN: ...same for man pages
+# MERGENAME: name of the merged executable (e.g. pbmmerge).
+# MERGE_OBJECTS: list of object files that make up the merged executable,
+#   not counting the master object (e.g. pbmmerge.o).  All of these are to
+#   be built with the standard rule for merged objects.
+# NETPBMLIBS: list of Netpbm libraries needed by the merged executable
+#   being built
+# LIBLIBS: list of Netpbm libraries needed by the Netpbm library being built.
+# CC: C compiler command for the merge main object
+# CFLAGS: C compiler general options for the merge main object
+# CFLAGS_SHLIB: Extra C compiler options for compiling a .o file that will
+#   be in a shared library.  (usually null or -fpic).
+# LD: linker command
+# LDFLAGS: linker options 
+# INCLUDE: Compiler option string to establish the search path for include
+#   files when compiling things or computing dependencies (make dep).
+
+# Some day, SRCSUBDIR will be the subdirectory of the source tree that
+# corresponds to the current directory, which is a build subdirectory.
+# For example, the source might be in /usr/src/netpbm (so 
+# SRCDIR=/usr/src/netpbm) but the build directory might be /tmp/buildnetpbm
+# (so BUILDDIR=/tmp/buildnetpbm).  The current directory is 
+# /tmp/buildnetpbm/pgm and SRCSUBDIR=/usr/src/netpbm/pgm.
+ifeq ($(SRCSUBDIR)x,x)
+  SRCSUBDIR := $(CURDIR)
+endif
+
+LIBOPT = $(BUILDDIR)/buildtools/libopt
+
+NETPBMLIB := $(SRCDIR)/lib/shared/libnetpbm.so
+all: build.bin
+
+$(NETPBMLIB):
+	make -C $(SRCDIR) build.lib.default
+build.bin: $(BINARIES)
+
+INCLUDE := $(INCLUDE) -I $(SRCDIR)/include/
+
+# We build the symbolic links to header files in the current directory
+# just so the compile commands don't have to be littered with -I's.
+
+$(BUILDDIR)/Makefile.config: $(BUILDDIR)/Makefile.config.in
+	$(MAKE) -C $(BUILDDIR) Makefile.config
+
+# Rule to make C source from lex source.
+%.c:%.l
+	$(LEX) -t $< >$@
+
+# Rule for objects.
+$(OBJECTS): %.o: $(SRCSUBDIR)/%.c
+# Note that the user may have configured -I options into CFLAGS.
+	$(CC) -c $(INCLUDE) $(CFLAGS) $(CDEBUG) -o $@ $<
+
+# Rules for conventional single-object file executables
+$(PORTBINARIES): %: %.o $(NETPBMLIB)
+# Note that LDFLAGS might contain -L options, so order is important.
+	$(LD) -o $@ $@.o $(NETPBMLIB) $(LDFLAGS) $(CDEBUG)
+
+# Same as above, but needing math functions
+$(MATHBINARIES): %: %.o $(NETPBMLIB)
+# Note that LDFLAGS might contain -L options, so order is important.
+	$(LD) -o $@ $@.o -lm $(NETPBMLIB) $(LDFLAGS) $(CDEBUG)
+
+# MERGE STUFF
+
+$(MERGE_OBJECTS): %.o2: $(SRCSUBDIR)/%.c
+# Note that the user may have configured -I options into CFLAGS.
+	$(CC) -c $(INCLUDE) $(CFLAGS) "-Dmain=main_$*" \
+          $(CFLAGS_MERGE) $(CDEBUG) -o $@ $<
+
+merge.h: 
+	$(SRCDIR)/buildtools/make_merge.sh $(MERGEBINARIES)
+
+$(MERGENAME).o: $(SRCSUBDIR)/$(MERGENAME).c merge.h # $(HEADERLINKS)
+	$(CC) $(CFLAGS) -Wno-implicit $(INCLUDE) $(CDEBUG) -c -o $@ $<
+
+$(MERGENAME): $(MERGENAME).o $(MERGE_OBJECTS) $(NETPBMLIB)
+# Note that LDFLAGS might contain -L options, so order is important.
+	$(LD) -o $@ $< $(MERGE_OBJECTS) \
+          $(NETPBMLIB) -lm $(LDFLAGS) $(CDEBUG)
+
+
+#############################################################################
+#  BUILDING THE LIBRARIES
+#############################################################################
+
+#----------------------------------------------------------------------------
+# Following are rules for building shared libraries.
+# Note that the user may specify a shared library as his "main" library
+# type, but request a static library in addition.
+#----------------------------------------------------------------------------
+
+$(LIBOBJECTS): %.o: $(SRCSUBDIR)/%.c # $(HEADERLINKS)
+# Note that the user may have configured -I options into CFLAGS.
+	$(CC) -c $(INCLUDE) $(CFLAGS) $(CFLAGS_SHLIB) $(CDEBUG) -o $@ $<
+
+SONAME = lib$(LIBROOT).so.$(MAJ)
+
+ifeq ($(NETPBMLIBTYPE),unixshared)
+# The libxxx.so link is needed to link the executables.
+lib$(LIBROOT).$(NETPBMLIBSUFFIX): $(SONAME)
+	rm -f $@
+	$(SYMLINK) $< $@
+# The $(SONAME) link is only needed to test the programs without
+# installing the libraries (in that case, you also need to direct the 
+# dynamic linker to the source directories, e.g. set LD_LIBRARY_PATH).
+$(SONAME): lib$(LIBROOT).$(NETPBMLIBSUFFIX).$(MAJ).$(MIN)
+	rm -f $@
+	$(SYMLINK) $< $@
+lib$(LIBROOT).$(NETPBMLIBSUFFIX).$(MAJ).$(MIN): \
+    $(LIBOBJECTS) $(LIBOBJECTS_X) $(LIBLIBS) $(LIBOPT)
+	$(LD) $(LDSHLIB) -o $@ $(LIBOBJECTS) $(LIBOBJECTS_X) \
+          `$(LIBOPT) $(LIBLIBS)` -lc $(CDEBUG)
+endif
+
+ifeq ($(NETPBMLIBTYPE),dll)
+$(NETPBMSHLIBPREFIX)$(LIBROOT).dll: $(LIBOBJECTS) $(LIBOBJECTS_X) $(LIBLIBS) $(LIBOPT)
+	dlltool -z lib$(LIBROOT).def --export-all-symbols \
+            $(LIBOBJECTS) $(LIBOBJECTS_X)
+	$(LD) $(LDSHLIB) -Wl,-soname,$(NETPBMSHLIBPREFIX)$(LIBROOT).dll \
+            -Wl,--out-implib,lib$(LIBROOT).dll.a -o $@ lib$(LIBROOT).def \
+            $(LIBOBJECTS) $(LIBOBJECTS_X) `$(LIBOPT) $(LIBLIBS)` $(CDEBUG)
+endif
+
+ifeq ($(NETPBMLIBTYPE),dylib)
+lib$(LIBROOT).dylib: lib$(LIBROOT).$(MAJ).dylib
+	rm -f $@
+	$(SYMLINK) $< $@
+
+lib$(LIBROOT).$(MAJ).dylib: lib$(LIBROOT).$(MAJ).$(MIN).dylib
+	rm -f $@
+	$(SYMLINK) $< $@
+
+lib$(LIBROOT).$(MAJ).$(MIN).dylib: $(LIBOBJECTS) $(LIBOBJECTS_X) $(LIBLIBS) \
+                                   $(LIBOPT)
+	$(LD) $(LDSHLIB) -o $@ $(LIBOBJECTS) $(LIBOBJECTS_X) \
+          `$(LIBOPT) $(LIBLIBS)` -lc $(CDEBUG)
+endif
+
+#--------------------------------------------------------------------------
+# The rule for building a static library is below (if needed).  This is
+# tricky because the user can be building the static library as his main
+# library or in addition to some other kind of main library.  In fact,
+# he may have specified it both as the main library type and an 
+# additional library type.  In that case, NETPBMLIBSUFFIX and 
+# STATICLIBSUFFIX are redundant -- we hope they're the same.
+# 
+# We must not include a rule for static libraries if he doesn't want us
+# to build any.  The library name we come up with might conflict with 
+# the name of the library he actually is building.  In fact, in that case
+# STATICLIB_SUFFIX may just be arbitrary.
+#-----------------------------------------------------------------------------
+ifeq ($(NETPBMLIBTYPE),unixstatic)
+  BUILD_STATICLIB = y
+else
+  ifeq ($(STATICLIB_TOO),y)
+    BUILD_STATICLIB = y
+  else
+    BUILD_STATICLIB = n
+  endif
+endif
+
+ifeq ($(BUILD_STATICLIB),y)
+lib$(LIBROOT).$(STATICLIBSUFFIX): $(LIBOBJECTS) $(LIBOBJECTS_X)
+	-rm -f $@
+	ar rc $@ $(LIBOBJECTS) $(LIBOBJECTS_X)
+	-$(RANLIB) $@
+endif
+
+###########################################################################
+# INSTALLING
+###########################################################################
+
+# Some maintenance notes about $(INSTALL): Some install programs can
+# install multiple files in one shot; others can take only one file at
+# a time.  Some have a -c option; others ignore -c.  Some can take
+# permissions in mnemonic form (u=rwx,go=rx); others can't, but all
+# take the encoded form (755).  Some have a -d option to install
+# directories and never install them implicitly.  Others create
+# directories only implicitly.  Installbsd and OSF1 Install need a
+# space in "-m 755".  Others don't care.  2000.05.17.  OSF1 Install
+# takes only one parameter: the source file.  It picks a destination
+# directory by default, or you can specify it with a -f option.
+# 2000.06.15
+
+# DJGPP can do SYMKINKs for programs but not for ordinary files, so
+# it define SYMLINKEXE, other system don't need it
+ifeq ($(SYMLINKEXE)x,x)
+  SYMLINKEXE := $(SYMLINK)
+endif
+
+
+# Before Netpbm 8.4, we did hard links instead of symbolic.  A user
+# requested symbolic, and I couldn't see a reason for hard (original reason
+# may have been lack of symbolic capability), so I changed it.  -Bryan
+.PHONY: install.merge.common
+install.merge.common: $(MERGENAME) $(NOMERGEBINARIES) install.script
+	-(cd $(INSTALLBINARIES) && rm -f $(BINARIES) $(MERGE_ALIASES))
+ifneq ($(MERGENAME)x,x)
+	$(INSTALL) -c $(STRIPFLAG) -m $(INSTALL_PERM_BIN) \
+            $(MERGENAME) $(INSTALLBINARIES)
+	cd $(INSTALLBINARIES) && \
+	   for i in $(MERGEBINARIES) $(MERGE_ALIASES) ; \
+             do $(SYMLINKEXE) $(MERGENAME)$(EXE) $$i ; \
+             done
+endif
+ifneq ($(NOMERGEBINARIES)x,x)
+	for x in $(NOMERGEBINARIES); \
+        do \
+           $(INSTALL) -c $(STRIPFLAG) -m $(INSTALL_PERM_BIN) \
+               $$x $(INSTALLBINARIES)/$$x; \
+	done
+endif
+
+.PHONY: install.bin
+install.bin: $(BINARIES) install.script
+# Note that on Cygwin, the executables are actually pbmmake.exe, etc.
+# Make and Install know that pbmmake.exe counts as pbmmake.
+	for x in $(BINARIES); \
+	do \
+	   $(INSTALL) -c $(STRIPFLAG) -m $(INSTALL_PERM_BIN) \
+               $$x $(INSTALLBINARIES)/$$x; \
+	done
+
+.PHONY: install.script
+install.script: $(SCRIPTS)
+ifneq ($(SCRIPTS)x,x)
+	for x in $(SCRIPTS); \
+	do \
+	   $(INSTALL) -c -m $(INSTALL_PERM_BIN) $(SRCSUBDIR)/$$x \
+               $(INSTALLSCRIPTS)/$$x; \
+	done
+endif
+
+.PHONY: install.man.bin install.man.old-lib install.man.general
+install.man.bin:
+ifneq ($(MANUALS1)x,x)
+	for i in $(MANUALS1) ; do \
+	    $(MANCP) $(SRCSUBDIR)/$$i.1 \
+                $(INSTALLMANUALS1)/$$i.$(SUFFIXMANUALS1) ; \
+	done
+endif
+install.man.old-lib:
+ifneq ($(MANUALS3)x,x)
+	for i in $(MANUALS3) ; do \
+	    $(MANCP) $(SRCSUBDIR)/$$i.3 \
+                $(INSTALLMANUALS3)/$$i.$(SUFFIXMANUALS3) ; \
+	done
+endif
+install.man.general:
+ifneq ($(MANUALS5)x,x)
+	for i in $(MANUALS5) ; do \
+	    $(MANCP) $(SRCSUBDIR)/$$i.5 \
+                $(INSTALLMANUALS5)/$$i.$(SUFFIXMANUALS5) ; \
+	done
+endif
+
+
+# Install a static library 
+#
+.PHONY: install.staticlib
+install.staticlib: lib$(LIBROOT).$(STATICLIBSUFFIX) 
+	$(INSTALL) -c -m $(INSTALL_PERM_LIBS) $< $(INSTALLSTATICLIBS)/$<
+
+# Install a shared library stub -- the ".so" file used at link time to
+# prepare a program for dynamically linking a library at run time 
+.PHONY: install.sharedlibstub
+install.sharedlibstub: 
+ifeq ($(NETPBMLIBTYPE),unixshared)
+# install the link-time (.so) links to the runtime libraries
+	cd $(INSTALLSTATICLIBS) ; \
+          $(SYMLINK) $(INSTALLLIBS)/lib$(LIBROOT).$(NETPBMLIBSUFFIX).$(MAJ) \
+            lib$(LIBROOT).$(NETPBMLIBSUFFIX)
+endif
+ifeq ($(NETPBMLIBTYPE),dll)
+	$(INSTALL) -c -m $(INSTALL_PERM_LIBS) \
+          lib$(LIBROOT).dll.a $(INSTALLSTATICLIBS)
+endif
+
+# Install a shared library
+#
+.PHONY: install.lib.common
+ifeq ($(NETPBMLIBTYPE),unixshared)
+# install a Unix-style shared library
+install.lib.common: lib$(LIBROOT).$(NETPBMLIBSUFFIX).$(MAJ).$(MIN) 
+	-(cd $(INSTALLLIBS) && rm -f lib$(LIBROOT).$(NETPBMLIBSUFFIX).$(MAJ).*)
+	$(INSTALL) -c -m $(INSTALL_PERM_LIBD) $< $(INSTALLLIBS)/$<
+	cd $(INSTALLLIBS) && \
+          $(SYMLINK) $< lib$(LIBROOT).$(NETPBMLIBSUFFIX).$(MAJ)
+endif
+ifeq ($(NETPBMLIBTYPE),dll)
+#install a Windows DLL shared library
+#Note that unlike Unix libraries, a Windows DLL must go into a directory
+#that is in the PATH, so we use INSTALLBINARIES instead of INSTALLLIBS.
+install.lib.common: $(NETPBMSHLIBPREFIX)$(LIBROOT).dll
+	-( cd $(INSTALLBINARIES) && rm -f $(NETPBMSHLIBPREFIX)$(LIBROOT).dll )
+	$(INSTALL) -c $(STRIPFLAG) -m $(INSTALL_PERM_LIBD) \
+          $< $(INSTALLBINARIES)
+endif
+ifeq ($(NETPBMLIBTYPE),dylib)
+# install a Darwin-style shared library
+install.lib.common: lib$(LIBROOT).$(MAJ).$(MIN).dylib
+	-(cd $(INSTALLLIBS) && rm -f lib$(LIBROOT).*.dylib)
+	$(INSTALL) -c -m $(INSTALL_PERM_LIBD) $< $(INSTALLLIBS)/$<
+	cd $(INSTALLLIBS) && \
+          $(SYMLINK) $< lib$(LIBROOT).dylib
+	cd $(INSTALLLIBS) && \
+          $(SYMLINK) $< lib$(LIBROOT).$(MAJ).dylib
+endif
+
+.PHONY: clean.common
+ifneq ($(EXE)x,x)
+EXEPATTERN = *$(EXE)
+else
+EXEPATTERN = 
+endif
+clean.common:
+	-rm -f *.o *.o2 *.a *.so *.so.* *.dll *.dylib *.cat *~ *.i *.s \
+          $(EXEPATTERN) \
+	  merge.h compile.h *.def *.lnk \
+	  core *.core \
+          $(BINARIES) $(MERGENAME) # $(HEADERLINKS)
+
+.PHONY: dep
+dep: # $(HEADERLINKS)
+# We use -MG here because of ../compile.h.  It need not exist
+# before the first make after a clean.
+	$(CC) -MM -MG $(INCLUDE) $(SRCSUBDIR)/*.c >Makefile.depend
+
+# The automatic dependency generation is a pain in the butt and
+# totally unnecessary for people just installing the distributed code,
+# so to avoid needless failures in the field and a complex build, the
+# 'distclean' program simply makes Makefile.depend an empty file.  A
+# developer may do 'make dep' to create a Makefile.depend full of real
+# dependencies.
+include Makefile.depend
+

@@ -1,0 +1,67 @@
+.TH ppmtobmp 1 "13 June 2000"
+.IX ppmtobmp
+.SH NAME
+ppmtobmp \- convert a portable pixmap into a BMP file
+.SH SYNOPSIS
+.B ppmtobmp
+.RB [ \-windows ]
+.RB [ \-os2 ]
+.RB [ \-bpp=\fIbits_per_pixel ]
+.RI [ ppmfile ]
+.SH DESCRIPTION
+Reads a portable pixmap as input.
+Produces a Microsoft Windows or OS/2 BMP file as output.
+.IX BMP
+.SH OPTIONS
+.PP
+All options can be abbreviated to their shortest unique prefix and you
+can use a double dash in place of the single dash, GNU-style.
+.TP
+.B \-windows
+Tells the program to produce a Microsoft Windows BMP file.
+(This is the default.)
+.TP
+.B \-os2
+Tells the program to produce an OS/2 BMP file.
+(Before August 2000, this was the default).
+.TP 
+.B \-bpp
+This determines how many bits per pixel you want the BMP file to contain.
+Only 1, 4, 8, and 24 are possible.  By default, 
+.B ppmtobmp
+chooses the smallest number with which it can represent all the colors
+in the input image.  If you specify a number too small to represent all
+the colors in the input image, 
+.B ppmtobmp
+tells you and terminates.  You can use
+.B ppmquant
+or
+.B ppmdither
+to reduce the number of colors in the image.
+
+.SH NOTES
+To get a faithful reproduction of the input image, the maxval of the
+input image must be 255.  If it is something else, 
+.B ppmtobmp
+the colors in the BMP file may be slightly different from the colors
+in the input.
+
+Windows icons are not BMP files.  Use
+.B ppmtowinicon
+to create those.
+
+.SH "SEE ALSO"
+.BR bmptoppm (1),
+.BR ppmtowinicon (1),
+.BR ppmquant (1),
+.BR ppmdither (1),
+.BR ppm (5)
+
+.SH AUTHOR
+Copyright (C) 1992 by David W. Sanderson.
+.\" Permission to use, copy, modify, and distribute this software and
+.\" its documentation for any purpose and without fee is hereby granted,
+.\" provided that the above copyright notice appear in all copies and
+.\" that both that copyright notice and this permission notice appear in
+.\" supporting documentation.  This software is provided "as is" without
+.\" express or implied warranty.

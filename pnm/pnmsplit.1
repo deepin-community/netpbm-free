@@ -1,0 +1,39 @@
+.TH pnmsplit 1 "19 June 2000"
+.IX pnmsplit
+.SH NAME
+pnmsplit - split a multi-image portable anymap into multiple single-image files
+.SH SYNOPSIS
+.B pnmsplit
+.RI [ pnmfile [ " output_file_pattern" "]]"
+
+.SH DESCRIPTION
+Reads a Netpbm file as input.  Copies each image in the input into a
+separate file, in the same format.
+
+.I pnmfile
+is the file specification of the input file, or
+.B -
+to indicate Standard Input.  The default is Standard Input.
+
+.I output_file_pattern
+tells how to name the output files.  It is the file specification of
+the output file, except that the first occurence of "%d" in it is
+replaced by the image sequence number in unpadded ASCII decimal, with
+the sequence starting at 0.  If there is no "%d" in the pattern, 
+.B pnmsplit
+fails.
+
+The default output file pattern is "image%d".
+
+Note that to do the reverse operation (combining multiple single-image
+PNM files into a multi-image one), there is no special Netpbm program.
+Just use
+.BR cat .
+
+.SH "SEE ALSO"
+.BR pnm (5), 
+.BR cat (1)
+
+.SH AUTHOR
+Written by Bryan Henderson
+.\" Contributed to the public domain.

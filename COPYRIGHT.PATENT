@@ -1,0 +1,85 @@
+Netpbm consists of code contributed by many authors. In every file of
+the source code, there is a copyright notice, telling you what you may
+or may not do with the code. All authors have granted you the right to
+use and distribute their code without having to pay them, as long as
+you meet some simple requirements.
+
+Most of the components require you to include a copy of their
+copyright notices and warranty disclaimers in any copies or
+derivations you distribute.
+
+Another restriction that some of the software has is that in order to
+have permission to copy it (which includes writing anything derived
+from it), you must distribute source code for your copy or derivation
+and propagate the same restriction to people who would copy your
+derivation.  In other words, the price the author wants for the use of
+his proprietary work is your contribution to the free software cause.
+
+One component prohibits you from selling it or using it in a
+commercial way: hpcdtoppm.
+
+Some components are contributed to the public domain.  
+
+The copyrights on individual components of this package are detailed 
+at appropriate places within the package.
+
+These security fixes for netpbm are (c) Copyright 2002 Red Hat Inc.
+Red Hat has not fixed those items with patent claims or commercial
+use restrictions. These changes include NO WARRANTY and are provided
+under the Open Software License v.1 (see file OPENLICENSE).
+
+
+PATENTS
+-------
+
+These are the patents the Netpbm maintainer knows about that relate to
+Netpbm.  It is basically just information the maintainer has stumbled
+over at some point -- no search has been done.
+
+No licenses have been granted by patent owners to the maintainer of
+Netpbm.  Therefore, if you need a patent to use something in Netpbm,
+you need your own license.
+
+A note about patents in general: A patent gives an inventor the
+exclusive right to make, sell, or use the invention.  If you
+independently invent something without knowing that the patent holder
+already did, that makes no difference -- the patent holder still has
+the exclusive right.  It makes no difference if you give the original
+inventor credit.  The patent applies to a method, not its expression,
+so writing a program from scratch to implement a certain method is
+still a patent infringement.  Infringing a patent is not a crime per
+se, but to the extent that it costs the patent holder money, the
+infringer has to make it up.
+
+The original purpose of patents is probably perverted when patents are
+applied to things you implement in computer programs.  This is one of
+the Free Software Foundation's causes.  See 
+<http://www.gnu.org/philosophy.html#laws>.
+
+
+Unisys owns a patent on LZW compression, which is used by ppmtogif,
+and maybe on LZW decompression, which is used by giftoppm.  IBM also
+owns a patent that may cover the GIF tools.  Unisys offers a license
+of the patent for trivial use for $5000.  Its patent expires in 2003.
+Neither company has ever enforced the patent against trivial users of
+it.  <http://news.cnet.com/news/0-1005-200-1713278.html> is an 
+article dated April 18, 2000 on the issue.  
+<http://www.unisys.com/unisys/lzw/> is Unisys' view of the matter.
+For information from another perspective, see
+http://www.gnu.org/philosophy/gif.html or http://burnallgifs.org/.
+
+The following Netpbm components may be restricted by this patent:
+ppmtogif, giftopnm.
+
+A good substitute for GIF if the patents are a problem is PNG (see
+pngtopnm, pnmtopng), which was developed with a primary purpose of not
+using any patented technology.
+
+You can also use the -nolzw option on ppmtogif to avoid using the LZW
+patent.  The images so generated are larger than traditional
+LZW-compressed GIFs, but any GIF decoder can decode them just the
+same.
+
+The jbigtopnm and pnmtojbig programs use arithmetic coding patents and
+other patents covering various aspects of the "front end."
+

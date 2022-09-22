@@ -1,0 +1,129 @@
+.\" Copyright (c) 1994, Minnesota Supercomputer Center, Inc.
+.TH PPMFADE 1 "April 1, 2000" 1
+.SH NAME
+ppmfade \- generate a transition between two image files using special effects.
+.SH SYNOPSIS
+.B ppmfade
+[
+.B -f 
+.I first.ppm
+] [
+.B -l 
+.I last.ppm
+] [
+.BR -mix | -spread | -shift | -relief | -oil | -edge | -bentley | -block
+] [
+.B -base 
+.I name
+]
+
+.SH DESCRIPTION
+This program generates a transition between either two input images or
+between one input image and black.  You can use the 30 intermediate
+images generated to show a smooth transition between segments of a
+movie.  The input and output images are in the Portable Pixmap (PPM)
+format.  If you specify both input images, they should both be the
+same size.  If you want to fade from black to an image, specify
+only the last image.  If you want to fade from an image to black,
+specify only the first image.  
+.B ppmfade 
+names the resulting image files
+.IB base . nnnn 
+.BR .ppm ,
+where
+.I nnnn 
+is a number varying between 0001 and 0030 and 
+.I base
+is what you specify with via the 
+.B -base
+option (default
+.BR fade ).
+
+Another way to convert by steps from one image to another is morphing.
+You can use 
+.B xmorph
+to do that.
+
+.SH OPTIONS
+.TP
+.B -f first.ppm
+This is the image file (PPM format) to be used at the beginning of the
+transition.  If not specified, the fade will start from black.
+.TP
+.B -l last.ppm
+This is the image file (PPM format) to be used at the ending of the
+transition.  If not specified, the fade will end with black.
+.TP
+.B -mix
+The two images are superimposed with the brightness of the first image
+decreasing from full to none and the brightness of the final image
+increasing from none to full.  The transition is quadratic in brightness
+with faster transition in the beginning and slower at the end.
+.TP
+.B -spread
+The pixels in the first image will be moved (spread) further and further
+from their original location and then moved into the proper location in
+the final image.  This is the default transition.
+.TP
+.B -shift
+The pixels in the first image will be shifted further and further horizontally
+from their original location and then moved into the proper location in
+the final image.
+.TP
+.B -relief
+The first image is faded to a Laplacian relief filtered version of the
+first image.  This is then faded to a Laplacian relief filtered version
+of the second image and finally faded to the final image.
+.TP
+.B -oil
+The first image is faded to an "oil transfer" version of the first image.
+This is then faded to an "oil transfer" version of the second image and
+finally faded to the final image.
+.TP
+.B -edge
+The first image is faded to an edge detected version of the first image.
+This is then faded to an edge detected version of the second image and
+finally faded to the final image.
+.TP
+.B -bentley
+The first image is faded to a "Bentley Effect" version of the first image.
+This is then faded to a "Bentley Effect" version of the second image and
+finally faded to the final image.
+.TP
+.B -block
+The first image is defocused to small blocks.  The small blocks are converted
+to match a defocused version of the last image.  The block version of the last
+image is then focused to the final image.
+.TP
+.BI -base name
+This forms part of the output filenames, as described above.
+.TP
+
+.SH EXAMPLES
+.B ppmfade -f teapot.ppm -l pyr.ppm
+.sp
+Fade from teapot.ppm to pyr.ppm generating fade.0001.ppm to fade.0030.ppm using
+the "spread" transition.
+.sp
+.B ppmfade -l teapot.ppm
+.sp
+Fade from black to teapot.ppm generating fade.0001.ppm to fade.0030.ppm.
+.sp
+.B ppmfade -f teapot.ppm -base end
+.sp
+Fade from teapot.ppm to black generating end.0001.ppm to end.0030.ppm.
+
+.SH SEE ALSO
+.BR tontsc (1),
+.BR sgifade (1),
+.BR smart_vfr (1),
+.BR xmorph (1),  
+.BR ppm (5),
+
+.SH AUTHOR
+.br
+Wesley C. Barris (wesb@msc.edu)
+.br
+Army High Performance Computing Research Center (AHPCRC)
+.br
+Minnesota Supercomputer Center, Inc.

@@ -1,0 +1,241 @@
+.TH pnmtops 1 "25 May 2001"
+.IX pnmtops
+.SH NAME
+pnmtops - convert portable anymap to PostScript
+.SH SYNOPSIS
+.B pnmtops
+.RB [ -scale
+.IR s ]
+.RB [ -dpi
+.IR n ]
+.RB [ -imagewidth
+.IR n ]
+.RB [ -imageheight
+.IR n ]
+.RB [ -width=\fIN ]
+.RB [ -height=\fIN ]
+.RB [ -equalpixels ]
+.RB [ -turn | -noturn ]
+.RB [ -rle | -runlength ]
+.RB [ -nocenter ]
+.RB [ -setpage ]
+.RB [ -nosetpage ]
+.RI [ pnmfile ]
+
+.PP
+All options can be abbreviated to their shortest unique prefix.  You may
+use two hyphens instead of one.  You may separate an option name and its
+value with white space instead of an equals sign.
+
+.SH DESCRIPTION
+Reads a Netpbm image as input.  Produces Encapsulated PostScript as
+output.
+.IX PostScript
+.PP
+If the input file is in color (PPM), 
+.B pnmtops
+generates a color PostScript file.  Some PostScript interpreters can't
+handle color PostScript.  If you have one of these you will need to
+run your image through
+.B ppmtopgm
+first.
+
+If you specify no output dimensioning options, the output image is 
+dimensioned as if you had specified
+.BR -scale=1.0 ,
+which means aproximately 72 pixels of the input image generate one
+inch of output (if that fits the page).
+
+Use 
+.BR -imagewidth ,
+.BR -imageheight ,
+.BR -equalpixels ,
+.BR -width ,
+.BR -height ,
+and
+.BR -scale
+to adjust that.
+
+
+.SH OPTIONS
+.TP
+.B -imagewidth
+.B -imageheight
+Tells how wide and high you want the image on the page, in inches.
+The aspect ratio of the image is preserved, so if you specify both of these,
+the image on the page will be the largest image that will fit within the
+box of those dimensions.
+
+If these dimensions are greater than the page size, you get Postscript
+output that runs off the page.
+
+You cannot use 
+.B imagewidth
+or
+.B imageheight
+with
+.B -scale
+or
+.BR -equalpixels .
+
+.TP
+.B -equalpixels
+This option causes the output image to have the same number of pixels
+as the input image.  So if the output device is 600 dpi and your image
+is 3000 pixels wide, the output image would be 5 inches wide.
+
+You cannot use
+.B -equalpixels
+with
+.BR -imagewidth ,
+.BR -imageheight ,
+or
+.BR -scale .
+
+.TP
+.B -scale
+tells how big you want the image on the page.  The value is the number of
+inches of output image that you want 72 pixels of the input to generate.
+
+But
+.B pnmtops 
+rounds the number to something that is an integral number of output
+device pixels.  E.g. if the output device is 300 dpi and you specify
+.BR -scale=1.0 ,
+then 75 (not 72) pixels of input becomes one inch of output (4 output
+pixels for each input pixel).  Note that the 
+.B -dpi
+option tell
+.B pnmtops
+how many pixels per inch the output device generates.
+
+If the size so specified does not fit on the page (as measured either
+by the 
+.B -width
+and
+.B -height
+options or the default page size of 8.5 inches by 11 inches), 
+.B pnmtops
+ignores the
+.B -scale
+option, issues a warning, and scales the image to fit on the page.
+
+.TP
+.B -dpi
+This option specifies the dots per inch of your output device.  The
+default is 300 dpi.  In theory PostScript is device-independent and
+you don't have to worry about this, but in practice its raster
+rendering can have unsightly bands if the device pixels and the image
+pixels aren't in sync.
+
+Also this option is crucial to the working of the
+.B equalpixels
+option.
+
+.TP
+.B -width
+.br
+.B -height
+These options specify the dimensions of the page on which the output is
+to be printed.  This can affect the size of the output image.
+
+The page size has no effect, however, when you specify the 
+.BR -imagewidth ,
+.BR -imageheight , 
+or
+.B -equalpixels
+options.
+
+These options may also affect positioning of the image on the page and
+even the paper selected (or cut) by the printer/plotter when the
+output is printed.  See the 
+.B -nosetpage
+option.
+
+The default is 8.5 inches by 11 inches.
+
+.TP
+.B -turn
+.B -noturn
+These options control whether the image gets turned 90 degrees.
+Normally, if an image fits the page better when turned (e.g. the image
+is wider than it is tall, but the page is taller than it is wide), it
+gets turned automatically to better fit the page.  If you specify the
+.B -turn
+option, 
+.B pnmtops 
+turns the image no matter what its shape; If you specify
+.BR -noturn ,
+.B pnmtops
+does
+.I not
+turn it no matter what its shape.
+.TP
+.B -rle
+.B -runlength
+These identical options specify run-length compression.  This may save
+time if the host-to-printer link is slow; but normally the printer's
+processing time dominates, so
+.B -rle
+makes things slower.
+.TP
+.B -nocenter
+By default, 
+.B pnmtops
+centers the image on the output page. 
+You can cause
+.B pnmtops
+to instead put the image against the upper left corner of the page with 
+the 
+.B -nocenter 
+option.  This is useful for programs which can include
+PostScript files, but can't cope with pictures which are not
+positioned in the upper left corner.
+
+For backward compatibility, 
+.B pnmtops
+accepts the option
+.BR -center ,
+but it has no effect.
+
+.TP
+.B -setpage
+.B pnmtops 
+can generate a "setpagedevice" directive to tell the
+printer/plotter what size paper to use (or cut).  The dimensions it specifies
+on this directive are those selected or defaulted by the 
+.B width
+and
+.B height
+options or defaulted.  If you want a "setpagedevice" directive in the
+output, specify
+.BR -setpage .
+This can be useful if your printer chokes on this directive, which has not
+always been defined in Postscript, or you want to fake out the printer and
+print on one size paper as if you're printing on another.
+
+Before release 10.0 the default was to generate the "setpagedevice" directive,
+and there is the switch
+.B -nosetpage
+to supress it, but that's actually a no-op now.
+
+.SH "SEE ALSO"
+.BR pnm (5), 
+.BR gs (1),
+.BR psidtopgm (1), 
+.BR pstopnm (1), 
+.BR pbmtolps (1),
+.BR pbmtoepsi (1),
+.BR pbmtopsg3 (1),
+.BR ppmtopgm (1),
+
+.SH AUTHOR
+Copyright (C) 1989, 1991 by Jef Poskanzer.
+.br
+Modified November 1993 by Wolfgang Stuerzlinger, wrzl@gup.uni-linz.ac.at
+.\" Permission to use, copy, modify, and distribute this software and its
+.\" documentation for any purpose and without fee is hereby granted, provided
+.\" that the above copyright notice appear in all copies and that both that
+.\" copyright notice and this permission notice appear in supporting
+.\" documentation.  This software is provided "as is" without express or
+.\" implied warranty.

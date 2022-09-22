@@ -1,0 +1,91 @@
+.TH pbmclean 1 "18 Oct 2001"
+.IX pbmclean
+.SH NAME
+pbmclean - flip isolated pixels in portable bitmap
+
+.SH SYNOPSIS
+.B pbmclean 
+.RB [ -minneighbors=\fIN\fR ]
+.RB [ -black | -white ]
+.RI [ pbmfile ]
+
+You can use the minimum unique abbreviation of the options.  You can use
+two hyphens instead of one.  You can separate an option name from its value
+with white space instead of an equals sign.
+
+Before December 2001,
+.B pbmclean
+accepted 
+.BI - N
+instead of
+.BR -minneighbors .
+
+.SH DESCRIPTION
+.B pbmclean
+cleans up a PBM image of random specs.  It reads a PBM image as input
+and outputs a PBM that is the same as the input except with every
+pixel which has less than
+.I N
+identical neighbours inverted.
+
+The default for
+.I N
+is 1 - only completely isolated pixels are flipped.  
+
+(A value of 
+.I N
+greater than 8 generates a completely inverted image (but use
+.B pnminvert
+to do that) -- or a completely white or completely black image with 
+the
+.B -black
+or 
+.B -white
+option).
+
+.B pbmclean
+considers the area beyond the edges of the image to be white.  (This
+matters when you consider pixels right on the edge of the image).
+
+You can use
+.B pbmclean 
+to clean up "snow" on bitmap images.
+
+.SH OPTIONS
+.TP
+.B -black
+.TP
+.B -white
+Flip pixels of the specified color.  By default, if you specify neither
+.B -black
+nor 
+.BR -white , 
+.B pbmclean
+flips both black and white pixels which do not have sufficient identical
+neighbors.  If you specify
+.BR -black ,
+.B pbmclean
+leaves the white pixels alone and just erases isolated black pixels.
+Vice versa for
+.BR -white .
+You may specify both
+.B -black
+and
+.B -white
+to get the same as the default behavior.
+
+
+.SH "SEE ALSO"
+.BR pbm (5)
+
+.SH AUTHOR
+Copyright (C) 1990 by Angus Duggan
+Copyright (C) 1989 by Jef Poskanzer.
+Copyright (C) 2001 by Michael Sternberg.
+
+Permission to use, copy, modify, and distribute this software and its
+documentation for any purpose and without fee is hereby granted, provided
+that the above copyright notice appear in all copies and that both that
+copyright notice and this permission notice appear in supporting
+documentation.  This software is provided "as is" without express or
+implied warranty.

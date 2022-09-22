@@ -1,0 +1,96 @@
+.TH pnmindex 1 "9 January 1991"
+.IX pnmindex
+.SH NAME
+pnmindex - build a visual index of a bunch of anymaps
+.SH SYNOPSIS
+.B pnmindex
+.RB [ -size
+.IR N ]
+.RB [ -across
+.IR N ]
+.RB [ -colors
+.IR N ]
+.RB [ -black ]
+.RB [ -title
+.IR T ]
+.RB [ -quant | -noquant ]
+.I pnmfile
+.RI ...
+
+.SH DESCRIPTION
+.B pnmindex
+creates an index image containing thumbnail (small) versions of a bunch of
+PNM files you supply.
+
+.B pnmindex
+labels each thumbnail and, optionally, contains a title.
+
+.IX index
+
+.SH OPTIONS
+.TP
+.B -size \fIN
+The size of each thumbnail.  The image is scaled to fit maximally inside
+a 
+.I N
+x
+.I N
+pixel box without changing its aspect ratio.
+Default is 100.
+.TP
+.B -across \fIN
+The number of thumbnails in each row.
+Default is 6.
+.TP
+.B -colors \fIN
+The maximum number of colors allowed in the overall image.
+If it would otherwise have more colors than these,
+.B pnmindex
+quantizes the result.
+The default is 256.
+
+However, this value is meaningless if you specify the
+.B -noquant
+option.
+.TP
+.B -black
+This controls the color of the padding between the images;
+normally it's white and the labels are black lettering on white background,
+but the
+.B -black
+flag reverses this.
+.TP
+.B -title \fItitle
+Specifies a title top place at the top of the image.
+Default is no title.
+.TP
+.B -quant
+Enables quanization (to the number of colors specified by
+.B -colors
+).
+Quantization is on by default but you can disable it with
+.B -noquant.
+.TP
+.B -noquant
+See 
+.BR -quant .
+
+.SH "SEE ALSO"
+.BR pnmscale (1), 
+.BR pnmcat (1), 
+.BR pbmtext (1), 
+.BR ppmquant (1), 
+.BR pnm (5)
+
+.SH AUTHOR
+Copyright (C) 1991 by Jef Poskanzer.
+.B -title
+and
+.B -noquant
+added 2000 by John Heidemann.
+.\" Permission to use, copy, modify, and distribute this software and its
+.\" documentation for any purpose and without fee is hereby granted, provided
+.\" that the above copyright notice appear in all copies and that both that
+.\" copyright notice and this permission notice appear in supporting
+.\" documentation.  This software is provided "as is" without express or
+.\" implied warranty.

@@ -1,0 +1,37 @@
+.TH bmptopnm 1 "17 February 2002"
+.IX bmptopnm
+.SH NAME
+bmptopnm - convert a BMP file into a portable anymap
+
+.SH SYNOPSIS
+.B bmptopnm
+.RI [ bmpfile ]
+
+.SH DESCRIPTION
+Reads a Microsoft Windows or OS/2 BMP file as input.
+.IX BMP
+Produces a PBM, PGM, or PNM image as output.  If the input is colormapped
+and contains only black and white, the output is PBM.  If the input is
+colormapped and contains only black white and gray, the output is PGM.
+Otherwise, the output is PPM.
+
+This program cannot convert BMP files with compressed (run length encoded)
+image data.  It recognizes the compression and issues an error message.
+
+This program cannot convert BMP files with 16 bits per pixel (only because
+the author did not have a complete specification for them).  It recognizes
+the format and issues an error message.
+
+.SH "SEE ALSO"
+.BR ppmtobmp (1),
+.BR ppmtowinicon (1),
+.BR ppm (5)
+
+.SH AUTHOR
+Copyright (C) 1992 by David W. Sanderson.
+.\" Permission to use, copy, modify, and distribute this software and
+.\" its documentation for any purpose and without fee is hereby granted,
+.\" provided that the above copyright notice appear in all copies and
+.\" that both that copyright notice and this permission notice appear in
+.\" supporting documentation.  This software is provided "as is" without
+.\" express or implied warranty.

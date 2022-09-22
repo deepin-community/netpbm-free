@@ -1,0 +1,104 @@
+.TH ppmquant 1 "12 January 1991"
+.IX ppmquant
+.SH NAME
+ppmquant - quantize the colors in a portable pixmap down to a specified number
+.SH SYNOPSIS
+.B ppmquant
+.RB [ -floyd | -fs ]
+.I ncolors
+.RI [ ppmfile ]
+.br
+.B ppmquant
+.RB [ -floyd | -fs ]
+.RB [ -nofloyd | -nofs ]
+.B -mapfile
+.I mapfile
+.RI [ ppmfile ]
+.fi
+
+All options can be abbreviated to their shortest unique prefix.  You
+may use two hyphens instead of one to designate an option.  You may
+use either white space or equals signs between an option name and its
+value.
+
+.SH DESCRIPTION
+.B pnmquant 
+is a newer, more general program that is backward compatible with 
+.BR ppmquant .
+.B ppmquant
+may be faster, though.
+
+Reads a PPM image as input.  Chooses
+.I ncolors
+colors to best represent the image, maps the existing colors
+to the new ones, and writes a PPM image as output.
+.IX "colormap reduction"
+.PP
+The quantization method is Heckbert's "median cut".
+.IX "median cut"
+.PP
+Alternately, you can skip the color-choosing step by
+specifying your own set of colors with the
+.B -mapfile
+option.  The
+.I mapfile
+is just a
+.I ppm
+file; it can be any shape, all that matters is the colors in it.
+For instance, to quantize down to the 8-color IBM TTL color set, you
+might use:
+.nf
+    P3
+    8 1
+    255
+      0   0   0
+    255   0   0
+      0 255   0
+      0   0 255
+    255 255   0
+    255   0 255
+      0 255 255
+    255 255 255
+.fi
+If you want to quantize one image to use the colors in another one,
+just use the second one as the mapfile.  You don't have to reduce it
+down to only one pixel of each color, just use it as is.
+
+If you use a mapfile, the output image has the same maxval as the
+mapfile.  Otherwise, the output maxval is the same as the input
+maxval, or less in some cases where the quantization process reduces
+the necessary resolution.
+
+.PP
+The
+.BR -floyd / -fs
+option enables a Floyd-Steinberg error diffusion step.
+.IX Floyd-Steinberg
+.IX "error diffusion"
+Floyd-Steinberg gives vastly better results on images where the unmodified
+quantization has banding or other artifacts, especially when going to a
+small number of colors such as the above IBM set.
+However, it does take substantially more CPU time, so the default is off.
+
+.BR -nofloyd / -nofs
+means not to use the Floyd-Steinberg error diffusion.  This is the default.
+
+.SH REFERENCES
+"Color Image Quantization for Frame Buffer Display" by Paul Heckbert,
+SIGGRAPH '82 Proceedings, page 297.
+
+.SH "SEE ALSO"
+.BR pnmquant (1),
+.BR ppmquantall (1), 
+.BR pnmdepth (1), 
+.BR ppmdither (1), 
+.BR ppm (5)
+
+.SH AUTHOR
+Copyright (C) 1989, 1991 by Jef Poskanzer.
+.\" Permission to use, copy, modify, and distribute this software and its
+.\" documentation for any purpose and without fee is hereby granted, provided
+.\" that the above copyright notice appear in all copies and that both that
+.\" copyright notice and this permission notice appear in supporting
+.\" documentation.  This software is provided "as is" without express or
+.\" implied warranty.

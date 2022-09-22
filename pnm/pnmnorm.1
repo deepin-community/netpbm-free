@@ -1,0 +1,137 @@
+.TH pnmnorm 1 "7 October 1993"
+.IX pnmnorm
+.SH NAME
+pnmnorm - normalize the contrast in a Netbpm image
+.SH SYNOPSIS
+.B pnmnorm
+.RB [ -bpercent
+.I N
+|
+.B -bvalue
+.IR N ]
+.RB [ -wpercent
+.I N
+|
+.B -wvalue
+.IR N ]
+.RB [ -keephues ]
+.RB [ -brightmax ]
+
+.RI [ ppmfile ]
+
+All options can be abbreviated to their shortest unique prefix.  You
+may use two hyphens instead of one to designate an option.  You may
+use either white space or an equals sign between an option name and
+its value.
+
+.SH DESCRIPTION
+Reads a PNM image (PBM, PGM, or PPM).
+Normalizes the contrast by forcing the lightest pixels to white, the
+.IX "contrast normalization"
+darkest pixels to black, and linearly rescaling the ones in between;
+and produces the same kind of file as output.  This is pretty useless
+for a PBM image.
+.PP
+The program first determines a mapping of old brightness to new brightness.
+For each possible brightness of a pixel, the program determines a 
+corresponding brightness for the output image.
+
+Then for each pixel in the image, the program computes a color which has
+the desired output brightness and puts that in the output.  With a color
+image, it is not always possible to compute such a color and retain any
+semblance of the original hue, so the brightest and dimmest pixels may only
+approximate the desired brightness.
+
+Note that for a PPM image, this is different from separately
+normalizing the individual color components.
+
+.SH OPTIONS
+.PP
+By default, the darkest 2 percent of all pixels are mapped to black, and
+the lightest 1 percent are mapped to white.
+You can override these percentages by using the
+.B -bpercent
+and
+.B -wpercent
+flags,
+or you can specify the exact pixel values to be mapped by using the
+.B -bvalue
+and
+.B -wvalue
+flags.
+Appropriate numbers for the flags can be gotten from the
+.I ppmhist
+tool.
+.IX ppmhist
+If you just want to enhance the contrast, then choose values at elbows in the
+histogram; e.g. if value 29 represents 3% of the image but value 30
+represents 20%, choose 30 for
+.IR bvalue .
+If you want to lighten the
+image, then set
+.I bvalue
+to 0 and just fiddle with
+.IR wvalue ;
+similarly, to darken the image, set
+.I wvalue
+to maxval and play with
+.IR bvalue .
+
+The 
+.B -keephues
+option says to keep each pixel the same hue as it is in the input; just
+adjust its intensity.  By default, 
+.B pnmnorm
+normalizes contrast in each component independently (except that the
+meaning of the
+.B -wpercent
+and
+.B -bpercent
+options are based on the overall intensities of the colors, not each 
+component taken separately).  So if you have a color which is intensely
+red but dimly green, 
+.B pnmnorm
+would make the red more intense and the green less intense, so you end up
+with a different hue than you started with.
+
+If you specify
+.BR -keephues ,
+.B pnmnorm
+would likely leave this pixel alone, since its overall intensity is medium.
+
+.B -keephues
+can cause clipping, because a certain color may be below a target
+intensity while one of its components is saturated.  Where that's the
+case,
+.B pnmnorm
+uses the maximum representable intensity for the saturated component
+and the pixel ends up with less overall intensity, and a different
+hue, than it is supposed to have.
+
+This option is meaningless on grayscale images.
+
+Before March 2002, there was no 
+.B -keephues
+option.
+
+The 
+.B -brightmax
+option says to use the intensity of the most intense RGB component of a pixel
+as the pixel's brightness.  By default, 
+.B pnmnorm
+uses the luminosity of the color as its brightness.
+
+This option is meaningless on grayscale images.
+
+Before March 2002, there was no
+.B -brightmax
+option.
+
+
+.SH "SEE ALSO"
+.BR ppmhist (1), 
+.BR pgmhist (1), 
+.BR pnmgamma (1), 
+.BR ppmbrighten (1), 
+.BR ppmdim (1),
+.BR pnm (5)

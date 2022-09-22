@@ -1,0 +1,33 @@
+.TH mdatopbm 1 "3 June 1999"
+.IX mdatopbm
+.SH NAME
+mdatopbm - convert a Microdesign .mda or .mdp file into a portable bitmap
+.SH SYNOPSIS
+.B mdatopbm
+.RB [ -a ][ -d ][ -i ][ -- ]
+.I [ mdafile ]
+.SH DESCRIPTION
+Reads a MicroDesign file as input.
+Reads from stdin if input file is omitted.
+.IX MicroDesign
+Produces a portable bitmap as output.
+.SH OPTIONS
+.TP
+.B -a
+Output the PBM in ASCII rather than binary.
+.TP
+.B -d
+Double the height of the output file, to compensate for the aspect 
+ratio used in MicroDesign files.
+.TP
+.B -i
+Invert the colours used.
+.TP
+.B --
+End of options (use this if the filename starts with "-")
+.SH "SEE ALSO"
+pbmtomda(1), pbm(5)
+.SH AUTHOR
+Copyright (C) 1999 John Elliott <jce@seasip.demon.co.uk>.
+.\" Copying policy: GNU GPL version 2 or later
+

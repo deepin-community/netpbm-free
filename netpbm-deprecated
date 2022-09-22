@@ -1,0 +1,8 @@
+pgmnorm  pnmnorm  2002
+ppmnorm  pnmnorm  2002
+bmptopmm bmptopnm 2002
+pnminterp-gen pamstretch-gen
+pnminterp pamstretch
+ppmtomap pnmcolormap (!)
+ppmtojpeg
+

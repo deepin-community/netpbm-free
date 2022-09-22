@@ -1,0 +1,141 @@
+.TH pnmtopalm 1 "7 December 2000"
+.IX pnmtopalm
+.SH NAME
+pnmtopalm - convert a portable anymap into a Palm pixmap
+
+.SH SYNOPSIS
+.B pnmtopalm
+.RB [ -verbose ]
+.RB [ -depth 
+.IR N ]
+.RB [ -maxdepth 
+.IR N ]
+.RB [ -colormap ]
+.RB [ -transparent 
+.IR color ]
+.RB [ -offset ]
+.br
+.RB [ -rle-compression | -scanline-compression ]
+.RI [ pnmfile ]
+
+.SH DESCRIPTION
+Reads a PNM image as input, from stdin or 
+.IR pnmfile .
+Produces a Palm pixmap as output.
+.IX 
+.PP
+Palm pixmap files are either greyscale files 1, 2, or 4 bits wide, or
+color files 8 bits wide, so 
+.B pnmtopalm 
+automatically scales colors to have an appropriate maxval, unless you
+specify a depth or max depth.  Input files must have an appropriate
+number and set of colors for the selected output constraints.  This
+often means that you should run the PNM image through
+.B ppmquant
+before you pass it to
+.BR pnmtopalm .  
+Netpbm comes with several colormap files you can use with 
+.BR ppmquant 
+for this purpose.  They are 
+.B palmgray2.map 
+(4 shades of gray for a depth of 2),
+.B palmgray4.map 
+(16 shades of gray for a depth of 4), and
+.B palmcolor8.map 
+(232 colors in default Palm colormap).
+
+.SH OPTIONS
+.TP
+.B -verbose
+Display the format of the output file.
+.TP
+.B -depth \fIN
+Produce a file of depth 
+.IR N , 
+where 
+.I N 
+must be either 1, 2, 4, 8, or 16.  Any depth greater than 1 will
+produce a version 1 or 2 bitmap.  Because the default Palm 8-bit
+colormap is not grayscale, if the input is a grayscale or monochrome
+pixmap, the output will never be more than 4 bits deep, regardless of
+the specified depth.  Note that 8-bit color works only in PalmOS 3.5
+(and higher), and 16-bit direct color works only in PalmOS 4.0 (and
+higher).  However, the 16-bit direct color format is also compatible
+with the various PalmOS 3.x versions used in the Handspring Visor, so
+these images may also work in that device.
+.TP
+.B -maxdepth \fIN
+Produce a file of minimal depth, but in any case less than 
+.I N 
+bits wide.  If you specify 16-bit, the output will always be 16-bit
+direct color.
+.TP
+.B -offset
+Fill in the 
+.B nextDepthOffset 
+field in the file header, to provide for multiple renditions of the
+pixmap in the same file.
+.TP
+.B -colormap
+Build a custom colormap and include it in the output file.  This is
+not recommended by Palm, for efficiency reasons.  Otherwise, 
+.B pnmtopalm 
+uses the default Palm colormap for color output.
+.TP
+.B -transparent \fIcolor
+Marks
+.I one
+particular color as fully transparent.  The format to specify the
+color is either (when for example orange) "1.0,0.5,0.0", where the
+values are floats between zero and one, or with the syntax "#RGB",
+"#RRGGBB" or "#RRRRGGGGBBBB" where R, G and B are hexadecimal numbers.
+This also makes the output bitmap a version 2 bitmap.  Transparency
+works only on Palm OS 3.5 and higher.
+.TP
+.B -rle-compression
+Specifies that the output Palm bitmap will use the Palm RLE
+compression scheme, and will be a version 2 bitmap.  RLE compression
+works only with Palm OS 3.5 and higher.
+.TP
+.B -scanline-compression
+Specifies that the output Palm bitmap will use the Palm scanline
+compression scheme, and will be a version 2 bitmap.  Scanline
+compression works only in Palm OS 2.0 and higher.
+
+.SH "SEE ALSO"
+.BR palmtopnm (1), 
+.BR ppmquant (1), 
+.BR pnm (5)
+
+.SH NOTES
+An additional compression format, 
+.BR packbits , 
+was added with PalmOS 4.0.  This package should be updated to 
+be able to generate that.
+
+Palm pixmaps may contains multiple renditions of the same pixmap, in
+different depths.  To construct an N-multiple-rendition Palm pixmap
+with 
+.BR pnmtopalm , 
+first construct renditions 1 through N-1 using the 
+.B -offset
+option, then construct the Nth pixmap without the 
+.B -offset 
+option.  Then concatenate the individual renditions together in a
+single file using 
+.BR cat .
+
+.SH AUTHORS
+This program was originally written as ppmtoTbmp.c, by Ian Goldberg
+and George Caswell.  It was completely re-written by Bill Janssen to
+add color, compression, and transparency function.
+.br
+Copyright 1995-2001 by Ian Goldberg, George Caswell, and Bill Janssen.
+.\" Permission to use, copy, modify, and distribute this software and its
+.\" documentation for any purpose and without fee is hereby granted, provided
+.\" that the above copyright notice appear in all copies and that both that
+.\" copyright notice and this permission notice appear in supporting
+.\" documentation.  This software is provided "as is" without express or
+.\" implied warranty.
+.\"
+.\" This man-page was derived from pnmtorast.1 by Jef Poskanzer

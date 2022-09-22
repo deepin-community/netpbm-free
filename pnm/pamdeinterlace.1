@@ -1,0 +1,68 @@
+.TH pamdeinterlace 1 "11 November 2001"
+.IX pamdeinterlace
+.SH NAME
+pamdeinterlace \- remove ever other row from a PAM/PNM image
+
+.SH SYNOPSIS
+.B pamdeinterlace
+.RB [ -takeodd ]
+.RB [ -takeeven ]
+.I N
+.RI [ infile ]
+
+You can use the minimum unique abbreviation of the options.  You can use
+two hyphens instead of one.  You can separate an option name from its value
+with white space instead of an equals sign.
+
+.SH DESCRIPTION
+.B pamdeinterlace
+Removes all the even-numbered or odd-numbered rows from the input 
+PNM or PAM image.  Specify which with the
+.B -takeeven
+and
+.B -takeodd
+options.
+
+This can be useful if the image is a video capture from an interlaced
+video source.  In that case, each row shows the subject 1/60 second
+before or after the two rows that surround it.  If the subject is moving,
+this can detract from the quality of the image.
+
+Because the resulting image is half the height of the input image, you
+will then want to use 
+.B pamstretch
+or
+.B pnmscale 
+to restore it to its normal height:
+
+.B pamdeinterlace myimage.ppm | pamstretch -yscale=2 >newimage.ppm
+
+
+.SH OPTIONS
+.TP
+.B -takeodd
+Take the odd-numbered rows from the input and put them in the output.
+The rows are numbered starting at zero, so the first row in the output is
+the second row from the input.  You cannot specify
+both 
+.B -takeeven
+and
+.BR -takeodd .
+
+.TP
+.B -takeeven
+Take the even-numbered rows from the input and put them in the output.
+The rows are numbered starting at zero, so the first row in the output is
+the first row from the input.  This is the default.  You cannot specify
+both 
+.B -takeeven
+and
+.BR -takeodd .
+
+
+.SH "SEE ALSO"
+.BR pamstretch (1),
+.BR pnmscale (1)
+
+.SH AUTHOR
+put by Bryan Henderson in the public domain in 2001

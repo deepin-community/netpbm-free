@@ -1,0 +1,126 @@
+.TH pnmcrop 1 "18 March 2001"
+.IX pnmcrop
+.SH NAME
+pnmcrop - crop a portable anymap
+.SH SYNOPSIS
+.B pnmcrop
+.RB [ -white | -black | -sides ]
+.RB [ -left ]
+.RB [ -right ]
+.RB [ -top ]
+.RB [ -bottom ]
+.RI [ pnmfile ]
+
+All options may be abbreviated to their shortest unique prefix or
+specified with double hyphens.
+
+.SH DESCRIPTION
+Reads a PBM, PGM, or PPM image as input.  Removes borders that are the
+background color, and produces the same type of image as output.
+.IX cropping
+
+If you don't specify otherwise,
+.B pnmcrop
+assumes the background color is whatever color the top left and right
+corners of the image are and if they are different colors, something
+midway between them.  You can specify that the background is white or
+black with the
+.B -white
+and 
+.B -black
+options or make
+.B pnmcrop
+base its guess on all four corners instead of just two with 
+.BR -sides .
+
+By default, 
+.B pnmcrop
+chops off any stripe of background color it finds, on all four sides.
+You can tell
+.B pnmcrop
+to remove only specific borders with the
+.BR -left ,
+.BR -right ,
+.BR -top ,
+and
+.BR -bottom 
+options.
+
+If you want to chop a specific amount off the side of an image, use
+.BR pnmcut .
+
+If you want to add different borders after removing the existing ones,
+use
+.BR pnmcat
+or 
+.BR pnmcomp .
+
+.SH OPTIONS
+.PP
+.TP
+.B -white
+Take white to be the background color.  
+.B pnmcrop 
+removes borders which are white.
+.TP 
+.B -black
+Take black to be the background color.  
+.B pnmcrop 
+removes borders which are black.
+.TP
+.B -sides
+Determine the background color from the colors of the four corners of 
+the input image.  
+.B pnmcrop
+removes borders which are of the background color.
+
+If at least three of the four corners are the same color, 
+.B pnmcrop 
+takes that as the background color.
+If not, 
+.B pnmcrop
+looks for two corners of the same color in the following order, taking
+the first found as the background color: top, left, right, bottom.  If
+all four corners are different colors,
+.B pnmcrop
+assumes an average of the four colors as the background color.
+
+The 
+.B -sides
+option slows 
+.B pnmcrop
+down, as it reads the entire image to determine the background color
+in addition to the up to three times that it would read it without
+.BR -sides .
+
+.TP
+.B -left
+Remove any left border.
+.TP
+.B -right
+Remove any right border.
+.TP
+.B -top
+Remove any top border.
+.TP
+.B -bottom
+Remove any bottom border.
+.TP
+.B -verbose
+Print on Standard Error information about the processing, including
+exactly how much is being cropped off of which sides.
+
+
+.SH "SEE ALSO"
+.BR pnmcut (1), 
+.BR pnmfile (1),
+.BR pnm (5)
+
+.SH AUTHOR
+Copyright (C) 1989 by Jef Poskanzer.
+.\" Permission to use, copy, modify, and distribute this software and its
+.\" documentation for any purpose and without fee is hereby granted, provided
+.\" that the above copyright notice appear in all copies and that both that
+.\" copyright notice and this permission notice appear in supporting
+.\" documentation.  This software is provided "as is" without express or
+.\" implied warranty.

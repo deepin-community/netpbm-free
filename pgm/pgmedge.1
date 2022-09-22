@@ -1,0 +1,45 @@
+.TH pgmedge 1 "04 February 1990"
+.IX pgmedge
+.SH NAME
+pgmedge - edge-detect a portable graymap
+
+.SH SYNOPSIS
+.B pgmedge
+.RI [ pgmfile ]
+
+.SH DESCRIPTION
+Reads a portable graymap as input.
+Outlines the edges, and writes a portable graymap as output.
+.IX "edge detection"
+Piping the result through
+.B pgmtopbm -threshold
+and playing with the
+threshold value will give a bitmap of the edges.
+.IX thresholding
+.PP
+The edge detection technique used is to take the Pythagorean sum of
+two Sobel gradient operators at 90 degrees to each other.
+For more details see "Digital Image Processing" by Gonzalez and Wintz,
+chapter 7.
+
+The maxval of the output is the same as the maxval of the input The
+effect is better with larger maxvals, so you may want to increase the
+maxval of the input by running it through
+.B pnmdepth
+first.
+
+.SH "SEE ALSO"
+.BR pgmenhance (1), 
+.BR pgmtopbm (1), 
+.BR pnmdepth (1),
+.BR pgm (5), 
+.BR pbm (5)
+
+.SH AUTHOR
+Copyright (C) 1991 by Jef Poskanzer.
+.\" Permission to use, copy, modify, and distribute this software and its
+.\" documentation for any purpose and without fee is hereby granted, provided
+.\" that the above copyright notice appear in all copies and that both that
+.\" copyright notice and this permission notice appear in supporting
+.\" documentation.  This software is provided "as is" without express or
+.\" implied warranty.

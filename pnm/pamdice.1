@@ -1,0 +1,84 @@
+.TH pamdice 1 "31 January 2001"
+.IX pamdice
+.SH NAME
+pamdice - slice a Netpbm image into many horizontally and/or vertically
+
+.SH SYNOPSIS
+.B pamslice
+.BI -outstem= filenamestem
+.RB [ -width=\fIwidth ]
+.RB [ -height=\fIheight ]
+.RB [ -verbose ]
+.RI [ filename ]
+
+You can use the minimum unique abbreviation of the options.  You can use
+two hyphens instead of one.  You can separate an option name from its value
+with white space instead of an equals sign.
+
+.SH DESCRIPTION
+Reads a PAM, PBM, PGM, or PPM image as input.  Splits it horizontally and/or
+vertically into equal size pieces and writes them into separate files as
+the same kind of image.
+
+See the 
+.B -outstem
+option for information on naming of the output files.
+
+The 
+.B -width
+and
+.B -height
+options determine the size of the output pieces.
+
+.B pnmcat
+can rejoin the images.
+
+.SH OPTIONS
+.TP
+.BR -outstem= filenamestem
+This option determines the names of the output files.  Each output file 
+is named
+.IB filenamestem _ y _ x . type
+where 
+.I filenamestem
+is the value of the 
+.B -outstem
+option, 
+.I x
+and y are the horizontal and vertical locations, respectively, in the
+input image of the output image, zero being the leftmost and top, and
+.I type
+is 
+.BR .pbm ,
+.BR .pgm ,
+.BR .ppm ,
+or
+.BR .pam ,
+depending on the type of image.
+
+.TP
+.BI -width= width
+gives the width in pixels of the output images.  The rightmost pieces are
+smaller than this if the input image is not a multiple of 
+.I width 
+pixels wide.
+
+.TP
+.BI -height= height
+gives the height in pixels of the output images.  The bottom pieces are
+smaller than this if the input image is not a multiple of 
+.I height 
+pixels high.
+
+.TP
+.B -verbose
+Print information about the processing to Standard Error.
+
+.SH "SEE ALSO"
+.BR pamcut (1),
+.BR pnmcat (1),
+.BR pgmslice (1),
+.BR pnm (5)
+
+.SH AUTHOR
+put by Bryan Henderson in the public domain in 2001

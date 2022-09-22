@@ -1,0 +1,45 @@
+.TH pbmtopsg3 "29 June 2001"
+.SH NAME
+pbmtopsg3 - convert PBM images to Postscript with G3 fax compression
+
+.SH SYNOPSIS
+.B pbmtopsg3
+.RB [ --title=\fItitle ]
+.RB [ --dpi=\fIdpi ]
+.RI [ filespec ]
+
+.SH DESCRIPTION
+.PP
+Converts the PBM images in the input PBM file to pages in a Postscript
+file encoded with G3 fax compression.
+
+If you don't specify
+.IR filespec ,
+the input is from Standard Input.
+
+Remember that you can create a multi-image PBM file simply by concatenating
+single-image PBM files, so if each page is in a different file, you might
+do:
+
+.B cat faxpage* | pbmtopsg3 >fax.ps
+
+.SH OPTIONS
+.TP
+.BR -title
+The Postscript title value.  Default is no title.
+.TP
+.BR -dpi
+The resolution of the Postscript output.  Default is 72 dpi.
+
+
+.SH "SEE ALSO"
+.BR pnmtops (1), 
+.BR pstopnm (1),
+.BR gs (1),
+.BR pstopnm (1), 
+.BR pbmtolps (1),
+.BR pbmtoepsi (1),
+.BR pbmtog3 (1),
+.BR g3topbm (1),
+.BR pbm (5)
+

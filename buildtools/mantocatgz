@@ -1,0 +1,18 @@
+#!/bin/sh
+#
+# Convert a man page in nroff format to formatted (cat-able) and gzipped 
+# format.
+# This can be used a "mancp" program.  I.e. set the make file variable
+# MANCP to the name of this program.
+#
+# Note that the arguments of a "mancp" program are as if the program is 'cp'.
+#
+# Oliver Trepte, 93-07-05
+
+TMPDIR=${TMPDIR:-/tmp}
+TMP=${TMPDIR}/mancp$$
+nroff -man $1 > $TMP
+gzip $TMP --no-name --to-stdout >$TMP.gz
+cp $TMP.gz $2
+rm -f $TMP $TMP.gz
+echo "Done with $2"

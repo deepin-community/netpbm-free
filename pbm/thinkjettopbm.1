@@ -1,0 +1,35 @@
+.TH thinkjettopbm 1 "03 April 2001"
+.SH NAME
+thinkjettopbm \- convert HP ThinkJet printer commands file to PBM
+.SH SYNOPSIS
+.B thinkjettopbm
+.RI [ -d ]
+.RI [ thinkjet_file ]
+
+.SH DESCRIPTION
+Reads HP ThinkJet printer commands from the standard input, or
+.I thinkjet_file
+if specified, and writes a PBM image
+to the standard output.
+Text and non-graphics command sequences are silently ignored.
+
+The
+.B -d
+option turns on debugging messages which are written to the standard error stream.
+
+.SH BUGS
+Handles only a small subset of ThinkJet command sequences, but enough to convert
+screen images from older HP test equipment.
+
+.SH "SEE ALSO"
+.BR pbm (5), 
+.BR pjtoppm (1)
+
+.SH AUTHOR
+Copyright (C) 2001 by W. Eric Norum
+.\" Permission to use, copy, modify, and distribute this software and
+.\" its documentation for any purpose and without fee is hereby granted,
+.\" provided that the above copyright notice appear in all copies and
+.\" that both that copyright notice and this permission notice appear in
+.\" supporting documentation.  This software is provided "as is" without
+.\" express or implied warranty.

@@ -1,0 +1,27 @@
+.TH ppmtomap 1 "06 January 2002"
+.IX ppmtomap
+.SH NAME
+ppmtomap - extract all colors from a portable pixmap
+
+.SH DESCRIPTION
+
+This program exists only for backward compatibility.
+
+Use 
+.BR pnmcolormap ,
+which replaced it in January 2002.
+
+One trivial difference between 
+.B ppmtomap
+and 
+.B pnmcolormap all
+is that if the input is PBM or PGM, 
+.B ppmtomap
+would produce PPM output, whereas
+.B pnmcolormap all
+produces the same kind of output as the input.  This should not be
+very noticeable, though, as PBM and PGM images are usually usable
+anywhere a PPM image is.
+
+.SH SEE ALSO
+.BR pnmcolormap (1)

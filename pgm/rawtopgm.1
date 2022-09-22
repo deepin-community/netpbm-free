@@ -1,0 +1,166 @@
+.TH rawtopgm 1 "14 September 2000"
+.IX rawtopgm
+.SH NAME
+rawtopgm - convert raw grayscale bytes into a portable graymap
+.SH SYNOPSIS
+.B rawtopgm
+.RB [ "-bpp " [ 1 | 2 ]]
+.RB [ -littleendian ]
+.RB [ -maxval
+.IR N ]
+.RB [ -headerskip
+.IR N ]
+.RB [ -rowskip
+.IR N ]
+.RB [ -tb | -topbottom ]
+.RI [ width
+.IR height ]
+.RI [ imagefile ]
+
+.SH DESCRIPTION
+Reads raw grayscale values as input.
+.IX "raw grayscale"
+Produces a PGM file as output.  The input file is just a sequence of
+pure binary numbers, either one or two bytes each, either bigendian or
+littleendian, representing gray values.  They may be arranged either
+top to bottom, left to right or bottom to top, left to right.  There
+may be arbitrary header information at the start of the file (to which
+.B rawtopgm
+pays no attention at all other than the header's size).
+
+Arguments to 
+.B rawtopgm
+tell how to interpret the pixels (a function that is served by a header in
+a regular graphics format).
+
+The 
+.I width
+and
+.I height
+parameters tell the dimensions of the image.  If you omit these parameters,
+.B rawtopgm
+assumes it is a quadratic image and bases the dimensions on the size of the
+input stream.  If this size is not a perfect square, 
+.B rawtopgm
+fails.
+
+When you don't specify
+.I width
+and
+.IR height ,
+.B rawtopgm
+reads the entire input stream into storage at once, which may take a
+lot of storage.  Otherwise,
+.B rawtopgm
+ordinarily stores only one row at a time.
+
+If you don't specify 
+.IR imagefile ,
+or specify 
+.BR - ,
+the input is from Standard Input.
+
+The PGM output is to Standard Output.
+
+
+
+.SH OPTIONS
+.TP
+.B -maxval \fIN
+.I N
+is the maxval for the gray values in the input, and is also the maxval
+of the PGM output image.  The default is the maximum value that can be
+represented in the number of bytes used for each sample (i.e. 255 or
+65535).
+.TP
+.B -bpp \fR[\fB1\fR|\fB2\fR]
+tells the number of bytes that represent each sample in the input. 
+If the value is 
+.BR 2 ,
+The most significant byte is first in the stream.
+
+The default is 1 byte per sample.
+
+.TP
+.B -littleendian
+says that the bytes of each input sample are ordered with the least
+significant byte first.  Without this option, 
+.B rawtopgm
+assumes MSB first.  This obviously has no effect when there is only one byte
+per sample.
+
+.TP
+.B -headerskip \fIN
+.B rawtopgm
+skips over 
+.I N
+bytes at the beginning of the stream and reads the image immediately after.
+The default is 0.
+
+This is useful when the input is actually some graphics format that has
+a descriptive header followed by an ordinary raster, and you don't have
+a program that understands the header or you want to ignore the header.
+
+.TP
+.B -rowskip \fIN
+If there is padding at the ends of the rows, you can skip it with this
+option.  Note that rowskip need not be an integer.  Amazingly, I once
+had an image with 0.376 bytes of padding per row.  This turned out to
+be due to a file-transfer problem, but I was still able to read the
+image.
+
+Skipping a fractional byte per row means skipping one byte per multiple
+rows.
+.TP
+.B -bt -bottomfirst
+By default, 
+.B rawtopgm
+assumes the pixels in the input go top to bottom, left to right.
+If you specify 
+.B -bt
+or
+.BR -bottomfirst ,
+.B rawtopgm
+assumes the pixels go bottom to top, left to right.  The Molecular Dynamics
+and Leica confocal format, for example, use the latter arrangement.
+
+If you don't specify 
+.B -bt
+when you should or vice versa, the resulting image is upside down, which 
+you can correct with 
+.B pnmflip .
+
+This option causes 
+.B rawtopgm
+to read the entire input stream into storage at once, which may take a
+lot of storage.  Ordinarly, 
+.B rawtopgm
+stores only one row at a time.
+
+For backwards compatibility, 
+.B rawtopgm
+also accepts 
+.B -tb 
+and 
+.B -topbottom
+to mean exactly the same thing.  The reasons these are named backwards is that
+the original author thought of it as specifying that the wrong results of 
+assuming the data is top to bottom should be corrected by flipping the result
+top for bottom.  Today, we think of it as simply specifying the format of the
+input data so that there are no wrong results.
+
+.SH "SEE ALSO"
+.BR pgm (5), 
+.BR rawtoppm (1), 
+.BR pnmflip (1)
+
+.SH AUTHORS
+Copyright (C) 1989 by Jef Poskanzer.
+.br
+Modified June 1993 by Oliver Trepte, oliver@fysik4.kth.se
+.\" Permission to use, copy, modify, and distribute this software and its
+.\" documentation for any purpose and without fee is hereby granted, provided
+.\" that the above copyright notice appear in all copies and that both that
+.\" copyright notice and this permission notice appear in supporting
+.\" documentation.  This software is provided "as is" without express or
+.\" implied warranty.

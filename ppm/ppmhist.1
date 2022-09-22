@@ -1,0 +1,66 @@
+.TH ppmhist 1 "17 September 2000"
+.IX ppmhist
+.SH NAME
+ppmhist - print a histogram of a portable pixmap
+
+.SH SYNOPSIS
+.B ppmhist
+.RB [ -hexcolor ]
+.RB [ -noheader ]
+.RB [ -map ]
+.RB [ -nomap ]
+.RB [ -sort= { frequency , rgb }]
+.RI [ ppmfile ]
+
+.SH DESCRIPTION
+Reads a PPM image as input.  Generates a histogram of the colors in
+the image, i.e. a list of all the colors and how many pixels of each color
+are in the image.
+
+.SH OPTIONS
+
+.TP 
+.BR -sort= { frequency , rgb }
+The
+.B -sort
+option determines the order in which the colors are listed in the output.
+.B frequency 
+means to list them in order of how pixels in the input image have the color,
+with the most represented colors first.
+.B rgb
+means to sort them first by the intensity of the red component of the color,
+the of the green, then of the blue, with the least intense first.
+
+The default is 
+.BR frequency .
+
+.TP
+.B -hexcolor
+Print the color components in hexadecimal.  Default is decimal.
+.TP
+.B -noheader
+Do not print the column headings.
+.TP
+.B -map
+Generates a PPM file of the colormap for the image, with the color
+histogram as comments.
+.TP
+.B -nomap
+Generates the histogram for human reading.  This is the default.
+
+
+.SH "SEE ALSO"
+.BR ppm (5), 
+.BR pgmhist (1),
+.BR ppmtomap (1),
+.BR pnmhistmap (1),
+.BR ppmchange (1)
+
+.SH AUTHOR
+Copyright (C) 1989 by Jef Poskanzer.
+.\" Permission to use, copy, modify, and distribute this software and its
+.\" documentation for any purpose and without fee is hereby granted, provided
+.\" that the above copyright notice appear in all copies and that both that
+.\" copyright notice and this permission notice appear in supporting
+.\" documentation.  This software is provided "as is" without express or
+.\" implied warranty.

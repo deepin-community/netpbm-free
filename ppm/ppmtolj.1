@@ -1,0 +1,47 @@
+.TH ppmtolj 1 "4 Sept 2000"
+.IX ppmtolj
+.SH NAME
+ppmtolj - convert a portable pixmap to an HP LaserJet PCL 5 Color file
+.SH SYNOPSIS
+.B ppmtolj
+.RB [-gamma
+.IR val ]
+.RB [ -resolution
+.BR 75|100|150|300|600 ]
+.RB [ -delta ]
+.RB [ -float]
+.BR [ -noreset]
+.RI [ ppmfile ]
+.SH DESCRIPTION
+Reads a portable pixmap as input and converts it into a color file suitable
+to be printed by an HP color PCL 5 printer. 
+.PP
+.SH OPTIONS
+.TP 14
+.B -delta
+Apply delta row compression to reduce the size of the pcl file. 
+.TP
+.BI -gamma " int"
+Gamma correct the image using the integet parameter as a gamma (default 0).
+.TP
+.BI -float
+Suppresses positioning information. The default is to write the sequence 
+ESC&l0E to the output.
+.TP
+.BI -noreset
+Prevents writing of the reset sequence to the begining and end of the output.
+.TP
+.B -resolution
+Set the required output resolution 75|100|150|300|600
+.SH REFERENCES
+HP PCL 5 & Color Reference Guide
+.SH BUGS
+None known.
+.SH AUTHOR
+Copyright (C) 2000 by Jonathan Melvin.(jonathan.melvin@heywood.co.uk)
+.\" Permission to use, copy, modify, and distribute this software and its
+.\" documentation for any purpose and without fee is hereby granted, provided
+.\" that the above copyright notice appear in all copies and that both that
+.\" copyright notice and this permission notice appear in supporting
+.\" documentation.  This software is provided "as is" without express or
+.\" implied warranty.

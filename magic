@@ -1,0 +1,14 @@
+0	string		P7			Netpbm PAM image file
+
+0	string		\131\246\152\225	Sun rasterfile
+0	string		\115\115		TIFF file, big-endian
+0	string		\111\111		TIFF file, little-endian
+0	string		\117\072		Solitaire Image Recorder format
+>4	string		\013			MGI Type 11
+>4	string		\021			MGI Type 17
+0       string  .MDA    MicroDesign data
+>21     byte    48      version 2
+>21     byte    51      version 3
+0       string  .MDP    MicroDesign page data
+>21     byte    48      version 2
+>21     byte    51      version 3

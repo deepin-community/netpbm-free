@@ -1,0 +1,85 @@
+2000-03-10  Sverre H. Huseby  <sverrehu@online.no>
+
+	* Release: 1.1.6
+
+	* README: Moved license info links from metalab.unc.edu to
+	www.opensource.org.  Updated my snail mail address to where I'll
+	live from 2000-04-06 or so.
+
+	* shhopt.lsm.in (Copying-policy): Pointed to opensource.org for
+	licensing info.
+
+	* shhopt.h: Removed the trailing comma from the enum, on request
+	from <bryanh@giraffe-data.com>.  I always thought this was legal,
+	but after examining the K&R book more thoroughly, it seems it is
+	only legal for array initializers.
+
+1999-09-10  Sverre H. Huseby  <sverrehu@online.no>
+
+	* Release 1.1.5
+
+	* README: Added information on the Artistic license
+
+	* shhopt.c (optMatch): Made the p variable const, as this compiles
+	more cleanly on Borland's compiler, according to Vladislav Papayan
+	<vlpa@daleen.com>
+
+	* shhopt.c, example.c: Changed formatting of comments.
+
+1998-07-05  Sverre H. Huseby  <sverrehu@online.no>
+
+	* Release 1.1.4
+
+	* Updated author address.
+
+Tue May 27 23:13:19 1997  Sverre H. Huseby  <s.h.huseby@usit.uio.no>
+
+	* Version: 1.1.3
+
+Sat May 17 21:56:36 1997  Sverre H. Huseby  <s.h.huseby@usit.uio.no>
+
+	* shhopt.h: Added `extern "C"'.
+
+Sun Mar 23 09:47:43 1997  Sverre H. Huseby  <s.h.huseby@usit.uio.no>
+
+	* Release: 1.1.2
+
+	* Makefile: Creating lib*.so in addition to lib*.so.*
+
+Tue Nov 12 08:36:09 1996  Sverre H. Huseby  <sverrehu@ifi.uio.no>
+
+	* Version: 1.1.1
+
+	* shhopt.c: Minor restructuring, no code changes.
+
+	* example.c: Restructured a bit, and added some comments.
+
+Thu Jun  6 10:55:00 1996  Sverre H. Huseby  <sverrehu@ifi.uio.no>
+
+	* Released version 1.1.
+
+	* Makefile: Added example.o to the dependecy list of example.
+
+	* README: Pointer to the double parsing in example.c
+
+	* example.c: Added parsing of parameter taking a double value.
+
+Thu Jun  6 01:38:00 1996  Sverre H. Huseby  <sverrehu@ifi.uio.no>
+
+	* Released version 1.0.
+
+        * Included patches from Andrew.
+
+        * Did some minor cosmetic changes.
+
+Wed May 22 15:05:00 1996  Andrew C. Feren   <feren@ctron.com>
+
+	* Makefile: Changed from "ar rcs" to "ar rc" & ranlib. 
+	
+	* README: Improved the documentation.
+	
+	* shhopt.c: Fixed bug for arguments of type unsigned int.
+
+Fri Mar 15 15:00:30 1996  Sverre H. Huseby  <sverrehu@ender>
+
+	* Released first BETA version: 0.1

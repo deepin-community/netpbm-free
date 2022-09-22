@@ -1,0 +1,64 @@
+.TH xpmtoppm 1 "06 May 2001"
+.SH NAME
+xpmtoppm - convert an X11 pixmap into a portable pixmap
+
+.SH SYNOPSIS
+.B xpmtoppm
+\fR[\fB--alphaout=\fR{\fIalpha-filename\fR,\fB-\fR}]
+.RB [ -verbose ]
+.RI [ xpmfile ]
+
+.SH DESCRIPTION
+Reads an X11 pixmap (XPM version 1 or 3) as input.  Produces a PPM
+file as output.
+
+.SH OPTIONS
+.TP
+.BI --alphaout= alpha-filename
+.B xpmtoppm 
+creates a PBM file containing the transparency mask for the image.  If
+the input image doesn't contain transparency information, the
+.I alpha-filename
+file contains all white (opaque) alpha values.  If you don't specify
+.BR --alphaout ,
+.B xpmtoppm
+does not generate an alpha file, and if the input image has transparency
+information,
+.B xpmtoppm
+simply discards it.
+
+If you specify
+.B -
+as the filename, 
+.B xpmtoppm
+writes the alpha output to Standard Output and discards the image.
+
+See 
+.BR pnmcomp (1)
+for one way to use the alpha output file.
+.TP
+.B --verbose
+.B xpmtoppm
+prints information about its processing on Standard Error.
+
+.SH LIMITATIONS
+The support to XPM version 3 is limited. Comments can only be single lines
+and there must be for every pixel a default colorname for a color type visual.
+
+.SH "SEE ALSO"
+.BR ppmtoxpm (1), 
+.BR pnmcomp (1),
+.BR ppm (5)
+
+.SH AUTHOR
+Copyright (C) 1991 by Jef Poskanzer.
+.\" Permission to use, copy, modify, and distribute this software and its
+.\" documentation for any purpose and without fee is hereby granted, provided
+.\" that the above copyright notice appear in all copies and that both that
+.\" copyright notice and this permission notice appear in supporting
+.\" documentation.  This software is provided "as is" without express or
+.\" implied warranty.
+
+Upgraded to support XPM version 3 by
+    Arnaud Le Hors (lehors@mirsa.inria.fr)
+    Tue Apr 9 1991

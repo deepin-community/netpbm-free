@@ -1,0 +1,77 @@
+.TH pbmtolj 1 "22 April 2000"
+.IX pbmtolj
+.SH NAME
+pbmtolj - convert a portable bitmap into HP LaserJet format
+
+.SH SYNOPSIS
+.B pbmtolj
+.RB [ -resolution
+.IR N ]
+.RB [ -float ]
+.RB [ -noreset ]
+.RB [ -packbits ]
+.RB [ -delta ]
+.RB [ -compress ]
+.RI [ pbmfile ]
+.RB [ -copies
+.IR N ]
+
+.SH DESCRIPTION
+Reads a PBM image as input.  Produces HP LaserJet data as output.
+.IX "HP LaserJet"
+.PP
+Note that there is no ljtopbm tool.
+
+.SH OPTIONS
+.TP
+.B -resolution
+Specifies the resolution of the output device, in dpi.
+Typical values are 75, 100, 150, 300, and 600.
+The default is 75.
+.TP
+.B -float
+Suppresses positioning information.
+The default is to write the sequence 
+.I ESC & l 0 E
+to the output file.
+.TP
+.B -noreset
+Prevents pbmtolj from writing the reset sequences to the beginning
+and end of the output file.
+.TP
+.B -packbits
+Enables use of TIFF packbits compression.
+.TP
+.B -delta
+Enables use of delta-between-rows compression.
+.TP
+.B -compress
+Enables use of both TIFF packbits, and delta-between-rows compression.
+.TP
+.B -copies
+Specifies the the number of copies. The default is 1.  This option controls
+the "number of copies" printer control; 
+.B pbmtolj
+generates only one copy of the image.
+.PP
+All flags can be abbreviated to their shortest unique prefix.
+
+.SH "SEE ALSO"
+.BR pbm (5)
+
+.SH AUTHOR
+Copyright (C) 1988 by Jef Poskanzer and Michael Haberler.
+.B -float
+and
+.B -noreset
+options added by Wim Lewis.
+.B -delta, -packbits,
+and
+.B -compress
+options added by Dave Platt.
+.\" Permission to use, copy, modify, and distribute this software and its
+.\" documentation for any purpose and without fee is hereby granted, provided
+.\" that the above copyright notice appear in all copies and that both that
+.\" copyright notice and this permission notice appear in supporting
+.\" documentation.  This software is provided "as is" without express or
+.\" implied warranty.

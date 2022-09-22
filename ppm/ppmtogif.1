@@ -1,0 +1,218 @@
+.TH ppmtogif 1 "20 May 2000"
+.IX ppmtogif
+.SH NAME
+ppmtogif - convert a portable pixmap into a GIF file
+.SH SYNOPSIS
+.B ppmtogif
+.RB [ -interlace ]
+.RB [ -sort ]
+.RB [ -map
+.IR mapfile ]
+.br
+.RB [ \-transparent
+.RB [ = ] \fIcolor ]
+.RB [ \-alpha
+.IR pgmfile ]
+.RB [ \-comment
+.IR text ]
+.RB [ \-nolzw ]
+.br
+.RI [ ppmfile ]
+.PP
+All options can be abbreviated to their shortest unique prefix.  You
+may use two hyphens instead of one to designate an option.  You may
+use either white space or equals signs between an option name and its
+value.
+
+.SH DESCRIPTION
+Reads a portable pixmap as input.  Produces a GIF file as output.
+
+This program creates only individual GIF images.  To combine multiple GIF
+images into an animated GIF, use 
+.BR gifsicle 
+(not part of the Netpbm package).
+
+.B ppmtogif
+creates either an original GIF87 format GIF file or the newer GIF89 format.
+It creates GIF89 when you request features that were new with GIF89, to wit
+the
+.B -transparent
+or
+.B -comment
+options.  Otherwise, it creates GIF87.  Really old GIF readers conceivably
+could not recognize GIF89.
+
+.IX GIF
+.SH OPTIONS
+.TP
+.B -interlace
+Produce an interlaced GIF file.
+.TP
+.B -sort
+Produces a GIF file with a sorted color map.
+.TP
+.B -map 
+.I mapfile
+
+Uses the colors found in the
+.I mapfile
+to create the colormap in the GIF file, instead of the colors from
+.I ppmfile.
+The
+.I mapfile
+can be any
+.I ppm
+file; all that matters is the colors in it. If the colors in
+.I ppmfile
+do not match those in
+.I mapfile
+, they are matched to a "best match." A (much) better result can be obtained by
+using the following filter in advance:
+
+.I ppmquant
+-floyd -map
+.I mapfile
+.TP
+.B \-transparent \fIcolor\fP
+.B ppmtogif
+marks the specified color as transparent in the GIF image.
+
+If you don't specify
+.BR -transparent ,
+.B ppmtogif
+does not mark any color transparent (except as indicated by the
+.B -alpha
+option).
+
+You specify the color as in
+.BR ppmmake (1).  E.g.
+.B red
+or
+.BR rgb:ff/00/0d .
+If the color you specify is not present in the image, 
+.B ppmtogif
+selects instead the color in the image that is closest to the one you
+specify.  Closeness is measured as a cartesian distance between colors
+in RGB space.  If multiple colors are equidistant, 
+.B ppmtogif
+chooses one of them arbitrarily.
+
+However, if you prefix your color specification with "=", e.g.
+
+.B -transparent==red
+
+Only the exact color you specify will be transparent.  If that color does
+not appear in the image, there will be no transparency.  
+.B ppmtogif
+issues an information message when this is the case.
+
+You cannot specify both 
+.B -transparent
+and
+.BR -alpha .
+
+.TP
+.B -alpha= \fIpgmfile
+This option names a PGM file that contains an alpha mask for the image.
+.B ppmtogif
+Creates fully transparent pixels wherever the alpha
+mask indicates transparency greater than 50%.  The color of those pixels
+is that specified by the 
+.B -alphacolor
+option, or black by default.
+
+To do this, 
+.B ppmtogif
+creates an entry in the GIF colormap in addition to the entries for colors
+that are actually in the image.  It marks that colormap entry as transparent
+and uses that colormap index in the output image to create a transparent
+pixel.
+
+The alpha image must be the same dimensions as the input image, but may
+have any maxval.  White means opaque and black means transparent.
+
+You cannot specify both 
+.B -transparent
+and
+.BR -alpha .
+
+.TP
+.B -alphacolor
+See 
+.BR -alpha .
+
+.TP
+.B \-comment \fItext\fP
+Include a comment in the GIF output with comment text 
+.IR text .
+Without this option, there are no comments in the output.
+
+.TP
+.B \-nolzw 
+This option causes the GIF output, and thus 
+.BR ppmtogif ,
+not to use LZW (Lempel-Ziv) compression.  As a result, the image file is
+larger and no royalties are owed to the holder of the patent on LZW.
+See the section LICENSE below.
+
+LZW is a method for combining the information from multiple pixels into a
+single GIF code.  With the 
+.B \-nolzw
+option, 
+.B ppmtogif
+creates one GIF code per pixel, so it is not doing any compression and not
+using LZW.  However, any GIF decoder, whether it uses an LZW decompressor
+or not, will correctly decode this uncompressed format.  An LZW decompressor
+would see this as a particular case of LZW compression.
+
+Note that if someone uses an LZW decompressor such as the one in 
+.B ppmtogif
+or pretty much any graphics display program to process the output of
+.B ppmtogif -nolzw 
+he is then using the LZW patent.  But the patent holder has expressed
+far less interest in enforcing the patent on decoding than on encoding.
+
+.SH "SEE ALSO"
+.BR giftopnm (1), 
+.BR ppmquant (1), 
+.BR pngtopnm (1),
+.BR gifsicle (1)
+<http://www.lcdf.org/gifsicle>,
+.BR ppm (5).
+.SH AUTHOR
+Based on GIFENCOD by David Rowley <mgardi@watdcsu.waterloo.edu>.
+Lempel-Ziv compression based on "compress".
+
+The non-LZW format is generated by code based on 
+.B djpeg
+by the Independent Jpeg Group.
+
+Copyright (C) 1989 by Jef Poskanzer.
+.\" Permission to use, copy, modify, and distribute this software and its
+.\" documentation for any purpose and without fee is hereby granted, provided
+.\" that the above copyright notice appear in all copies and that both that
+.\" copyright notice and this permission notice appear in supporting
+.\" documentation.  This software is provided "as is" without express or
+.\" implied warranty.
+.\"
+.\" The Graphics Interchange Format(c) is the Copyright property of
+.\" CompuServe Incorporated.  GIF(sm) is a Service Mark property of
+.\" CompuServe Incorporated.
+
+.SH LICENSE
+If you use
+.BR ppmtogif 
+without the 
+.B -nolzw
+option, you are using a patent on the LZW compression method which is
+owned by Unisys, and in all probability you do not have a license from
+Unisys to do so.  Unisys typically asks $5000 for a license for
+trivial use of the patent.  Unisys has never enforced the patent
+against trivial users.  The patent expires in 2003.
+
+Rumor has it that IBM also owns a patent covering 
+.BR ppmtogif .
+
+A replacement for the GIF format that does not require any patents to use
+is the PNG format.
+

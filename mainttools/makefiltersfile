@@ -1,0 +1,71 @@
+#! /usr/bin/perl -w
+
+print
+".TH pbmfilters 1 \"08 February 1994\"
+.IX pbmfilters
+.SH NAME
+pbmfilters - list of all programs in the netpbm package
+.SH DESCRIPTION
+";
+
+
+open(LS, "ls -l $ARGV[0] |") || die "Cant ls";
+<LS>; # total ...
+while(<LS>) {
+	chomp;
+	@a=split ;
+#	print STDERR "$a[0] $a[8]\n";
+	($a[8] =~ /netpbm.1/) && (next);
+	($a[8] =~ /pbmfilters.1/) && (next);
+	if ($a[0] =~ /^l/) {
+		# symbolic link
+		$a[8] =~ s/.1.gz//;
+		$a[10] =~ s/.1.gz//;
+		print ".TP\n.B $a[8] (deprecated)\nis replaced by $a[10](1)\n";
+		;
+	} else {
+		if (!(open(IN, "zcat $ARGV[0]/$a[8] |"))) {
+			print STDERR "Cant open $a[8]\n";
+			next;
+		}
+		$a=<IN>;
+		while (defined($a) && ($a !~ / .?- /)) {
+			$a=<IN>;
+		}
+		if (!(defined($a))) {
+			print STDERR "Cant find line in $a[8]\n";
+			next;
+		}
+		$a[8] =~ s/.1.gz//;
+#		print STDERR "in: $a\n";
+		chomp($a);
+		if (!($a =~ /^([^ ]+) .?- (.*)/)) {
+			print STDERR "Parsing error $a[8]\n";
+			print STDERR "Text was: $a\n";
+			next;
+		}
+		print ".TP\n.B $1\n$2\n";
+		push @b, $1;
+		if ($1 ne $a[8]) {
+			print STDERR "Warning: wrong name $1 vs $a[8]\n";
+		}
+	}
+}
+
+
+print "\n\n.SH \"SEE ALSO\"\n";
+
+
+$a = pop @b;
+foreach $i (@b) {
+	print "$i(1),\n";
+}
+print "$a(1).\n";
+
+print "\n\n";
+print 
+".SH AUTHORS
+Many. See the individual manual pages.
+.\\\" All programms are free (as defined by the DFSG), but have different
+.\\\" licences. Please see for details the individual manpages.
+";

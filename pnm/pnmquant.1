@@ -1,0 +1,66 @@
+.TH pnmquant 1 "20 January 2002"
+.IX pnmquant
+.SH NAME
+pnmquant - quantize the colors in a Netpbm image to a smaller set
+
+.SH SYNOPSIS
+.B pnmquant
+.RB [ -center | -meancolor | -meanpixel ]
+.RB [ -floyd | -fs ]
+.RB [ -nofloyd | -nofs ]
+.RB [ -spreadbrightness | -spreadluminosity ]
+.I ncolors
+.RI [ pnmfile ]
+.fi
+
+All options can be abbreviated to their shortest unique prefix.  You
+may use two hyphens instead of one to designate an option.  You may
+use either white space or equals signs between an option name and its
+value.
+
+.SH DESCRIPTION
+Reads a PNM image as input.  Chooses
+.I ncolors
+colors to best represent the image, maps the existing colors
+to the new ones, and writes a PNM image as output.
+.IX "colormap reduction"
+
+This program is simply a combination of 
+.B pnmcolormap
+and 
+.BR pnmremap ,
+where the colors of the input are remapped using a color map which is
+generated from the colors in that same input.  The options have the
+same meaning as in those programs.  See their documentation to
+understand
+.BR pnmquant .
+
+It is much faster to call 
+.B pnmcolormap
+and
+.B pnmremap
+directly than to run 
+.BR pnmquant .
+.B pnmquant
+is just a convenience.
+
+.B ppmquant
+is an older program which does the same thing as 
+.BR pnmquant ,
+but on only PPM images.  It is, however, faster than either
+.B pnmquant
+or
+.BR ppmcolormap / pnmremap .
+
+.SH "SEE ALSO"
+.BR pnmcolormap (1),
+.BR pnmremap (1),
+.BR ppmquantall (1), 
+.BR pnmdepth (1), 
+.BR ppmdither (1), 
+.BR ppmquant (1),
+.BR pnm (5)
+
+.SH AUTHOR
+Written by Bryan Henderson
+.\" Contributed to the public domain.

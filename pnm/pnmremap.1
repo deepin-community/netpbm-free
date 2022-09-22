@@ -1,0 +1,153 @@
+.TH pnmremap 1 "01 January 2002"
+.IX pnmremap
+.SH NAME
+pnmremap - replace colors in a PPM image with colors from another set
+
+.SH SYNOPSIS
+.B pnmremap
+.RB [ -floyd | -fs | -nfloyd | -nofs ]
+.RB [ -firstisdefault ]
+.RB [ -verbose ]
+.RB [ -mapfile=\fImapfile ]
+.RB [ -missingcolor=\fIcolor ]
+.RI [ pnmfile ]
+
+All options can be abbreviated to their shortest unique prefix.  You
+may use two hyphens instead of one to designate an option.  You may
+use either white space or an equals sign between an option name and
+its value.
+
+.SH DESCRIPTION
+
+.B pnmremap
+replaces the colors in an input image with those from a colormap you
+specify.  Where a color in the input is not in the colormap, you have
+three choices: 1) choose the closest color from the colormap; 
+2) choose the first color from the colormap; 3) use a color specified
+by a command option.  (In this latter case, if the color you specify is
+not in your color map, the output will not necessarily contain only 
+colors from the colormap).
+
+Two reasons to do this are: 1) you want to reduce the number of colors
+in the input image; and 2) you need to feed the image to something that
+can handle only certain colors.
+
+To reduce colors, you can generate the colormap with 
+.BR ppmcolormap .  
+Example:
+
+.B ppmcolormap testimg.ppm 256 >colormap.ppm
+.br
+.B ppmremap -map=colormap.ppm testimg.ppm 
+.br
+.B >reduced_testimg.ppm
+
+To limit colors to a certain set, a typical example is to create an image
+for posting on the World Wide Web, where different browsers know different
+colors.  But all browsers are supposed to know the 216 "web safe" colors
+which are essentially all the colors you can represent in a PPM image with
+a maxval of 5.  So you can do this:
+
+.B ppmcolors 5 >websafe.ppm
+.br
+.B ppmremap -map=webafe.ppm testimg.ppm >websafe_testimg.ppm
+
+The output image has the same type and maxval as the map file.  
+
+
+.SH PARAMETERS
+
+There is one parameter, which is required:  The file specifcation of the
+input PNM file.
+
+
+.B OPTIONS
+.TP
+.B -floyd
+.B -fs
+.B -nofloyd
+.B -nofs
+These options determine whether Floyd-Steinberg dithering is done.
+Without Floyd-Steinberg, the selection of output color of a pixel is based
+on the color of only the corresponding input pixel.  With Floyd-Steinberg,
+multiple input pixels are considered so that the average color of an area
+tends to stay more the same than without Floyd-Steinberg.  For example, 
+if you map an image with a black, gray, gray, and white pixel
+adjacent, through a map that contains only black and white, it might 
+result in an output of black, black, white, white.  Pixel-by-pixel
+mapping would instead map both the gray pixels to the same color.
+
+.B -fs
+is a synomym for
+.BR -floyd .
+.B -nofs
+is a synonym for
+.BR -nofloyd .
+
+The default is 
+.BR -nofloyd .
+
+.TP
+.B -firstisdefault
+This affects what happens with a pixel in the input image whose color is not
+in the map file.  If you specify neither
+.B -firstisdefault
+nor
+.BR -missingcolor ,
+.B pnmremap
+chooses for the output the color in the map which is closest to the
+color in the input.  With
+.BR -firstisdefault ,
+.B pnmremap
+instead uses the first color in the colormap.
+
+If you specify 
+.BR -firstisdefault ,
+the maxval of your input must match the maxval of your colormap.
+
+.TP
+.B -missingcolor=\fIcolor
+This affects what happens with a pixel in the input image whose color is not
+in the map file.  If you specify neither
+.B -firstisdefault
+nor
+.BR -missingcolor ,
+.B pnmremap
+chooses for the output the color in the map which is closest to the
+color in the input.
+With
+.BR -missingcolor ,
+.B pnmremap 
+uses 
+.IR color .
+.I color
+need not be in the colormap.
+
+If you specify 
+.BR -missingcolor ,
+the maxval of your input must match the maxval of your colormap.
+
+.TP
+.B -verbose
+Display helpful messages about the mapping process.
+
+
+.SH "SEE ALSO"
+.BR pnmcolormap (1),
+.BR ppmcolors (1),
+.BR pnmquant (1),
+.BR ppmquantall (1), 
+.BR pnmdepth (1), 
+.BR ppmdither (1), 
+.BR ppmquant (1),
+.BR ppm (5)
+
+.SH AUTHOR
+Copyright (C) 1989, 1991 by Jef Poskanzer.
+Copyright (C) 2001 by Bryan Henderson.
+.\" Permission to use, copy, modify, and distribute this software and its
+.\" documentation for any purpose and without fee is hereby granted, provided
+.\" that the above copyright notice appear in all copies and that both that
+.\" copyright notice and this permission notice appear in supporting
+.\" documentation.  This software is provided "as is" without express or
+.\" implied warranty.

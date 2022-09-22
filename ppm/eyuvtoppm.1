@@ -1,0 +1,24 @@
+.TH eyuvtoppm 1 "April 22, 2001"
+.IX eyuvtoppm
+.SH NAME
+eyuvtoppm - convert a Berkeley YUV file to a portable pixmap file
+.SH SYNOPSIS
+.B eyuvtoppm
+.RB [ --width 
+.IR width ] 
+.RB [ --height 
+.IR height ] 
+.RI [ eyuvfile ]
+
+.SH DESCRIPTION
+Reads a Berkeley Encoder YUV (not the same as Abekas YUV) file as
+input and produces a portable pixmap (ppm) file on the Standard Output.
+
+With no filename argument takes input from Standard Input.  Otherwise, 
+.I eyuvfile 
+is the file specification of the input file.
+.IX Abekas
+.SH "SEE ALSO"
+.BR ppmtoeyuv (1), 
+.BR yuvtoppm (1),
+.BR ppm (5)

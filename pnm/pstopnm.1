@@ -1,0 +1,298 @@
+.TH pstopnm 1 "28 June 2000"
+.IX pstopnm
+.SH NAME
+pstopnm - convert a PostScript file into a portable anymap
+.SH SYNOPSIS
+.B pstopnm
+.RB [ \-stdout ]
+.RB [ \-forceplain ]
+.RB [ \-help ]
+.RB [ \-llx 
+.IR s ] 
+.RB [ \-lly 
+.IR s ] 
+.RB [ \-landscape ]
+.RB [ \-portrait ]
+.RB [ \-nocrop ]
+.RB [ \-pbm 
+.RB | \-pgm 
+.RB | \-ppm ]
+.RB [ \-urx 
+.IR s ] 
+.RB [ \-ury 
+.IR s ] 
+.RB [ \-verbose ]
+.RB [ \-xborder
+.IR n ]
+.RB [ \-xmax
+.IR n ]
+.RB [ \-xsize
+.IR f ]
+.RB [ \-yborder
+.IR f ]
+.RB [ \-ymax
+.IR n ]
+.RB [ \-ysize
+.IR n ]
+.IR psfile [ \fB.ps ]
+.SH DESCRIPTION
+Reads a PostScript file as input.
+.IX PostScript
+Produces PBM, PGM, or PPM files as output.
+This program simply uses
+.B GhostScript
+to render a PostScript file with its PNM device drivers.  If you don't
+have
+.B GhostScript
+installed (invoked by a 
+.B gs
+command), or the version you have installed was not built with the relevant
+PNM device drivers, 
+.B pstopnm
+will fail.  You can see if you have the proper environment by issuing the
+command
+.B gs --help \fR.
+If it responds and lists under "Available Devices" 
+.BR pbm ,
+.BR pbmraw , 
+.BR pgm , 
+.BR pgmraw , 
+.BR pnm , 
+.BR pnmraw , 
+.BR ppm , 
+or 
+.BR ppmraw ,
+you're in business. 
+
+.B pstopnm
+does not use the Netpbm libraries to generate the output files, so may 
+not be entirely consistent with most Netpbm programs.
+
+.IR psfile [ \fB.ps ]
+is the name of the input file.  
+.B .pstopnm
+will add the 
+.B ps
+to the end of the name you specify if no file exists by the exact name
+you specify, but one with 
+.ps
+added does.  Use
+.B -
+to indicate Standard Input.
+
+If you use the 
+.B -stdout 
+option, 
+.B pstopnm
+outputs images of all the pages as a multi-image file to Standard
+Output.  Otherwise, 
+.B pstopnm
+creates one file for each page in the Postscript document.  The files
+are named as follows: If the input file is named
+.BR psfile.ps ,
+the name of the files will be
+.BR psfile001.ppm , 
+.BR psfile002.ppm , 
+etc.  The filetype suffix is 
+.BR .ppm ,
+.BR .pgm ,
+or
+.BR .pbm ,
+depending on which kind of output you choose with your invocation
+options.  If the input file name does not end in
+.BR .ps ,
+the whole file name is used in the output file name.  For example,
+if the input file is named 
+.BR psfile.old ,
+the output file name is
+.BR psfile.old001.ppm ,
+etc.
+
+Note that the output file selection is inconsistent with most Netpbm
+programs, because it does not default to Standard Output.  This is for
+historical reasons, based on the fact that the Netpbm formats did not
+always provide for a sequence of images in a single file.
+
+.PP
+Each output file contains the image of a rectangular part of the page
+to which it pertains.  The selected area will always be centered in
+the output file, and may have borders around it.  The image area to be
+extracted from the PostScript file and rendered into a portable anymap
+is defined by four numbers, the lower left corner and the upper right
+corner x and y coordinates.  These coordinates are usually specified
+by the BoundingBox comment in the PostScript file header, but they can
+be overridden by the user by specifying one or more of the following
+options:
+.BR \-llx ,
+.BR \-lly ,
+.BR \-urx ,
+and
+.BR \-ury .
+The presence and thickness of a border to be left around the image
+area is controlled by the use of the options
+.B \-xborder
+and
+.BR \-yborder .
+If 
+.B pstopnm 
+does not find BoundingBox parameters in the input, and you don't
+specify image area coordinates on the command line,
+.B pstopnm
+uses default values.  If your input is from Standard Input, 
+.B pstopnm
+does not use the BoundingBox parameters (due to the technical
+difficulty of extracting that information and still feeding the file
+to Ghostscript), so you either have to specify the image area
+coordinates or take the default.
+
+Unless you specify both output file width and height, via the
+.B \-xsize 
+and
+.B \-ysize 
+options, 
+.B pstopnm 
+maps the document into the output image by preserving its aspect
+ratio.
+
+It has been reported that on some Postscript Version 1 input, Ghostscript, 
+and therefore
+.BR pstopnm ,
+produces no output.  To solve this problem, you can convert the file to 
+Postscript Version 3 with the program
+.BR ps2ps .
+It is reported that the program
+.B pstops
+does not work.
+
+.SH OPTIONS
+.TP
+.B \-forceplain
+forces the output file to be in plain (text) format.  Otherwise, it is
+in raw (binary) format.  See 
+.BR pbm (1), 
+etc.
+.TP
+.B \-llx \fIbx
+selects 
+.I bx
+as the lower left corner x coordinate (in inches).
+.TP
+.B \-lly \fIby
+selects 
+.I by
+as the lower left corner y coordinate (in inches).
+.TP
+.B \-landscape
+renders the image in landscape mode.
+.TP
+.B \-portrait
+renders the image in portrait mode.
+.TP
+.B \-nocrop
+does not crop the output image dimensions to match the PostScript
+image area dimensions.
+.TP
+.B \-pbm \-pgm \-ppm
+selects the format of the output file.  By default, all files are
+rendered as portable pixmaps (ppm format).
+.TP
+.B \-stdout
+causes output to go to Standard Output instead of to regular files,
+one per page (see description of output files above).  Use
+.B pnmsplit
+to extract individual pages from Standard Output.
+.TP
+.B \-urx \fItx
+selects 
+.I tx
+as the upper right corner x coordinate (in inches).
+.TP
+.B \-ury \fIty
+selects 
+.I ty
+as the upper right corner y coordinate (in inches).
+.TP
+.B \-verbose
+prints processing information to stdout.
+.TP
+.B \-xborder \fIfrac
+specifies that the border width along the Y axis should be 
+.I frac
+times the document width as specified by the bounding box comment in
+the PostScript file header.  The default value is 0.1.
+.TP
+.B \-xmax \fIxs
+specifies that the maximum output image width should have a size less
+or equal to
+.IR xs 
+pixels (default: 612).   
+.TP
+.B \-xsize \fIxsize
+specifies that the output image width must be exactly
+.I xs
+pixels.
+.TP
+.B \-yborder \fIfrac
+specifies that the border width along the X axis should be 
+.I frac
+times the document width as specified by the bounding box comment in
+the PostScript file header.  The default value is 0.1.
+.TP
+.B \-ymax \fIys
+specifies that the maximum output image height should have a size less
+or equal to
+.IR ys 
+pixels (default: 792).   
+.TP
+.B \-ysize \fIys
+specifies that the output image height must be exactly
+.I ys
+pixels.
+
+.SH BUGS
+The program will produce incorrect results with PostScript files that
+initialize the current transformation matrix.  In these cases, page
+translation and rotation will not have any effect.  To render these
+files, probably the best bet is to use the following options:
+.PP
+\ \ \ pstopnm -xborder 0 -yborder 0 -portrait -nocrop file.ps
+.PP
+Additional options may be needed if the document is supposed to be
+rendered on a medium different from letter-size paper.
+.SH SEE ALSO
+.BR gs (1), 
+.BR pstofits (1), 
+.BR pnmtops (1), 
+.BR psidtopgm (1), 
+.BR pbmtolps (1),
+.BR pbmtoepsi (1),
+.BR pnmsplit (1)
+
+.SH COPYRIGHT
+Copyright (c) 1992 Smithsonian Astrophysical Observatory
+.br
+PostScript is a Trademark of Adobe Systems Incorporated.
+.\" Permission to use, copy, modify, distribute, and  sell  this
+.\" software  and  its  documentation  for any purpose is hereby
+.\" granted without  fee,  provided  that  the  above  copyright
+.\" notice  appear  in  all  copies and that both that copyright
+.\" notice and this permission notice appear in supporting documentation,
+.\" and  that  the  name  of the  Smithsonian Astrophysical
+.\" Observatory not be used in advertising or publicity
+.\" pertaining to distribution of the software without specific,
+.\" written  prior  permission.   The Smithsonian  Astrophysical
+.\" Observatory makes no representations about  the  suitability
+.\" of  this  software for any purpose.  It is provided  "as is"
+.\" without express or implied warranty.
+.\" THE  SMITHSONIAN  ASTROPHYSICAL  OBSERVATORY  DISCLAIMS  ALL
+.\" WARRANTIES  WITH  REGARD  TO  THIS  SOFTWARE,  INCLUDING ALL
+.\" IMPLIED  WARRANTIES  OF  MERCHANTABILITY AND FITNESS, IN  NO
+.\" EVENT SHALL THE  SMITHSONIAN  ASTROPHYSICAL  OBSERVATORY  BE
+.\" LIABLE FOR  ANY SPECIAL, INDIRECT  OR  CONSEQUENTIAL DAMAGES
+.\" OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS  OF USE,  DATA
+.\" OR  PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+.\" OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION  WITH
+.\" THE  USE OR PERFORMANCE OF THIS SOFTWARE.
+.SH AUTHOR
+Alberto Accomazzi, WIPL, Center for Astrophysics.
+

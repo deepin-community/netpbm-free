@@ -1,0 +1,54 @@
+From: Moritz Muehlenhoff <jmm@debian.org>
+Subject: Fix missing format strings exposed by the hardened build flags.
+
+--- a/ppm/ppmtobmp.c
++++ b/ppm/ppmtobmp.c
+@@ -149,7 +149,7 @@
+ {
+         if (putc(v, fp) == EOF)
+         {
+-                pm_error(er_write);
++                pm_error("%s", er_write);
+         }
+ }
+ 
+@@ -158,7 +158,7 @@
+ {
+         if (pm_writelittleshort(fp, v) == -1)
+         {
+-                pm_error(er_write);
++                pm_error("%s", er_write);
+         }
+ }
+ 
+@@ -169,7 +169,7 @@
+ {
+         if (pm_writelittlelong(fp, v) == -1)
+         {
+-                pm_error(er_write);
++                pm_error("%s", er_write);
+         }
+ }
+ 
+--- a/pnm/fiasco/cwfa.c
++++ b/pnm/fiasco/cwfa.c
+@@ -176,7 +176,7 @@
+       return 0;
+    else
+    {
+-      fprintf (stderr, fiasco_get_error_message ());
++      fprintf (stderr, "%s", fiasco_get_error_message ());
+       fprintf (stderr, "\n");
+       return 1;
+    }
+--- a/pnm/fiasco/params.c
++++ b/pnm/fiasco/params.c
+@@ -650,7 +650,7 @@
+    fprintf (stderr, "Usage: %s [OPTION]...%s\n", progname,
+ 	    non_opt_string ? non_opt_string : " ");
+    if (synopsis != NULL)
+-      fprintf (stderr, synopsis);
++      fprintf (stderr, "%s", synopsis);
+    fprintf (stderr, "\n\n");
+    fprintf (stderr, "Mandatory or optional arguments to long options "
+ 	    "are mandatory or optional\nfor short options too. "

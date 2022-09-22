@@ -1,0 +1,25 @@
+.TH ppmtoeyuv 1 "April 3, 2000"
+.IX ppmtoeyuv
+.SH NAME
+ppmtoeyuv - convert a portable pixmap into a Berkeley YUV file
+.SH SYNOPSIS
+.B ppmtoeyuv
+.RI [ ppmfile ]
+.SH DESCRIPTION
+Reads a portable pixmap as input.
+Produces a Berkeley Encoder YUV (not the same as Abekas YUV) file on the
+Standard Output file.
+
+With no argument, takes input from Standard Input.  Otherwise, 
+.I ppmfile 
+is the file specification of the input file.
+
+.B ppmtoeyuv
+handles multi-image PPM input streams, outputting consecutive eyuv
+images.  There must be at least one image, though.
+
+.IX Abekas
+.SH "SEE ALSO"
+.BR eyuvtoppm (1), 
+.BR ppmtoyuv (1),
+.BR ppm (5)

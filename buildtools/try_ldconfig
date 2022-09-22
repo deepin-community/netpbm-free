@@ -1,0 +1,29 @@
+#/bin/sh
+
+# Run Ldconfig if possible.
+#
+# If there's no such command, just assume this system doesn't need it.
+#
+# If it fails for any other reason (typically lack of permission), tell user to do it manually later.
+#
+# This is intended to be used in a make file that runs on lots of different kinds of systems.
+
+
+
+ldconfig 2>/dev/null
+
+rc=$?
+if [ $rc -ne 127 ]; then
+   if [ $rc -ne 0 ]; then
+      echo "==================================================================="
+      echo "To complete installation of your shared liraries, you need to run "
+      echo "'ldconfig'.  When I tried, it failed.  Maybe you don't have the "
+      echo "necessary permissions.  Be sure you run 'ldconfig' successfully "
+      echo "before you try to run any Netpbm programs."
+      echo "==================================================================="
+      echo
+      echo "Enter anything to continue the install."
+      read;
+      fi
+   fi
+

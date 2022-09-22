@@ -1,0 +1,26 @@
+.\" This file Copyright 2000 Jos Dingjan <jos@tuatha.org>
+.\" It may be distributed under the GNU Public License, version 2, or
+.\" any higher version.  See section COPYING of the GNU Public license
+.\" for conditions under which this file may be redistributed.
+.TH pgmslice 1 "22 May 2000"
+.SH NAME
+pgmslice - extract one line of pixel values out of a portable graymap
+.SH SYNOPSIS
+.B pgmslice
+.BR -row | -col
+.I line
+.RI [ pgmfile ]
+.SH DESCRIPTION
+Extracts one line of pixel values out of a portable graymap and outputs it in a two column ascii format, with the first value being the pixel's position in the line and the second value the pixel's greyscale value. This is useful for making cross sections through, for example, greyscale CCD images. 
+.SH OPTIONS
+.TP
+.B -row
+Extract a row of pixels
+.TP
+.B -col
+Extract a column of pixels
+.SH "SEE ALSO"
+pgm(5)
+.SH AUTHOR
+pgmslice was written by Jos Dingjan <jos@tuatha.org> after being unable to find the source code to Marco Beijersbergen's program with the same name.
+

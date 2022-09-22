@@ -1,0 +1,77 @@
+.TH winicontoppm 1 "22 May 2000"
+.IX winicontoppm
+.SH NAME
+winicontoppm \- convert a Windows .ico file into 1 or more portable pixmap
+files
+.SH SYNOPSIS
+.B winicontoppm
+.RI [ \-writeands ]
+.RI [ \-allicons|\-bestqual ]
+.RI [ \-multippm ]
+.RI [ \-verbose ]
+.RI [ iconfile ]
+.RI [ ppmdestfile ]
+.SH DESCRIPTION
+Reads a Microsoft Windows .ico file, converts it to one or more ppms.
+
+A Windows icon contains 1 or more images, at different resolutions
+and color depths.  Each image has an 'and' mask, which contains transparancy
+data. 
+
+By default, the output goes to Standard Output.  If you specify
+.IR ppmdestfile ,
+output goes into one or more files named as follows.  If it's just one
+file (i.e. you specify the 
+.B -multippm 
+option or don't specify 
+.BR -allicons ), 
+the file specification is 
+.IB ppmdestfile .ppm \fR.
+If it's multiple files, their file specifications are
+.IB ppmdestfile "_1.ppm" \fR,
+.IB ppmdestfile "_2.ppm" \fR,
+etc.
+
+When you specify the 
+.B -writeands
+option, the filenames above are modified to include the string
+.B xor
+as in 
+.IB ppmdestfile _xor.ppm
+or
+.IB ppmdestfile _xor_1.ppm \fR.
+
+.B winicontoppm
+can convert images with 1, 4, 8, 24 or 32 bits per pixel (bpp).
+
+.IX WINICON
+.SH OPTIONS
+.TP
+.B \-writeands
+For each icon written, also write the 'and' (transparancy) mask as a
+seperate PBM file.  It's name is of the form
+.IB ppmdestfile _and.pbm
+or
+.IB ppmdestfile _and_1.pbm \fR.
+.TP
+.B \-allicons
+Extract all images from the .ico file.
+.TP
+.B \-bestqual
+Extract only the best quality (largest, then highest bpp) image from the .ico file.
+.TP
+.B \-multippm
+Write all ppms to a single file.
+
+.SH "SEE ALSO"
+.BR ppmtowinicon (1),
+.BR ppm (5)
+
+.SH AUTHOR
+Copyright (C) 2000, 2003 by Lee Benfield.
+.\" Permission to use, copy, modify, and distribute this software and
+.\" its documentation for any purpose and without fee is hereby granted,
+.\" provided that the above copyright notice appear in all copies and
+.\" that both that copyright notice and this permission notice appear in
+.\" supporting documentation.  This software is provided "as is" without
+.\" express or implied warranty.

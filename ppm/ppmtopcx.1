@@ -1,0 +1,68 @@
+.TH ppmtopcx 1 "12 December 1994"
+.IX ppmtopcx
+
+.SH NAME
+ppmtopcx - convert a portable pixmap into a PCX file
+
+.SH SYNOPSIS
+.B ppmtopcx
+.RB [ -24bit ]
+.RB [ -packed ]
+.RB [ -xpos=\fIcols ]
+.RB [ -ypos=\fIrows ]
+.RI [ ppmfile ]
+
+.SH DESCRIPTION
+Reads a PPM image as input.  Produces a PCX file as output.
+.IX PCX
+The type of the PCX file depends on the number of colors in the pixmap:
+.TP
+16 colors or less:
+1 bit/pixel, 1-4 planes.
+.TP
+256 colors or less:
+8 bits/pixel, 1 plane, colormap at the end of the file.
+.TP
+More than 256 colors:
+24bit truecolor file (8 bits/pixel, 3 planes).
+.SH OPTIONS
+.TP
+.B -24bit
+Produce a 24bit truecolor file, even if the pixmap has 256 colors or less.
+.TP
+.B -packed
+Use "packed pixel" format for files with 16 colors or less: 1, 2, or 4
+bits/pixel, 1 plane.
+.TP
+.B -xpos=\fIcols
+.TP
+.B -ypos=\fIrows
+These options set the position of the image in some field (e.g. on a screen)
+in columns to the right of the left edge and rows below the top edge.
+The PCX format contains image position information.  Don't confuse this
+with the position of an area of interest within the image.  For example,
+using
+.B pnmpad
+to add a 10 pixel left border to an image and then converting that image to PCX
+with xpos = 0 is not the same as converting the original image to PCX and
+setting xpos = 10.
+
+The values may be from -32767 to 32768.
+
+The default for each is zero.
+
+
+.SH "SEE ALSO"
+.BR pcxtoppm (1), 
+.BR ppm (5)
+
+.SH AUTHORS
+Copyright (C) 1994 by Ingo Wilken (Ingo.Wilken@informatik.uni-oldenburg.de)
+.br
+Based on previous work by Michael Davidson.
+.\" Permission to use, copy, modify, and distribute this software and its
+.\" documentation for any purpose and without fee is hereby granted, provided
+.\" that the above copyright notice appear in all copies and that both that
+.\" copyright notice and this permission notice appear in supporting
+.\" documentation.  This software is provided "as is" without express or
+.\" implied warranty.

@@ -1,0 +1,57 @@
+.TH pamstack 1 "01 May 2002"
+.IX pamstack
+.SH NAME
+pamstack - stack planes of multiple PAM images into one PAM image
+.SH SYNOPSIS
+.B pamstack
+.RB [ "-tupletype \fItupletype" ]
+.RI [ inputfilespec ]
+
+All options may be abbreviated to the shortest unique prefix.
+
+.SH DESCRIPTION
+Reads multiple PAM or PNM images as input. Produces a PAM image as output,
+consisting of all the planes (channels) of the inputs, stacked in the order
+specified.
+
+The output is the same dimensions as the inputs, except that the depth is
+the sum of the depths of the inputs. It has the same maxval. 
+.B pamstack
+fails if the inputs are not all the same width, height, and maxval. The
+tuple type is a null string unless you specify the 
+.B -tupletype
+option.
+
+.B pamchannel
+does the opposite of
+.B pamstack:
+It extracts individual planes from a single PAM.
+
+Use
+.B pamtopnm
+to convert a suitable PAM image to a more traditional PNM (PBM, PGM, or
+PPM) image.
+
+One example of using
+.B pamstack
+is that some Netpbm programs accept as input a PAM that represents graphic
+image with transparency information -- tuple type "RGBA". In Netpbm, such
+images were traditionally represented as two images - a PPM for the color
+and a PGM for the transparency. To convert a PPM/PGM pair into PAM(RGBA)
+input that newer programs require, do something like this:
+
+pamstack -tupletype=RGBA myimage.ppm myalpha.pgm | pamtouil >myimage.uil
+
+.SH OPTIONS
+.TP
+.B -tupletype \fItupletype
+This specified the tuple type name to be recorded in the output. You may
+use any string up to 255 characters. Some programs recognize some names. If
+you omit this option, the default tuple type name is null. 
+
+.SH "SEE ALSO"
+.BR pam (5)
+
+.SH AUTHOR
+Copyright (C) by Bryan Henderson, San Jose CA 2000.08.05
+.\" Contributed to the public domain by its author

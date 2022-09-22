@@ -1,0 +1,16 @@
+.TH pnmtoplainpnm 1 "05 March 2000"
+.IX pnmtoplainpnm
+.SH NAME
+pnmtoplainpnm - convert portable any map to plain (ASCII) anymap format
+.SH SYNOPSIS
+.B pnmtoplainpnm
+.RI [ pnmfile ]
+.SH DESCRIPTION
+Reads a portable anymap as input, either from the named file or if no
+file named, from Standard Input.
+Writes out the image in plain (ASCII) anymap format to Standard Output.
+Of the three plain anymap formats, this program generates the one that
+corresponds naturally to the one of the three anymap formats that is
+the input (PBM for PBM, etc.).
+.SH "SEE ALSO"
+pnm(5)

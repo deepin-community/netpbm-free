@@ -1,0 +1,116 @@
+.TH ppmtoxpm 1 "Tue Apr 9 1991"
+.SH NAME
+ppmtoxpm - convert a portable pixmap into an X11 pixmap
+
+.SH SYNOPSIS
+.B ppmtoxpm 
+.RB [ -name=\fIxpmname ] 
+.RB [ -rgb=\fIrgb-textfile ] 
+.RB [ -alphamask=\fIpgmfile ]
+.RI [ ppmfile ]
+
+Minimum unique abbrevations are acceptable.
+
+.SH DESCRIPTION
+Reads a portable pixmap as input.  Produces X11 pixmap (version 3) as
+output which can be loaded directly by the XPM library.
+
+.PP
+For example, to convert the file "dot" (found in /usr/include/X11/bitmaps),
+from xbm to xpm one could specify
+.IP
+xbmtopbm dot | ppmtoxpm -name dot
+.PP
+or, with a rgb text file (in the local directory)
+.IP
+xbmtopbm dot | ppmtoxpm -name dot -rgb rgb.txt
+
+.SH OPTIONS
+.TP
+.B -name=\fIxpmname\fR
+The 
+.B -name 
+option allows you to specify the prefix string which is printed
+in the resulting XPM output.  If not specified, will default to the
+filename (without extension) of the <ppmfile> argument.
+If you do not specify
+.B -name 
+or 
+.IR ppmfile ,
+(i.e. your input is from Standad Input), the prefix string 
+defaults to the string 
+.BR noname .
+.TP
+.B rgb=\fIrgb-textfile
+The 
+.B -rgb 
+option allows you to specify an X11 rgb text file for
+the lookup of color name mnemonics.  This rgb text file is typically
+the /usr/lib/X11/rgb.txt of the MIT X11 distribution, but any file
+using the same format may be used.  When specified and a RGB value
+from the ppm input matches a RGB value from the <rgb-textfile>, then
+the corresponding color name mnemonic is printed in the XPM's
+colormap.  If you don't specify
+.B -rgb or if the RGB values don't
+match, then 
+.B ppmtoxpm produces the color specifications in the #RGB, #RRGGBB,
+#RRRGGGBBB, or #RRRRGGGGBBBB hexadecimal format.
+
+.TP
+.B -alphamask=\fIpgmfile
+This option names a PGM file to use as an alpha (transparency) mask.
+The file must contain an image the same dimensions as the input image.
+.B ppmtoxpm
+marks as transparent any pixel whose position in the alpha mask image
+is at most half white.
+
+If you don't specify 
+.BR -alphamask ,
+.B ppmtoxpm
+makes all pixels in the output opaque.
+
+.B ppmcolormask
+is one way to generate an alpha mask file.  You might also generate it
+by extracting transparency information from an XPM file with
+the 
+.B -alphaout
+option to 
+.BR xpmtoppm .
+There are similar options on other Netpbm converters that convert from
+formats that include transparency information too.
+
+.SH LIMITATIONS
+An option to match the closest (rather than exact) color name mnemonic
+from the rgb text would be a desirable enhancement.
+.PP
+Truncation of the least significant bits of a RGB value may result in
+nonexact matches when performing color name mnemonic lookups.
+
+.SH "SEE ALSO"
+.BR ppmcolormask (1),
+.BR xpmtoppm (1),
+.BR ppm (5)
+.br
+XPM Manual by Arnaud Le Hors lehors@mirsa.inria.fr 
+.SH AUTHOR
+Copyright (C) 1990 by Mark W. Snitily.
+
+Permission to use, copy, modify, and distribute this software and its
+documentation for any purpose and without fee is hereby granted, provided
+that the above copyright notice appear in all copies and that both that
+copyright notice and this permission notice appear in supporting
+documentation.  This software is provided "as is" without express or
+implied warranty.
+
+This tool was developed for Schlumberger Technologies, ATE Division, and
+with their permission is being made available to the public with the above
+copyright notice and permission notice.
+
+Upgraded to XPM2 by
+   Paul Breslaw, Mecasoft SA, Zurich, Switzerland (paul@mecazh.uu.ch)
+   Thu Nov  8 16:01:17 1990
+
+Upgraded to XPM version 3 by
+   Arnaud Le Hors (lehors@mirsa.inria.fr)
+   Tue Apr 9 1991
+

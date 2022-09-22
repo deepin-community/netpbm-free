@@ -1,0 +1,160 @@
+.TH pamcut 1 "03 August 2000"
+.IX pamcut
+.SH NAME
+pamcut - cut a rectangle out of a PAM, PBM, PGM, or PPM image
+.SH SYNOPSIS
+.B pamcut
+.RB [ "-left \fIleftcol" ]
+.RB [ "-right \fIrightcol" ]
+.RB [ "-top \fItoprow" ]
+.RB [ "-bottom \fIbottomrow" ]
+.RB [ "-width \fIwidth" ]
+.RB [ "-height \fIheight" ]
+.RB [ "-pad" ]
+.RB [ "-verbose" ]
+[
+.I left right width height
+]
+.RI [ pnmfile ]
+
+All options may be abbreviated to the shortest unique prefix.
+
+.SH DESCRIPTION
+Reads a PAM, PBM, PGM, or PPM image as input.  Extracts the specified
+rectangle, and produces the same kind of image as output.
+.IX cut
+
+There are two ways to specify the rectangle to cut: arguments and options.
+Options are easier to remember and read, more expressive, and allow you
+to use defaults.  Arguments were the only way available before July 2000.
+
+If you use both options and arguments, the two specifications get
+mixed in an unspecified way.
+
+To use options, just code any mixture of the 
+.BR -left ,
+.BR -right ,
+.BR -top ,
+.BR -bottom , 
+.BR -width ,
+and
+.BR -height
+options.  What you don't specify defaults.  It is an error to overspecify,
+i.e. to specify all three of 
+.BR -left ,
+.BR -right ,
+and
+.BR -width 
+or
+.BR -top ,
+.BR -bottom , 
+and
+.BR -height .
+
+To use arguments, specify all four of the 
+.IR left ,
+.IR right ,
+.IR width ,
+and
+.IR height
+arguments.
+.I left
+and 
+.I top
+have the same effect as specifying them as the argument of a 
+.B -left
+or
+.B -top
+option, respectively.
+.I width
+and 
+.I height
+have the same effect as specifying them as the argument of a
+.B -width
+or
+.B -height
+option, respectively, where they are positive.  Where they are not positive,
+they have the same effect as specifying one less than the value as the 
+argument to a 
+.B -right
+or 
+.B -bottom
+option, respectively.  (E.g. 
+.I width 
+= 0 makes the cut go all the way to the right edge).  Before July
+2000, negative numbers were not allowed for
+.I width
+and
+.IR height .
+
+Input is from Standard Input if you don't specify the input file
+.IR pnmfile .
+
+Output is to Standard Output.
+
+If you are splitting a single image into multiple same-size images,
+.B pamdice
+is faster than running
+.B pamcut
+multiple times.
+
+.SH OPTIONS
+.TP
+.B -left
+The column number of the leftmost column to be in the output.
+If a nonnegative number, it refers to columns numbered from 0 at the left,
+increasing to the right.  If negative, it refers to columns numbered
+-1 at the right, decreasing to the left.
+.TP
+.B -right
+The column number of the rightmost column to be in the output, numbered
+the same as for 
+.BR -left.
+.TP
+.B -top
+The row number of the topmost row to be in the output.  If a
+nonnegative number it refers to rows numbered from 0 at the top,
+increasing downward.  If negative, it refers to columns numbered -1 at
+the bottom, decreasing upward.
+.TP
+.B -bottom
+The row number of the bottom-most row to be in the output, numbered the
+same as for 
+.BR -top .
+.TP
+.B -width
+The number of columns to be in the output.  Must be positive.
+.TP
+.B -height
+The number of rows to be in the output.  Must be positive.
+.TP 
+.B -pad
+If the rectangle you specify is not entirely within the input image, 
+.B pamcut
+fails unless you also specify
+.BR -pad .
+In that case, it pads the output with black up to the edges you specify.
+You can use this option if you need to have an image of certain dimensions
+and have an image of arbitrary dimensions.
+
+.B pnmpad
+also adds borders to an image, but you specify their width directly.
+
+.TP
+.B -verbose
+Print information about the processing to Standard Error.
+
+.SH "SEE ALSO"
+.BR pnmcrop (1),
+.BR pnmpad (1),
+.BR pnmcat (1),
+.BR pgmslice (1),
+.BR pnm (5)
+.SH AUTHOR
+Copyright (C) 1989 by Jef Poskanzer.
+.\" Permission to use, copy, modify, and distribute this software and its
+.\" documentation for any purpose and without fee is hereby granted, provided
+.\" that the above copyright notice appear in all copies and that both that
+.\" copyright notice and this permission notice appear in supporting
+.\" documentation.  This software is provided "as is" without express or
+.\" implied warranty.

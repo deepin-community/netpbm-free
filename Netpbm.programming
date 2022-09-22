@@ -1,0 +1,184 @@
+This file is an attempt to give some basic guidelines for those who
+wish to write new Netpbm programs.  The guidelines ensure:
+
+  A) Your program functions consistently with the rest of the package.
+
+  B) Your program works in myriad environments on which you can't test it.
+
+  C) You don't miss an important detail of the Netpbm formats.
+
+  D) Your program is immune to small changes in the Netpbm formats.
+
+We don't include any basic coding style in these guidelines.  Where you
+put your braces is a matter of personal style and other people working
+with your code will just have to live with it.
+
+However, no Netpbm source code may contain tab characters.  If you
+generate such a file, the Netpbm maintainer will convert it to spaces
+and possibly change all your indenting at the same time.  Tabs are not
+appropriate for code that multiple people must edit because they don't
+necessarily look the same in every editing environment.  Spaces, on
+the other hand, look the same for everyone.  Modern editors let you
+compose code just as easily with spaces as with tabs.
+
+The easiest way to write your own Netpbm program is to take an
+existing one, similar to the one you want to write, and to modify
+it.  This saves a lot of time, and ensures conformity with these rules.
+But pick a recent one (check the file modification date and the
+HISTORY file), because many things you see in old programs are
+grandfathered in.  Pamtopnm is good example of a thoroughly modern
+Netpbm program.  Pamcut is another good one.
+
+The Netpbm maintainer accepts programs that do not meet these guidelines,
+so don't feel you need to hold back a contribution because you wrote it
+before you read these.
+
+* See the libp?m.3 man pages for documentation of the various library
+  routines you should use to read and write Netpbm images and perform
+  other common operations.  
+
+* See the p?m.5 man pages for specifications of the Netpbm formats, but
+  don't depend very much on these; use the library functions instead to
+  read and write the image files.
+
+* Your new program must belong to one of the four Netpbm classes,
+  which are loosely based on the Netpbm formats.  They are defined as
+  follows:
+
+  pbm: These programs take PBM (bitmap - pixels are black or white)
+       files as input or output or both.  They never have PGM or PPM 
+       primary input or output.  They use the libpbm Netpbm
+       library.  They have "pbm" in their names.
+
+  pgm: These programs take PBM or PGM (grayscale) files as input, or
+       produce PGM files as output, or both.  They treat PBM input
+       as if it were the equivalent PGM input.  They never produce PBM
+       primary output and never have PPM primary input or output.
+       They use the libpbm and libpgm Netpbm libraries.  They have
+       "pgm" in their names.
+
+  ppm: These programs take PBM or PGM or PPM (color) files as input,
+       or produce PPM files as output, or both.  They treat PBM and
+       PGM input as if it were the equivalent PPM input.  They never
+       produce PBM or PGM primary output.  They use the libpbm,
+       libpgm, and libppm Netpbm libraries.  They have "ppm" in their
+       names.
+
+  pnm: These are the most general programs.  They handle all four
+       Netpbm formats (PBM, PGM, PPM, and PAM).  They use all Netpbm
+       formats as input or output or both.  They recognize the
+       difference between PBM, PGM, and PPM input, so a PBM input
+       might produce a different result than the equivalent PGM input.
+       These programs use the libpbm, libpgm, libppm, and libpnm
+       Netpbm libraries.  They have "pnm" or "pam" in their names.
+
+  Decide which one of these classes your program belongs to.
+
+* If your program involves transparency (alpha masks), follow the
+  example of Pngtopnm/Pnmtopng and Giftopnm/Pnmtogif command syntax,
+  etc.  And don't consider inventing a new Netpbm format that includes
+  transparency.  That's been carefully considered in the past and
+  determined to violate the simple building block principle of Netpbm.
+  In Netpbm, an alpha mask is represented as a separate PGM image.
+
+* Declare all your symbols except 'main' as static so that they won't
+  cause problems to other programs when you do a "merge build" of 
+  Netpbm.
+
+* Declare main() with return type 'int', not 'void'.  Some systems won't
+  compile void main().
+
+* Always start the code in main() with a call to p?m_init().
+
+* Use shhopt for option processing.  i.e. call pm_optParseOptions3().
+  This is really easy if you just copy the parse_command_line() function
+  and struct cmdline_info declaration from pamcut.c and adapt it to 
+  your program. 
+
+  When you do this, you get a command line syntax consistent with all the
+  other Netpbm programs, you save coding time and debugging time, and it
+  is trivial to add options later on.
+
+  Do not use shhopt's short option alternative unless you need to be
+  compatible with another program that has short options.  Short
+  options are traditional one-character Unix options, which can be
+  stacked up like "foo -cderx myfile", and they are far too unfriendly
+  to be accepted by the Netpbm philosophy.  Note that long options in
+  shhopt can always be abbreviated to the shortest unique prefix, even
+  one character.
+
+  In messages and examples in documentation, always refer to an option
+  by its full name, not the abbreviation you usually use.  E.g. if you have
+  a "-width" option which can be abbreviated "-w", don't use -w in 
+  documentation.  -width is far clearer.
+  
+* Use pm_error() and pm_message() for error messages and other messages.
+  Note that the universal -quiet option (processed by p?m_init()) causes
+  messages issued via pm_message() to be suppressed.  And that's what
+  Netpbm's architecture requires.
+
+* Properly use maxvals.  As explained in the format specifications, every
+  sample value in an image must be interpreted relative to the image's
+  maxval.  For example, a pixel with value 24 in an image with maxval 24
+  is the same brightness as a pixel with value 255 in an image with a
+  maxval of 255.
+
+  255 is a popular maxval (use the PPM_MAXMAXVAL etc. macros) because it
+  makes samples fit in a single byte and at one time was the maximum 
+  possible maxval in the format.
+
+  Note that the Pnmdepth program converts an image from one maxval to
+  another.
+
+* Don't include extra function.  If you can already do something by 
+  piping the input or output of your program through another Netpbm
+  program, don't make an option on your program to do it.  That's the
+  Netpbm philosophy -- simple building blocks.
+
+  Similarly, if your program does two things which would be useful
+  separately, write two programs and advise users to pipe them
+  together.  Or add a third program that simply calls the first 
+
+* Your program should, if appropriate, allow the user to use Standard
+  Input and Output for images.  This is because Netpbm users commonly
+  use pipes.
+
+* Don't forget to write a proper manual page!
+
+Here are some things you will see in old Netpbm programs, but they are
+obsolete and you shouldn't propagate them into a new program:
+
+* Tolerating non-standard C libraries.  You may assume all users have
+  ANSI and POSIX compliant C libraries.  E.g. use strrchr() and forget
+  about rindex().
+
+* pm_keymatch() for option processing.  Use shhopt instead, as described
+  above.
+
+* pm_optParseOptions() and pm_optParseOptions2().  These are obsoleted
+  by pm_optParseOptions3(), which is easier to use and more powerful.
+
+* K&R C function declarations.  Always use ANSI function declarations
+  exclusively (e.g. use 
+
+      void foo(int arg1){} 
+
+  instead of 
+
+       void foo(arg1)
+           int arg1;
+           {}
+
+* for (col=0, xP = row; col < cols; col++, xP++)
+      foo(*xP);
+
+  This was done in the days before optimizing compilers because it ran faster
+  than the more readable:
+
+    for (col=0; col < cols; col++)
+        foo(row[col]);
+
+  Now, just use the latter.
+
+
+

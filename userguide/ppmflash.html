@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Ppmflash User Manual</title></head>
+<body>
+<h1>ppmflash</h1>
+Updated: 26 January 2003
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+ppmflash - brighten a picture to approach white
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+ppmflash 
+<i>flashfactor</i>
+[<i>ppmfile</i>]
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>ppmflash</b> reads a PPM image as input.  It changes the color of
+each pixel to bring it a specified amount closer to white.  It
+generates a PPM image of the result.
+
+<p><i>flashfactor</i> is a real number between 0 and 1, inclusive.
+<b>ppmflash</b> increases the intensity of each RGB component by the
+fraction <i>flashfactor</i> of the difference between the current
+value and full intensity.  So if a pixel contains 60% full red, 10%
+full green, and no blue and you specify 0.5 (half), <b>ppmflash</b>
+increases the red to 80% (because it was 40% from full intensity, so
+it adds half of 40% to the original 60%), the green to 55%, and the
+blue to 50%.
+
+<p>If <i>flashfactor</i> is zero, the output is identical to the input.
+If <i>flashfactor</i> is one, the output is all white.
+
+<p><b>pambrighten</b> does a more normal kind of brightening.
+<b>pamfunc</b> does a very simple brightening.  Both
+<b>pambrighten</b> and <b>pamfunc</b> can reduce brightness as well.
+
+<p><b>pnmgamma</b> is another way people do a similar brightening, though
+it isn't really intended for that.
+
+<h2 id="options">OPTIONS</h2>
+
+<p>There are no command line options defined specifically
+for <b>ppmflash</b>, but it recognizes the options common to all
+programs based on libnetpbm (See <a href="index.html#commonoptions">
+Common Options</a>.)
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<a href="pambrighten.html">pambrighten</a>
+<a href="pamfunc.html">pamfunc</a>,
+<a href="pnmgamma.html">pnmgamma</a>,
+<a href="ppm.html">ppm</a>,
+
+<h2 id="author">AUTHOR</h2>
+
+Copyright (C) 1993 by Frank Neumann
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#author">AUTHOR</a>
+</ul>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Tgatoppm User Manual</title></head>
+<body>
+<h1>tgatoppm</h1>
+Updated: 02 April 2000
+<br>
+<a href="#index">Table Of Contents</a>
+<h2>NAME</h2>
+
+tgatoppm - convert TrueVision Targa file to a PPM image
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>tgatoppm</b>
+	[<b>--alphaout=</b>{<i>alpha-filename</i>,<b>-</b>}]
+	[<b>--headerdump</b>] <i>tga-filename</i>
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>tgatoppm</b> reads a TrueVision Targa file as input and produces
+a PPM image as output.
+
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>tgatoppm</b> recognizes the following
+command line options:
+
+<p>All options can be abbreviated to their shortest unique prefix.
+
+<dl compact>
+
+<dt><b>--alphaout=</b><i>alpha-filename</i>
+
+<dd><b>tgatoppm </b> creates a PGM image containing the transparency channel
+values in the input image.  If the input image doesn't contain a
+transparency channel, the <i>alpha-filename</i> file contains all zero
+(transparent) transparency values.  If you don't specify <b>--alphaout</b>,
+<b>tgatoppm</b> does not generate an alpha file, and if the input
+image has a transparency channel, <b>tgatoppm</b> simply discards it.
+
+<p>If you specify <b>-</b> as the filename, <b>tgatoppm</b> writes the
+transparency output to Standard Output and discards the image.
+
+<p>See <b><a href="pamcomp.html">pamcomp</a></b> for one way to use
+the transparency output file.
+
+<dt><b>--headerdump</b>
+
+<dd>Causes <b>tgatoppm</b> to dump information from the TGA header to
+Standard Error.
+
+</dl>
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<b><a href="ppmtotga.html">ppmtotga</a></b>,
+<b><a href="pamcomp.html">pamcomp</a></b>,
+<b><a href="ppm.html">ppm</a></b>
+
+<h2 id="author">AUTHOR</h2>
+
+<p>Partially based on tga2rast, version 1.0, by Ian J. MacPhedran.
+
+<p>Copyright (C) 1989 by Jef Poskanzer.
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#author">AUTHOR</a>
+</ul>
+</body>
+</html>

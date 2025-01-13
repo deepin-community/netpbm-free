@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Pnmtopnm User Manual</title></head>
+<body>
+<h1>pnmtopnm</h1>
+Updated: 24 March 2005
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+
+pnmtopnm - copy a PNM image
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>pnmtopnm</b>
+
+[<i>pnmfile</i>]
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>pnmtopnm</b> simply copies a PNM image to Standard Output.  The
+output has the same major PNM format (PBM, PGM, or PPM) and maxval as
+the input.  This may seem an unnecessary duplication of <b>cat</b>,
+but it lets you convert between the plain (ASCII) and raw (binary)
+subformats of PNM.  Use the <b>-plain</b> Netpbm common option to
+ensure the output is plain PNM, and don't use <b>-plain</b> to ensure
+the output is raw PNM.  See <a href="index.html#commonoptions"> Common
+Options</a>.
+
+<p>You don't normally need to convert between the PNM subformats, because
+any program that uses the Netpbm library to read a PNM image will read
+all of them directly.  But there are a lot of programs that don't use
+the Netpbm library and understand only the raw format.  Plain format
+is nice because it is human readable; people often use it to debug
+programs that process PNM images.
+
+<p><b>pnmtopnm</b> is really just another name for the program
+<b>pamtopnm</b>.  The latter does the job because like any Netpbm
+program that takes PAM input via the Netpbm programming library
+facilities, it also takes PNM input.
+
+<h2 id="options">OPTIONS</h2>
+
+<p>There are no command line options defined specifically
+for <b>pnmtopnm</b>, but it recognizes the options common to all
+programs based on libnetpbm (See <a href="index.html#commonoptions">
+Common Options</a>.)
+
+<h2 id="history">HISTORY</h2>
+
+<p><b>pnmtopnm</b> was new in Netpbm 10.23 (July 2004).  It obsoleted
+<b>pnmtoplainpnm</b>, which specifically did the conversion to plain
+PNM.  There was no program to explicitly convert to raw PNM, but many
+Netpbm programs can be made, with the right options, to be idempotent
+(i.e. to do the same thing as <b>pnmtopnm</b>).
+
+<p>Then David Jones realized that the existing <b>pamtopnm</b> already
+did everything that <b>pnmtopnm</b> did and more, so 
+in Netpbm 10.27 (March 2005), <b>pnmtopnm</b> became simply an alternate
+name for <b>pamtopnm</b>.
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<a href="ppmtoppm.html">ppmtoppm</a>
+<a href="pgmtopgm.html">pgmtopgm</a>
+<a href="pamtopnm.html">pamtopnm</a>
+<a href="pnm.html">pnm</a>
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#history">HISTORY</a>
+<li><a href="#seealso">SEE ALSO</a>
+</ul>
+</body>
+</html>

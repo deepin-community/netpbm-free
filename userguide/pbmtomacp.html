@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Pbmtomacp User Manual</title></head>
+<body>
+<h1>pbmtomacp</h1>
+Updated: 26 April 2015
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+pbmtomacp - convert a PBM image to a MacPaint file
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>pbmtomacp</b>
+[<b>-left</b> <i>left</i>]
+
+[<b>-right</b> <i>right</i>]
+
+[<b>-top</b> <i>top</i>]
+
+[<b>-bottom</b> <i>bottom</i>]
+
+[<i>pbmfile</i>]
+
+<p>All options can be abbreviated to their shortest unique prefix.
+You may use two hyphens instead of one to designate an option.  You
+may use either white space or equals signs between an option name and
+its value.
+
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>pbmtomacp</b> reads a PBM image as input and produces a MacPaint
+file as output.
+
+<p>If you do not specify <i>pbmfile</i>, <b>pbmtomacp</b> uses Standard Input.
+
+<p> The generated file is only the data fork of a picture.  You will
+need a program such as <b>mcvert</b> to generate a Macbinary or a
+BinHex file that contains the necessary information to identify the
+file as a PNTG file to MacOS.
+
+
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>pbmtomacp</b> recognizes the following
+command line options:
+
+<dl>
+
+<dt><b>-norle</b>
+
+<dd>This option tells <b>pbmtomacp</b> not to use any run length encoding
+compression in the MacPaint image it produces.  This output, while not
+normal, conforms to MacPaint specifications and can be read by any
+MacPaint decoder without any special settings.
+
+<p>The only value of this option is testing and experimentation.  The option
+causes every output image to contain exactly 53072 bytes, which is the
+theoretical maximum size for a MacPaint image.
+
+<p>Without <b>-norle</b>, MacPaint compresses the image as much as possible
+and the output size depends on the nature of the input.
+
+<dt><b>-left</b>
+<b>-right</b>
+<b>-top</b>
+<b>-bottom</b>
+
+<dd>These options let you define a rectangle within the image to convert.  The
+default is the whole file.  If the specified image is too large for a
+MacPaint-file, <b>pbmtomacp</b> cuts the image to fit, starting at the
+specified top left corner.
+
+<p>These options exist for backward compatibility with an unfortunate original
+design.  They do the same thing that you can do in a more Netpbm-like way and
+more flexibly by processing the input through <b>pamcut</b>.
+    
+</dl>
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<a href="macptopbm.html">macptopbm</a>,
+<a href="ppmtopict.html">ppmtopict</a>,
+<a href="pamcut.html">pamcut</a>,
+<a href="pbm.html">pbm</a>,
+<b>mcvert</b> documentation
+
+<h2 id="history">HISTORY</h2>
+
+<p><b>pbmtomacp</b> was added to Netpbm in 1988, written by Douwe van der
+Schaaf (...!mcvax!uvapsy!vdschaaf).
+
+<p>In 2015, Akira Urushibata replaced the program with the current
+version, using different logic and none of the original code.  The new
+version used the "packed PBM" facilities of the Netpbm library and the
+shhopt method of command line parsing.
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#history">HISTORY</a>
+</ul>
+</body>
+</html>

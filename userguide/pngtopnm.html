@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Pngtopnm User Manual</title></head>
+<body>
+<h1>pngtopnm</h1>
+Updated: 22 July 2008
+
+<h2>NAME</h2>
+
+pngtopnm - Convert a PNG image to PNM: replaced by pngtopam
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>pngtopnm</b>
+[<b>-verbose</b>]
+[<b>-alpha</b> | <b>-mix</b>]
+[<b>-background</b>=<i>color</i>]
+<br>
+[<b>-gamma</b>=<i>value</i>]
+[<b>-text</b>=<i>filename</i>]
+[<b>-time</b>]
+[<i>pngfile</i>]
+
+<p>Minimum unique abbreviation of option is acceptable.  You may use double
+hyphens instead of single hyphen to denote options.  You may use white
+space in place of the equals sign to separate an option name from its value.
+
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>pngtopnm</b> was obsoleted by <a
+href="pngtopam.html"><b>pngtopam</b></a>, introduced with Netpbm 10.44
+(September 2008).  <b>pngtopam</b> is backward compatible with
+<b>pngtopnm</b>, plus adds many additional functions, including the
+ability to produce a PAM image that includes a transparency (alpha)
+channel.
+
+Starting in Release 10.48, <b>pngtopnm</b> is just an alias for
+<b>pngtopam</b>.
+
+<p><b>pngtopnm</b> remained in the Netpbm package through Release 10.47
+because it may have fewer bugs than <b>pngtopam</b> in those releases, and may
+be faster in some environments.  But <b>pngtopnm</b>'s incompatibility with
+the most current PNG libraries makes it impractical to maintain along with
+<b>pngtopam</b> now.
+
+<p>In releases before 10.48, you can use the <b>pngtopam</b> documentation for
+<b>pngtopnm</b>, considering the following differences:
+
+<ul>
+
+<li><b>pngtopnm</b> options are a subset of <b>pngtopam</b>'s, as
+documented above.
+
+<li>Any change that the <b>pngtopam</b> manual says happened in or
+after Netpbm 10.44 doesn't apply to <b>pngtopnm</b>.
+
+</ul>
+
+</body>
+</html>

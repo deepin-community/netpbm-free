@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Pammasksharpen User Manual</title></head>
+<body>
+<h1>pammasksharpen</h1>
+Updated: 14 June 2006
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+pammasksharpen - Sharpen an image via an unsharp mask
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>pammasksharpen</b>
+[<b>-sharpness=</b><i>realnum</i>]
+[<b>-threshold=</b><i>realnum</i>]
+<i>maskfile</i> [<i>inputfile</i>]
+
+<p>All options can be abbreviated to their shortest unique prefix.
+You may use two hyphens instead of one.  You may separate an option
+name and its value with white space instead of an equals sign.
+
+<h2 id="examples">EXAMPLES</h2>
+
+<pre>
+   pamgauss 5 5 -sigma=.7 -tupletype=GRAYSCALE | pamtopnm &gt; gauss.pgm
+   pnmconvol -nooffset gauss.pgm myimage.ppm &gt; blurred.ppm
+   pammasksharpen blurred.ppm myimage.ppm &gt; sharpened.ppm
+</pre>
+
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>pammasksharpen</b> reads a Netpbm image as input and produces a
+sharpened version of it, in the same format, as output.  It does this
+via an unsharp mask, which you supply as another Netpbm image.
+
+<p>An unsharp mask is generally a blurred version of the original
+image.  The sharpening computation is this: Calculate the
+"edgeness" of a sample in the input image as the signed
+difference between the sample value and the corresponding sample in
+the unsharp mask.  This tells how different the pixel is from its
+neighbors.  Add a multiple of the edgeness to the original sample to
+get the corresponding output sample.  Clip as necessary.  This causes
+pixels that are brighter than their neighbors to get even brighter,
+while pixels that are dimmer than their neighbors get even dimmer.
+This makes edges -- places where pixel values change quickly in space
+-- stand out more.
+
+<p>The unsharp mask must be the same dimensions and have the same maxval
+as the input image.
+
+<h3>The Unsharp Mask</h3>
+
+<p>You usually create the unsharp mask as a Gaussian blur of the
+original image, which you can do using <b>pamgauss</b> and
+<b>pnmconvol</b> as in the example above.  The convolution kernel you
+use with <b>pnmconvol</b> is normally a square with side length an odd
+number of pixels.
+
+<p>When you create an unsharp mask like this, you will have to choose
+the side length of the convolution kernel.  That length implements the
+parameter of unsharp mask sharpening usually known as
+"radius."  In particular, a radius of R pixels corresponds to a 
+convolution kernel 2R+1 pixels on a side.
+
+<p>Radius is a very important parameter; you can ruin an image with a
+radius too large.  You can safely use the highest radius with an
+inanimate object, while a human face demands the least.  Landscapes
+fall in between.  But it really depends on the size of the details.
+Fine detail needs a smaller radius, or else you may obliterate tiny
+detail of the same size as the Radius width.  A large image often has
+larger detail (more pixels involved), so can use a larger radius.
+Radius and sharpness (see <b>-sharpness</b> option) interact: reducing
+one allows you to increase the other.
+
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>pammasksharpen</b> recognizes the following
+command line options:
+
+<dl compact>
+
+<dt><b>-sharpness=</b><i>realnum</i>
+
+<dd>This specifies the magnitude of the sharpening.  It is the multiple
+of edgeness that gets added to each sample as described above.
+
+<p><i>realnum</i> is a nonnegative real decimal number.  Zero means
+no sharpening at all.
+
+<p>This parameter is known as "amount" in ImageMagick.
+
+<p>The default is 1.0.
+
+<p>This option was new in Netpbm 10.30 (October 2005).  Before that,
+the sharpness was always 1.0.
+
+<dt><b>-threshold=</b><i>realnum</i>
+
+<dd>This minimum amount of edgeness that will be considered edgeness
+at all.  i.e. if the magnitude of the edgeness is less than this,
+<b>pammasksharpen</b> will treat the edgeness as zero.
+
+<p>A nonzero value may be necessary here to avoid speckling in smooth
+areas.
+
+<p>This is a fraction of the maxval (so it is in the range [0, 1.0]).
+
+<p>The default is 0.
+
+<p>This option was new in Netpbm 10.34 (June 2006).
+
+</dl>
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<a href="pnmconvol.html">pnmconvol</a>,
+<a href="pamedge.html">pamedge</a>,
+<a href="pamsharpness.html">pamsharpness</a>,
+<a href="pamsharpmap.html">pamsharpmap</a>,
+<a href="pamarith.html">pamarith</a>,
+<a href="pnm.html">pnm</a>,
+<a href="pam.html">pam</a>
+
+
+<h2 id="history">HISTORY</h2>
+
+<p><b>pammasksharpen</b> was new in Netpbm 10.23 (July 2004).
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#examples">EXAMPLES</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#history">HISTORY</a>
+</ul>
+</body>
+</html>

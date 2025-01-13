@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Pnmtoddif User Manual</title></head>
+<body>
+<h1>pnmtoddif</h1>
+Updated: 2003
+<br>
+<a href="#index">Table Of Contents</a>
+<h2>NAME</h2>
+
+pnmtoddif - Convert a PNM image to DDIF format
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>pnmtoddif</b>
+[<b>-resolution</b> <i>x</i> <i>y</i>]
+[<i>pnmfile</i> [<i>ddiffile</i>]]
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>pnmtoddif</b> takes a PNM image and converts it into a DDIF image
+file.
+
+<p><b>pnmtoddif</b> writes PBM format (bitmap) data as a 1 bit DDIF,
+PGM format data (grayscale) as an 8 bit grayscale DDIF, and PPM format
+(color) data as an 8,8,8 bit color DDIF.  <b>pnmtoddif</b> writes any
+DDIF image file uncompressed.  The data plane organization is
+interleaved by pixel.
+
+<p>In addition to the number of pixels in the width and height
+dimension, DDIF images also carry information about the size that the
+image should have, that is, the physical space that a pixel occupies.
+Netpbm images do not carry this information, hence you have to supply
+it externally.  The default of 78 dpi has the beneficial property of
+not causing a resize on most Digital Equipment Corporation color
+monitors.
+
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>pnmtoddif</b> recognizes the following
+command line option:
+
+<dl compact>
+<dt><b>resolution</b> <i>x</i> <i>y</i>
+
+<dd>The horizontal and vertical resolution of the output image in dots
+per inch.  Default is 78 dpi.
+
+</dl>
+
+<h2 id="arguments">ARGUMENTS</h2>
+
+<dl>
+<dt><i>pnmfile</i>
+
+<dd>The filename for the image file in pnm format.  Default is to
+read from Standard Input.
+
+<dt><i>ddiffile</i>
+
+<dd>The filename for the image file to be created in DDIF format.  By
+default, <b>pnmtoddif</b> writes to Standard Output.
+
+</dl>
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<a href="pnm.html">pnm</a>
+
+<h2 id="author">AUTHOR</h2>
+
+Burkhard Neidecker-Lutz, Digital Equipment Corporation, CEC Karlsruhe
+<a href="mailto:neideck@nestvx.enet.dec.com">neideck@nestvx.enet.dec.com</a>
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#arguments">ARGUMENTS</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#author">AUTHOR</a>
+</ul>
+</body>
+</html>

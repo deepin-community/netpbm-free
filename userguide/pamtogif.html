@@ -1,0 +1,402 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Pamtogif User Manual</title></head>
+<body>
+<h1>pamtogif</h1>
+Updated: 09 June 2021
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+pamtogif - convert a Netpbm image to a GIF image
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>pamtogif</b>
+
+[<b>-interlace</b>]
+
+[<b>-sort</b>]
+
+[<b>-mapfile=</b><i>mapfile</i>]
+
+<br>
+
+[<b>-transparent=</b>[<b>=</b>]<i>color</i>]
+
+[<b>-alphacolor=</b><i>color</i>]
+
+[<b>-comment=</b><i>text</i>]
+
+[<b>-noclear</b>]
+
+[<b>-nolzw</b>]
+
+[<b>-aspect=</b><i>fraction</i>]
+
+[<b>-verbose</b>]
+
+<br>
+
+[<i>netpbmfile</i>]
+
+<p>All options can be abbreviated to their shortest unique prefix.  You
+may use two hyphens instead of one to designate an option.  You may
+use either white space or an equals sign between an option name and its
+value.
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>pamtogif</b> reads a Netpbm image as input and produces a GIF file
+as output.
+
+<p>This program creates only individual GIF images.  To combine
+multiple GIF images into an animated GIF, use <a
+href="http://www.lcdf.org/gifsicle/"><b>gifsicle</b></a> (not part of
+the Netpbm package).
+
+<p><b>pamtogif</b> creates either an original GIF87 format GIF file or the
+  newer GIF89 format.  It creates GIF89 when the output needs to have features
+  that were new with GIF89, to wit transparency or comments.  Otherwise, it
+  creates GIF87.  Really old GIF readers conceivably could not recognize
+  GIF89.  The output needs to have transparency when either the input has a
+  transparency information or you specify the <b>-transparent</b> option.  It
+  needs to have comments when you specify the
+  <b>-comment</b> option.
+
+<p><b>pamtogif</b> generates a GIF image with a single image block, which
+means the image cannot have more than 256 colors in it (it contains a single
+color map with a maximum size of 256).  If the image you want to convert has
+more colors than that (<b>ppmhist</b> can tell you), you can
+use <b>pnmquant</b> to reduce it to 256.  Or use the more complex but faster
+method described under the <b>-mapfile</b> option.
+
+<p>If your input image is a PAM with transparency information, <b>pamtogif</b>
+uses one entry in the GIF colormap specifically for the transparent pixels,
+so you can have at most 255 opaque colors.  In contrast, if you use the
+<b>-transparent</b> option, one of the colors from the input becomes
+transparent, so the limit is still 256.
+
+<p><b>pamtogif</b> recognizes transparency information in the input by the
+  tuple type being <b>RGB_ALPHA</b>, <B>GRAYSCALE_ALPHA</B>, or
+  <b>BLACKANDWHITE_ALPHA</b>.  This is the case for any image that has
+  transparency information and was created by a Netpbm program that
+  manipulates visual images.  If, on the other hand, you have a PAM generated
+  some other way, but you know the planes have the same meaning as implied by
+  these tuple types, you can make <b>pamtogif</b> process the transparency
+  information by changing the tuple type accordingly before you pass it
+  to <b>pamtogif</b>.  You can use <b>pamstack</b> to change the tuple type.
+
+<p><b>pamtogif</b> was new in Netpbm 10.37 (December 2006).  In older Netpbm,
+use <b>ppmtogif</b>.
+
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>pamtogif</b> recognizes the following
+command line options:
+
+<dl compact>
+
+<dt><b>-interlace</b>
+
+<dd>
+Produce an interlaced GIF file.
+
+<dt><b>-sort</b>
+
+<dd>
+Produce a GIF file with a color map sorted in a predictable order.
+
+<p>This does <em>not</em> produce the sorted color map which is part
+of the GIF format.  That kind of sorted color map is one where the
+colors are sorted according to how important they are, and the GIF
+header tells the viewer that it is sorted that way.  Its purpose is to
+allow the viewer to use fewer colors than are in the color map if it
+is not capable of displaying all the colors.
+
+<p>What this option produces is a color map sorted by red value, then
+green, then blue.  That can be useful in analyzing GIF images, particularly
+those made with two versions of the program, because it removes some of
+the variability.
+
+
+<dt><b>-mapfile=</b><i>mapfile</i>
+
+<dd>
+
+<p>Use the colors found in the file <i>mapfile</i> to create the
+colormap in the GIF file, instead of the colors from <i>netpbmfile</i>.
+<i>mapfile</i> can be any PPM file; all that matters is the colors in
+it.  If the colors in <i>netpbmfile</i> do not match those in
+<i>mapfile</i>, <b>pamtogif</b> matches them to a "best
+match." You can obtain a much better result by using <b>pnmremap</b>
+to change the colors in the input to those in the map file.
+
+<p>The <i>mapfile</i> file is not a palette file, just an image whose
+colors you want to use.  The order of colors in the GIF palette have
+nothing to do with where they appear in the <i>mapfile</i> image, and
+duplication of colors in the image is irrelevant.
+
+<p>The map file's depth must match the number of color components in
+the input (which is not necessarily the same as the input's depth --
+the input might have a transparency plane in addition).  If your map file
+does not, or it <em>might</em> not, run your input through
+<b>pnmremap</b> using the same map file so that it does.
+
+<p>You can use <b>-mapfile</b> to speed up conversion of an image where you
+already have a map file because of earlier processing of your image.  For
+example, it is common to start with an image that has more than 256 colors
+and remap its colors to a set of 256 colors so that <b>pamgtogif</b> can
+convert it (a GIF can have only 256 colors; <b>pamtogif</b> without
+<b>-mapfile</b> fails on any image that has more than that) with
+<b>pnmquant</b>.  When you do this, <b>pnmquant</b> generates a palette to do
+the color quantization, then <b>pamtogif</b> generates an identical palette
+from the quantized image.  You can save computation by generating the palette
+once:
+
+<pre>
+<kbd>
+    $ pnmcolormap 256 myimage.ppm &gt;/tmp/colormap.ppm
+    $ pamtogif myimage.ppm -mapfile=/tmp/colormap.ppm &gt;output.gif
+</kbd>
+</pre>
+
+
+<dt><b>-transparent=</b><i>color</i>
+
+<dd>
+<b>pamtogif</b> marks the specified color as transparent in the GIF image.
+
+<p>If you don't specify <b>-transparent</b>, <b>pamtogif</b> does not
+mark any color transparent (except as indicated by the transparency
+information in the input file).
+
+<p>Specify the color (<i>color</i>) as described for the <a
+href="libnetpbm_image.html#colorname">argument of the <b>pnm_parsecolor()</b>
+library routine</a>.
+
+<p>If the color you specify is not present in the image, <b>pamtogif</b>
+selects instead the color in the image that is closest to the one you
+specify.  Closeness is measured as a Cartesian distance between colors
+in RGB space.  If multiple colors are equidistant, <b>pamtogif</b>
+chooses one of them arbitrarily.
+
+<p>However, if you prefix your color specification with "=",
+e.g. <b>-transparent==red</b>, only the exact color you specify will
+be transparent.  If that color does not appear in the image, there
+will be no transparency.  <b>pamtogif</b> issues an information
+message when this is the case.
+
+<p>When you specify <b>-transparent</b>, <b>pamtogif</b> ignores
+explicit transparency information (the "alpha channel") in
+the input image.
+
+<dt><b>-alphacolor=</b><i>color</i>
+
+<dd>This specifies the foreground color for transparent pixels.  A
+viewer may use the foreground color for a transparent pixel if it
+chooses not to have another color "show through.".  The
+default is black.
+
+<p>This applies only to pixels that are transparent in the GIF because
+they are transparent in the Netpbm input.  If a GIF pixel is
+transparent because of the <b>-transparent</b> option, the foreground
+color is the color indicated by that option.
+
+<p>Note that in GIF, all transparent pixels have the same foreground
+color.  (There is only one entry in the GIF colormap for transparent
+pixels).
+
+<p>Specify the color (<i>color</i>) as described for the <a
+href="libnetpbm_image.html#colorname">argument of the <b>pnm_parsecolor()</b>
+library routine</a>.
+
+<dt><b>-comment=</b><i>text</i>
+
+<dd>
+Include a comment in the GIF output with comment text <i>text</i>.
+
+<p>Without this option, there are no comments in the output.
+
+<p>Note that in a command shell, you'll have to use quotation marks around
+<i>text</i> if it contains characters (e.g. space) that would make the shell
+think it is multiple arguments:
+<pre>
+$ pamtogif -comment "this is a comment" &lt;xxx.ppm &gt;xxx.gif
+</pre>
+
+<dt><b>-noclear</b>
+
+<dd>
+<p>This option causes the output not to contain any GIF clear codes.
+
+<p>In GIF, the stream defines codes that represent strings of pixels as it
+goes.  The stream contains definitions of codes mixed in with the references
+to those codes that describe the pixels of the image.  GIF specifies a maximum
+number of codes that can be defined; when the stream has defined that many,
+the stream can either just use those for the rest of the image or include a
+clear code, deleting all the string codes so that the stream can start over
+defining new ones.
+
+<p>By far the most common choice is the clear code.  This usually results in a
+smaller stream because the set of strings of pixels that occur in an image
+vary over the parts of the image.  Hardly any GIF encoders produce streams
+that don't use the clear code.
+
+<p>But it is conceivable that a stream could be smaller without the use of the
+clear code because it saves the stream having to redefine the same string
+codes over and over.  It could even avoid a thrashing situation where the
+stream continually defines a set of strings that never get used again before
+the maximum is reached.
+
+<p>The default is to use the clear codes.
+
+<p>This option was new in Netpbm 10.82 (March 2018).  Before that, the program
+aways uses the clear codes.
+    
+<dt><b>-nolzw</b>
+
+<dd>
+<p>This option is mainly of historical interest -- it involves use of
+a patent that is now expired.
+
+<p>This option causes the GIF output, and thus <b>pamtogif</b>, not to
+use LZW (Lempel-Ziv) compression.  As a result, the image file is
+larger and, before the patent expired, no royalties would be owed to
+the holder of the patent on LZW.  See the section LICENSE below.
+
+<p>LZW is a method for combining the information from multiple pixels into a
+single GIF code.  With the <b>-nolzw</b> option, <b>pamtogif</b>
+creates one GIF code per pixel, so it is not doing any compression and not
+using LZW.  However, any GIF decoder, whether it uses an LZW decompressor
+or not, will correctly decode this uncompressed format.  An LZW decompressor
+would see this as a particular case of LZW compression.
+
+<p>Note that if someone uses an LZW decompressor such as the one in
+<b>giftopnm</b> or pretty much any graphics display program to process
+the output of <b>pamtogif -nolzw </b>, he is then using the LZW
+patent.  But the patent holder expressed far less interest in
+enforcing the patent on decoding than on encoding.
+
+<dt><b>-aspect=</b><i>fraction</i>
+
+<dd>This is the aspect ratio of the pixels of the image.  Its only
+effect is to record that information in the GIF for use by whatever
+interprets the GIF.  Note that this feature of GIF is hardly ever used
+and most GIF decoders ignore this information and assume pixels are
+square.
+
+<p>Pixels in a Netpbm image do not have aspect ratios; there is always
+a one-one correspondence between GIF pixels and Netpbm pixels.
+
+<p>The aspect ratio is the quotient of width divided by height.  GIF
+allows aspect ratios from 0.25 (1:4) to 4 (4:1) in increments of 1/64.
+<b>pamtogif</b> implements a natural extension of GIF that allows an
+aspect ratio up to 4 14/64.  If you specify anything outside this range,
+<b>pamtogif</b> fails.  <b>pamtogif</b> rounds <i>fraction</i> to
+the nearest 1/64.
+
+<p>The default is square (1.0).
+
+<p>This option was new in Netpbm 10.38 (March 2007).  Before that, the
+pixels are always square.
+
+
+<dt><b>-verbose</b>
+
+<dd>This option causes <b>pamtogif</b> to display information about the
+conversion process and the image it produces.
+
+</dl>
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<b><a href="giftopnm.html">giftopnm</a></b>,
+
+<b><a href="pnmremap.html">pnmremap</a></b>,
+
+<b><a href="ppmtogif.html">ppmtogif</a></b>,
+
+<b>gifsicle</b> &lt;<a
+href="http://www.lcdf.org/gifsicle">http://www.lcdf.org/gifsicle</a>&gt;,
+
+<b><a href="pnm.html">pnm</a></b>,
+
+<b><a href="pam.html">pam</a></b>.
+
+<h2 id="history">HISTORY</h2>
+
+<p><b>pamtogif</b> was new in Netpbm 10.37 (December 2006).  It
+replaced <b>ppmtogif</b>, which created GIF images for Pbmplus/Netpbm
+users since 1989.
+
+<p>The main outward change in the conversion from <b>ppmtogif</b> to
+<b>pamtogif</b> was that <b>pamtogif</b> was able to use transparency
+information ("alpha channel") in PAM input, whereas with
+<b>ppmtogif</b>, one had to supply the transparency mask in a separate
+pseudo-PGM image (via the <b>-alpha</b> option).
+
+<p>Jef Poskanzer wrote <b>ppmtogif</b> in 1989, and it has always been
+a cornerstone of Pbmplus/Netpbm because GIF is such a popular image
+format.  Jef based the LZW encoding on GIFENCOD by David Rowley &lt;<a
+href="mailto:mgardi@watdcsu.waterloo.edu">mgardi@watdcsu.waterloo.edu</a>&gt;.
+Jef included GIFENCOD's GIFCOMPR.C file pretty much whole.  Rowley, in
+turn, adapted the LZW compression code from classic Unix
+<b>compress</b>, which used techniques described in IEEE Computer,
+June 1984.
+
+<p>Jef's <b>ppmtogif</b> notably lacked the ability to use a
+transparency mask with it.  You could create transparent pixels in a
+GIF, but only with the <b>-transparent</b> option, which allowed one
+to specify that all pixels of a certain color in the input were to be
+transparent.  Bryan Henderson added the <b>-alpha</b> option in July
+2001 so you could supply a mask image that indicates exactly which
+pixels are to be transparent, and those pixels could have the same
+color as other opaque ones.
+
+<p>Bryan Henderson added another significant piece of code and
+function in October 2001: the ability to generate a GIF without using
+the LZW patent -- an uncompressed GIF.  This was very important to
+many people at the time because the GIF patent was still in force, and
+this allowed them to make an image that any GIF viewer could display,
+royalty-free.  Bryan adapted code from the Independent JPEG Group's
+<b>djpeg</b> for that.
+
+<p>There is no code in <b>pamtogif</b> from Jef's original, but Jef
+may still hold copyright over it because of the way in which it evolved.
+Virtually all of the code in <b>pamtogif</b> was written by Bryan
+Henderson and contributed to the public domain.
+
+
+<h2 id="license">LICENSE</h2>
+
+<p>If you use <b>pamtogif</b> without the <b>-nolzw</b> option, you
+are using a patent on the LZW compression method which is owned by
+Unisys.  The patent has expired (in 2003 in the US and in 2004
+elsewhere), so it doesn't matter.  While the patent was in force, most
+people who used <b>pamtogif</b> and similar programs did so without a
+license from Unisys to do so.  Unisys typically asked $5000 for a
+license for trivial use of the patent.  Unisys never enforced the
+patent against trivial users.
+
+<p>Rumor has it that IBM also owns or owned a patent covering
+<b>pamtogif</b>.
+
+<p>A replacement for the GIF format that never required any patents to
+use is the PNG format.
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#history">HISTORY</a>
+<li><a href="#license">LICENSE</a>
+</ul>
+</body>
+</html>

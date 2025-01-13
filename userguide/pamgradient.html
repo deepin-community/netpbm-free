@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Pamgradient User Manual</title></head>
+<body>
+<h1>pamgradient</h1>
+Updated: 21 October 2005
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+pamgradient - create a four-corner gradient PAM image
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>pamgradient</b>
+[<b>-maxval=</b><i>maxval</i>]
+<i>color-tl</i> <i>color-tr</i> <i>color-bl</i> <i>color-br</i>
+<br>
+<i>width</i> <i>height</i>
+
+
+<p>Minimum unique abbreviation of option is acceptable.  You may use double
+hyphens instead of single hyphen to denote options.  You may use white
+space in place of the equals sign to separate an option name from its value.
+
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>pamgradient</b> creates an image of the specified
+dimensions <i>width</i> by <i>height</i> which contains a smooth,
+two-dimensional gradient between the specified colors of the four
+corners (from top left to bottom right).
+
+<p>Specify the colors as described for the <a
+href="libnetpbm_image.html#colorname">argument of the <b>pnm_parsecolor()</b>
+library routine</a>.
+
+
+<p>If all four colors are gray values, <b>pamgradient</b> creates a
+grayscale image (PAM tuple type GRAYSCALE).  Otherwise, it creates
+a color image (PAM tuple type RGB).
+
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>pamgradient</b> recognizes the following
+command line option:
+
+<dl compact>
+  <dt><b>-maxval=</b><i>maxval</i>
+
+  <dd>maxval of the generated image.  (See <a href="pam.html">PAM</a> and
+  <a href="pnm.html">PNM</a> specifications).
+</dl>
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<a href="pamgradient.html"><b>pamgradient</b></a>,
+<a href="ppmmake.html"><b>ppmmake</b></a>,
+<a href="ppmrainbow.html"><b>ppmrainbow</b></a>,
+<a href="pgmramp.html"><b>pgmramp</b></a>,
+<a href="ppmpat.html"><b>ppmpat</b></a>,
+<a href="pam.html">pam</a>,
+<a href="pnm.html">pnm</a>
+
+<h2 id="note">NOTE</h2>
+
+<p>Only the top left corner of the generated image has exactly
+the specified color.  The color of the top right corner is a bit
+shifted to the left, the bottom left corner a bit up, and the
+bottom right corner left and up. This ensures nice transitions
+when combining adjacent (very narrow) gradients, and doesn't play
+a role when the gradient butts against a solid surface.
+
+<p>This effect is created by the integer arithmetic used for the
+interpolation of the color values, and since it doesn't make a
+difference for all practical purposes I might as well sell it as a
+feature.
+
+<h2 id="history">HISTORY</h2>
+
+<p><b>pamgradient</b> was new in Netpbm 10.31 (December 2005).
+
+<h2 id="author">AUTHOR</h2>
+
+<p>pamgradient was written by Daniel Haude in October 2005.
+<hr>
+
+<h2 id="index">Table Of Contents</h2>
+
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#note">NOTE</a>
+<li><a href="#history">HISTORY</a>
+<li><a href="#author">AUTHOR</a>
+</ul>
+</body>
+</html>

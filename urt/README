@@ -19,7 +19,7 @@ defines stdout as a variable, so that wouldn't compile.  So I changed
 it to NULL and added a line to rle_hdr_init to set that field to
 'stdout' dynamically.  2000.06.02 BJH.
 
-Redid the code to check for maths overflows and other crawly horrors.
-Removed pipe through and compress support (unsafe)
+---
 
-Alan Cox <alan@redhat.com>
+Cleanup by Akira F Urushibata 2022.03.06
+Unused functions removed.

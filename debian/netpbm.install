@@ -1,0 +1,6 @@
+debian/imagetops	usr/bin
+usr/bin
+usr/config_template	usr/share/netpbm
+usr/misc/*.map		usr/share/netpbm/
+usr/misc/*.ppm		usr/share/netpbm/
+usr/misc/rgb.txt	usr/share/netpbm/

@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Pbmtopgm User Manual</title></head>
+<body>
+
+<h1>pbmtopgm</h1>
+Updated: 05 Feb 2003
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+
+pbmtopgm - convert PBM image to PGM by averaging areas
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>pbmtopgm </b>
+<i>width</i>
+<i>height</i>
+[<i>pbmfile</i>]
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>pbmtopgm</b> reads a PBM image as input.  It outputs a PGM image
+in which each pixel's gray level is the average of the surrounding
+black and white input pixels.  The surrounding area is a rectangle of
+<i>width</i> by <i>height</i> pixels.
+
+<p>In other words, this is a convolution.  <b>pbmtopgm</b> is similar
+to a special case of <b>pnmconvol</b>.
+
+<p>You may need a <b>pnmsmooth</b> step after <b>pbmtopgm</b>.
+
+<p><b>pbmtopgm</b> has the effect of anti-aliasing bitmaps which
+contain distinct line features.
+
+<p><b>pbmtopgm</b> works best with odd sample width and heights.
+
+<p>You don't need <b>pbmtopgm</b> just to use a PGM program on a PBM
+image.  Any PGM program (assuming it uses the Netpbm libraries to read
+the PGM input) takes PBM input as if it were PGM, with only the
+minimum and maximum gray levels.  So unless your convolution rectangle
+is bigger than one pixel, you're not gaining anything with a
+<b>pbmtopgm</b> step.
+
+<p>The opposite transformation (which would turn a PGM into a PBM) is
+dithering.  See <b>pamditherbw</b>.
+
+<h2 id="options">OPTIONS</h2>
+
+<p>There are no command line options defined specifically
+for <b>pbmtopgm</b>, but it recognizes the options common to all
+programs based on libnetpbm (See <a href="index.html#commonoptions">
+Common Options</a>.)
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<b><a href="pamditherbw.html">pamditherbw</a></b>,
+<b><a href="pnmconvol.html">pnmconvol</a></b>,
+<b><a href="pbm.html">pbm</a></b>,
+<b><a href="pgm.html">pgm</a></b>
+
+<h2 id="author">AUTHOR</h2>
+
+<p>Copyright (C) 1990 by Angus Duggan.
+<p>Copyright (C) 1989 by Jef Poskanzer.
+
+<p>Permission to use, copy, modify, and distribute this software and
+its documentation for any purpose and without fee is hereby granted,
+provided that the above copyright notice appear in all copies and that
+both that copyright notice and this permission notice appear in
+supporting documentation.  This software is provided "as is"
+without express or implied warranty.
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#author">AUTHOR</a>
+</ul>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Zeisstopnm User Manual</title></head>
+<body>
+<h1>zeisstopnm</h1>
+Updated: 15 June 1993
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+zeisstopnm - convert a Zeiss confocal file to PNM
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>zeisstopnm</b>
+
+[<b>-pgm</b> | <b>-ppm</b>]
+
+[<i>zeissfile</i>]
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>zeisstopnm</b> reads a Zeiss confocal file as input and produces
+a PNM image as output.  
+
+<p>By default, the exact type of the output depends on the input file:
+If it's grayscale a PGM image; otherwise a PPM.  The program tells you
+which type it is writing.  You can override the default with the 
+<b>-pgm</b> and <b>-ppm</b> options.
+
+
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>zeisstopnm</b> recognizes the following
+command line options:
+
+<dl compact>
+<dt><b>-pgm</b>
+
+<dd>Force the output to be in PGM format.
+
+<dt><b>-ppm</b>
+
+<dd>
+Force the output to be in PPM format.
+
+</dl>
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<a href="pnm.html">pnm</a>
+
+<h2 id="author">AUTHOR</h2>
+
+Copyright (C) 1993 by Oliver Trepte
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#author">AUTHOR</a>
+</ul>
+</body>
+</html>

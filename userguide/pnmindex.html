@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Pnmindex User Manual</title></head>
+<body>
+<h1>pnmindex</h1>
+Updated: 23 November 2023
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+pnmindex - build a visual index of a bunch of PNM images
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>pnmindex</b>
+
+[<b>-size=</b><i>N</i>]
+
+[<b>-across=</b><i>N</i>]
+
+[<b>-black</b>]
+
+[<b>-title=</b><i>title</i>]
+
+[<b>-quant</b>|<b>-noquant</b>]
+
+[<b>-colors=</b><i>N</i>]
+
+<i>pnmfile</i> ...
+
+<p>You can use the minimum unique abbreviation of the options.  You can use
+two hyphens instead of one.  You can separate an option name from its value
+with white space instead of an equals sign.
+
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>pnmindex</b> creates an index image containing thumbnail (small)
+versions of a bunch of PNM files you supply (akin to a photographic
+"contact sheet").
+
+<p><b>pnmindex</b> labels each thumbnail and, optionally, contains a
+title.
+
+<p>If you just want to concatenate some images together in a grid, use
+<b>pamundice</b> for that.
+
+<p>If you want to take apart the image you generated with <b>pnmindex</b>,
+use <b>pamdice</b> or <b>pamcut</b>.
+
+<p>The program can generate large temporary files.  By default, these go in
+directory <b>/tmp</b>, but you can usse the <b>TMPDIR</b> environment variable
+to have them somewhere else.
+
+
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>pnmindex</b> recognizes the following
+command line options:
+
+<dl compact>
+<dt><b>-size=</b><i>N</i>
+
+<dd>The size of each thumbnail.  The image is scaled down to fit maximally
+inside a <i>N</i> x <i>N</i> pixel box without changing its aspect ratio.
+
+<p>If the input image is already smaller than this, its size remains the same
+in the output.
+
+<p>The value must be at least 1.
+  
+<p>The default is 100.
+
+<dt><b>-across=</b><i>N</i>
+
+<dd>This is the number of thumbnails in each row.
+
+<p>The value must be at least 1.
+
+<p>The default is 6.
+  
+<dt><b>-black</b>
+
+<dd>This controls the color of the padding between the images; by default it
+is white and the labels are black lettering on white background, but the
+<b>-black</b> option reverses this.
+
+<dt><b>-title=</b><i>title</i>
+
+<dd>
+This specifies a title to be placed at the top of the image.
+<p>The <i>title</i> value must be in ASCII.  Characters that are not valid
+ASCII are not rendered.
+
+<p>Default is no title.
+
+<dt><b>-noquant</b>
+
+<dd>Disables color quantization.  By default, if any input image is PPM, the
+program reduces the number of colors to the number of colors specified
+by <b>-colors</b>).
+
+<dt><b>-quant</b>
+
+<dd>This option has no effect; it explicitly selects the default behavior of
+quantizing colors.  See <b>-noquant</b>.
+
+<dt><b>-colors=</b><i>N</i>
+
+<dd>The maximum number of colors allowed in the overall image.  If it would
+otherwise have more colors than these, <b>pnmindex</b> quantizes the result.
+To reduce the effect of the colors in one thumbnail on the colors used for
+another, the program quantizes colors to this number in each thumbnail
+independently, then quantizes the colors in each row of thumbnails to this
+number, then quantizes the colors in the entire output image to this number.
+
+<p>This value is meaningless if you specify the <b>-noquant</b> option or if
+no input image is PPM.
+
+<p>The default is 256.
+
+</dl>
+
+
+<h2 id="history">HISTORY</h2>
+
+<p>Before Netpbm 11.05 (December 2023), the Netpbm common option <b>-plain</b>
+was not implemented.
+
+
+  <h2 id="seealso">SEE ALSO</h2>
+
+<b><a href="pamscale.html">pamscale</a></b>,
+
+<b><a href="pamcat.html">pamcat</a></b>,
+
+<b><a href="pbmtext.html">pbmtext</a></b>,
+
+<b><a href="pnmquant.html">pnmquant</a></b>,
+
+<b><a href="pamcut.html">pamcut</a></b>,
+
+<b><a href="pamdice.html">pamdice</a></b>,
+
+<b><a href="pamundice.html">pamundice</a></b>,
+
+<b><a href="pnmtile.html">pnmtile</a></b>,
+
+<b><a href="pnm.html">pnm</a></b>
+
+
+<h2 id="author">AUTHOR</h2>
+
+<p>Copyright (C) 1991 by Jef Poskanzer.
+
+<p><b>-title</b> and <b>-noquant</b> added 2000 by John Heidemann.
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#history">HISTORY</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#author">AUTHOR</a>
+</ul>
+</body>
+</html>

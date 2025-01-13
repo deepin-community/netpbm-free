@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Ppmspread User Manual</title></head>
+<body>
+<h1>ppmspread</h1>
+Updated: 06 March 2021
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+
+ppmspread - displace a PPM image's pixels by a random amount
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>ppmspread</b> <i>amount</i> [<i>ppmfile</i>]
+[<b>-randomseed=</b><i>integer</i>]
+
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>ppmspread</b> reads a PPM image as input and moves every pixel
+around a random bit relative to its original position. <i>amount</i>
+determines by how many pixels a pixel is to be moved around at most.
+
+<p>Pictures processed with this filter will seem to be somewhat
+dissolved or unfocussed (although they appear more coarse than images
+processed by something like <i>pnmconvol</i>).
+
+<p>The randomness in the image is limited before Netpbm 10.37 (December
+2006) -- if you run the program twice in the same second, you may get
+identical output.
+
+
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>ppmspread</b> recognizes the following
+command line options:
+
+<dl>
+  
+<dt><b>-randomseed=</b><i>integer</i>
+
+<dd>This is the seed for the random number generator that generates the
+pixels.
+
+<p>Use this to ensure you get the same image on separate invocations.
+
+<p>This option was new in Netpbm 10.94 (March 2021).
+
+</dl>
+
+  
+<h2 id="seealso">SEE ALSO</h2>
+
+<a href="ppm.html">ppm</a>, 
+<a href="pnmconvol.html">pnmconvol</a>
+
+<h2 id="author">AUTHOR</h2>
+
+Copyright (C) 1993 by Frank Neumann
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#author">AUTHOR</a>
+</ul>
+</body>
+</html>

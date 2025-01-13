@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Svgtopam User Manual</title></head>
+<body>
+<h1>svgtopam</h1>
+Updated: 28 June 2017
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+svgtopam - convert an SVG (Scalable Vector Graphics) image to Netpbm format
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>svgtopam</b>
+[<b>-trace</b>]
+[<i>pnmfile</i>]
+
+<p>Minimum unique abbreviation of option is acceptable.  You may use
+double hyphens instead of single hyphen to denote options.  You may use
+white space in place of the equals sign to separate an option name
+from its value.
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>svgtopam</b> reads an SVG (Scalable Vector Graphics) image as input and
+produces a PAM image as output.
+
+<p><b>svgtopam</b> is so weak that it is probably not useful in general for
+converting SVG images.  It understands only &lt;path&gt; SVG elements which
+use only the "M", "L", and "z" commands, and only those that use whole number
+arguments.  This is sufficient for converting most of what comes out of
+<b>pamtosvg</b> (not by coincidence - the program was developed for the
+specific task of testing <b>pamtosvg</b>), but the main reason it is part of
+Netpbm is to provide a base for someone to create a full SVG to Netpbm
+converter.
+
+<p>SVG is a vector image format, which means it describes curves that
+compose an image.  By contrast, PNM is a raster format, which means it
+describes dots that compose an image.  The main practical difference
+between the two types is that you can scale vector images better.  A
+vector image also takes a lot less data to describe an image if the
+image is composed of simple curves.
+
+<p>That means it is really an understatement to say that <b>svgtopam</b>
+is an image format converter.  It's really an image drawer, not unlike
+<b>ppmdraw</b>.
+
+<p>For more information on SVG, see <a
+href="http://www.w3.org/Graphics/SVG/">the Worldwide Web Consortium's
+SVG web page</a>.
+
+
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>svgtopam</b> recognizes the following
+command line option:
+
+<dl compact>
+
+<dt><b>-trace</b>
+
+<dd>This option makes <b>svgtopam</b> issue messages describing the drawing.
+
+</dl>
+
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<b><a href="pamtosvg.html">pamtosvg</a></b>,
+<a href="pam.html">pam</a>,
+
+<h2 id="history">HISTORY</h2>
+
+<p><b>svgtopam</b> was added to Netpbm in Version 10.34 (May 2006).
+
+<p>Bryan Henderson created <b>svgtopam</b> to test <b>pamtosvg</b>.
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#history">HISTORY</a>
+</ul>
+</body>
+</html>

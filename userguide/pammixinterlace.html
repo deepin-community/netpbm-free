@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Pammixinterlace User Manual</title></head>
+<body>
+<h1>pammixinterlace</h1>
+Updated: 22 February 2007
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+pammixinterlace - mix adjacent lines to merge interlaced images
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>pammixinterlace</b>
+
+[<b>-filter=</b>{<b>linear</b>, <b>fir</b>, <b>ffmpeg</b>}]
+
+[<b>-adaptive</b>]
+
+[<i>infile</i>]
+
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>pammixinterlace</b> is meant to operate on an image which is the
+interlacing of two images, where raster rows 0, 2, 4, etc. are from
+one image and rows 1, 3, 5, etc. are from another.  (See below for
+why you might expect to encounter such an image).
+
+<p><b>pammixinterlace</b> makes each row of the output a mixture
+of the corresponding row of the input and its two neighbors.  It uses
+half of the main row and a quarter each of the two neighbor rows.
+
+<p>This can be useful if the image is a video capture from an
+interlaced video source.  In that case, each row shows the subject
+1/60 second before or after the two rows that surround it.  If the
+subject is moving, this can detract from the quality of the image.
+
+<p>In video data streams, you often find each frame contains only half
+the rows of the image -- the odd half or the even half.  The displayer
+of the stream displays the rows in their proper positions on a CRT as
+they come in.  When you display the rows in this order, the CRT has
+less flicker because a particular area of the screen gets refreshed
+twice as often.  In the process of capturing such a stream, computers
+often generate the interlaced image of the type that
+<b>pammixinterlace</b> works with.  But this interlaced image, when
+displayed on a CRT, does not look the same as if a displayer were
+rendering the stream directly on a CRT as it arrived, because of the
+timing of when the various pixels get drawn and subsequently fade.
+That's why you need something like <b>pammixinterlace</b>.
+
+<p>You may prefer the effect of simply extracting one of two images.
+You can do that with <b>pamdeinterlace</b>.
+
+
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>pammixinterlace</b> recognizes the following
+command line options:
+
+<dl>
+
+<dt><b>-filter=</b>{<b>linear</b>,<b>fir</b>,<b>ffmpeg</b>}
+
+<dd>This option chooses between one of the three filtering mechanisms.
+<b>linear</b> is a linear-blend formula.  <b>fir</b> is a size-5 FIR
+low-pass filter, and <b>ffmpeg</b> is a formula pulled from the
+documentation of the program <a
+href="http://ffmpeg.mplayerhq.hu"><b>ffmpeg</b></a>.
+
+<p>The default is <b>fir</b>.
+
+<dt><b>-adaptive</b>
+
+<dd>This option turns on "adaptive" filtering mode.  In this mode
+<b>pammixinterlace</b> modifies only pixels that are obviously part of
+a "comb" pattern.
+
+</dl>
+
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<b><a href="pamdeinterlace.html">pamdeinterlace</a></b>,
+<b><a href="pam.html">pam</a></b>
+<b><a href="pnm.html">pnm</a></b>
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+</ul>
+</body>
+</html>

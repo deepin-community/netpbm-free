@@ -1,0 +1,19 @@
+Description: clarify tifftopnm -headerdump behavior
+Author: Andreas Metzler <ametzler@debian.org>
+Origin: vendor
+Bug-Debian: https://bugs.debian.org/496156
+Last-Update: 2024-01-14
+
+--- netpbm-free-11.05.01.orig/userguide/tifftopnm.html
++++ netpbm-free-11.05.01/userguide/tifftopnm.html
+@@ -236,8 +236,8 @@ that have an orientation other than the
+ 
+ <dt><b>-headerdump</b>
+ 
+-<dd>Dump TIFF file information to stderr.  This information may be useful 
+-in debugging TIFF file conversion problems.  
++<dd>Also dump TIFF file information to stderr.  This information may be
++useful in debugging TIFF file conversion problems.  
+ 
+ </dl>
+ 

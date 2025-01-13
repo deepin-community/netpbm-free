@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Srftopam User Manual</title></head>
+<body>
+<h1>srftopam</h1>
+Updated: 27 May 2011
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+srftopam - convert a SRF image file to Netpbm images
+
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<p><b>srftopam</b>
+[<b>-verbose</b>]
+[<i>netpbmfile</i>]
+
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>srftopam</b> reads a SRF image file as input and produces a
+multi-image stream of PAM images as output.
+
+<p>This program performs the inverse of the conversion that <b>pamtosrf</b>
+does.  See that program's manual for more information about SRF and
+the relationship between the SRF and Netpbm representation of the
+images.
+
+<p><i>netpbmfile</i> is the input stream, which defaults to Standard Input.
+Output is always on Standard Output.
+
+
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>srftopam</b> recognizes the following
+command line option:
+
+<dl>
+<dt><b>-verbose</b></dt>
+<dd>Issue informational messages about the input and the conversion process.
+</dd>
+
+</dl>
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<ul>
+  <li><a href="pamtosrf.html">pamtosrf</a>
+  <li><a href="pamdice.html">pamdice</a>
+  <li><a href="pamsplit.html">pamsplit</a>
+  <li><a href="pam.html">pam</a>
+  </ul>
+
+<h2 id="history">HISTORY</h2>
+
+<p><b>srftopam</b> was new in Netpbm 10.55 (June 2011).
+
+<p>It was contributed by Mike Frysinger.
+
+
+<hr />
+
+<h2 id="index">Table Of Contents</h2>
+
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#history">HISTORY</a>
+</ul>
+
+</body>
+</html>
+

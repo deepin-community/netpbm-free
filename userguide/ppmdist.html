@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Ppmdist User Manual</title></head>
+<body>
+<h1>ppmdist</h1>
+Updated: 22 July 1992
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+
+ppmdist - simplistic grayscale assignment for machine generated, color images
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>ppmdist</b>
+
+[<b>-intensity</b>|<b>-frequency</b>]
+
+[<i>ppmfile</i>]
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>ppmdist</b> reads a PPM image as input and performs a simplistic
+grayscale assignment intended for use with grayscale or bitmap
+printers.
+
+<p>Often conversion from ppm to pgm will yield an image with contrast
+too low for good printer output.  The program maximizes contrast
+between the gray levels output.
+
+<p>A ppm input of n colors is read, and a pgm of n gray levels is
+written.  The gray levels take on the values 0..n-1, while maxval
+takes on n-1.
+
+<p>The mapping from color to stepped grayscale can be performed in
+order of input pixel intensity, or input pixel frequency (number of
+repetitions).
+
+<p>This program is helpful only for images with a very small number of
+colors.
+
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>ppmdist</b> recognizes the following
+command line options:
+
+<dl compact>
+<dt><b>-frequency</b>
+
+<dd>Sort input colors by the number of times a color appears in the
+input, before mapping to evenly distributed graylevels of output.
+
+<dt><b>-intensity</b>
+
+<dd>Sort input colors by their grayscale intensity, before mapping to
+evenly distributed graylevels of output.  This is the default.
+
+</dl>
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<a href="ppmtopgm.html">ppmtopgm</a>,
+<a href="ppmhist.html">ppmhist</a>,
+<a href="ppm.html">ppm</a>
+
+<h2 id="author">AUTHOR</h2>
+
+Copyright (C) 1993 by Dan Stromberg.
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#author">AUTHOR</a>
+</ul>
+</body>
+</html>

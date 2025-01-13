@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Pamtopam User Manual</title></head>
+<body>
+<h1>pamtopam</h1>
+Updated: October 2007
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+pamtopam - copy PAM image
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>pamtopam</b>
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>pamtopam</b> simply copies a PAM image from Standard Input to
+Standard Output.  This may seem an unnecessary duplication of
+<b>cat</b>, but remember that a PAM program can read a PBM, PGM, or PPM
+image as if it were PAM.  So <b>pamtopam</b> can read either a PBM, PGM,
+PPM, or PAM image and produce a PAM image as output.
+
+<p>Even that is of limited usefulness because of the fact that almost
+any program to which you would feed the resulting PAM image could also
+just take the original image directly.  However, sometimes you really
+want a true PAM image.
+
+<p>You can do a more general job of translating PAM/PNM to PAM with
+<b>pamchannel</b>.
+
+<h2 id="options">OPTIONS</h2>
+
+<p>There are no command line options defined specifically
+for <b>pamtopam</b>, but it recognizes the options common to all
+programs based on libnetpbm (See <a href="index.html#commonoptions">
+Common Options</a>.)
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<b><a href="pamtopnm.html">pamtopnm</a></b>,
+<b><a href="ppmtoppm.html">ppmtoppm</a></b>,
+<b><a href="pgmtopgm.html">pgmtopgm</a></b>,
+<b><a href="pam.html">pam</a></b>,
+<b><a href="pnm.html">pnm</a></b>,
+<b><a href="ppm.html">ppm</a></b>,
+<b><a href="pgm.html">pgm</a></b>,
+<b><a href="pbm.html">pbm</a></b>
+
+<h2 id="history">HISTORY</h2>
+
+<p>This program was added to Netpbm in Release 10.41 (December 2007).
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#history">HISTORY</a>
+</ul>
+</body>
+</html>

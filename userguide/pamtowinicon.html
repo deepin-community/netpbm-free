@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Pamtowinicon User Manual</title></head>
+<body>
+<h1>pamtowinicon</h1>
+Updated: 12 April 2013
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+
+pamtowinicon - convert Netpbm PAM images to a Microsoft Windows icon file
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>pamtowinicon</b>
+[<b>-pngthreshold=</b><i>threshold</i>]
+[<b>-truetransparent</b>]
+[<b>-verbose</b>]
+[<i>pam_file</i>]
+
+<p>All options can be abbreviated to their shortest unique prefix.
+You may use two hyphens instead of one to designate an option.  You
+may use either white space or equals signs between an option name and
+its value.
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>pamtowinicon</b> reads an RGB_ALPHA Netpbm PAM file and converts it to a
+Microsoft Windows icon file.
+
+<p>The output goes to Standard Output.
+
+<p>The input is a multi-image PAM file; each image becomes an icon in the
+output file.  If you have input images in multiple files, you can simply
+combine them with <b>cat</b> and pass the result to <b>pamtowinicon</b>.
+
+
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm (most
+notably <b>-quiet</b>, see <a href="index.html#commonoptions">Common
+Options</a>), <b>pamtowinicon</b> recognizes the following command
+line options:
+
+<dl compact>
+<dt><b>-pngthreshold=</b><i>threshold</i>
+
+<dd><b>pamtowinicon</b> encodes images with resolutions above or
+equal <i>threshold</i> by <i>threshold</i> as PNG by running
+<a href="pnmtopng.html"><b>pnmtopng</b></a>.  Other images it encodes
+using the more traditional BMP format.
+
+<p>When the program uses PNG encoding for a 5-channel PAM with separate AND
+mask (see below), it discards the AND mask.  Because PNG has always had the
+ability to specify transparency, the Windows icon format does not provide for
+a separate and mask when the icon is encoded in PNG.
+
+<p>The default value for <i>threshold</i> is 128.
+
+<dt><b>-truetransparent</b>
+
+<dd>Make all pixels outside the opaque area black, avoiding inversion
+and other effects on the background of the image
+(see <a href="winicon.html">Windows Icons</a>).
+
+<dt><b>-verbose</b>
+
+<dd>Print more messages
+
+</dl>
+
+
+<h2 id="images">IMAGES</h2>
+
+<p><b>pamtowinicon</b> reads a (multi-image) Netpbm PAM file
+as input and outputs an single Windows icon file containing those images.
+
+<p>The images in the icon file are in the same order as in the PAM input.
+
+
+<h3 id="paminput">PAM Input</h3>
+
+<p>
+<b>pamtowinicon</b> interprets the PAM images as follows, based on the number
+of channels.
+
+<table style="text-align=center" border=1>
+<?makeman l l. ?>
+<?makeman _ ?>
+<tr><th>channels</th><th>image</th></tr>
+<tr><td>1</td><td>fully opaque grayscale image</td></tr>
+<tr><td>2</td><td>grayscale image with transparency channel</td></tr>
+<tr><td>3</td><td>fully opaque color image</td></tr>
+<tr><td>4</td><td>color image with transparency channel</td></tr>
+<tr><td>5</td><td>color image with transparency channel and additional AND
+mask</td></tr>
+</table>
+
+<p>The tuple types of the PAMs are irrelevant.
+
+
+<h3 id="andmask">AND Mask</h3>
+
+The so-called "AND mask" is a special feature of Microsoft
+Windows icons.  It is required for all BMP encoded images.  At the
+first sight, the AND mask is a 1-bit transparency channel, but it is also
+used for e.g. shading the icon while dragging.  See
+<a href="winicon.html">Windows Icons</a> for details.
+
+<p>If there is no explicit AND mask, but transparency data in the
+input image, <b>pamtowinicon</b> sets the AND mask to opaque where the
+sample in the transparency channel is below maxval, and to transparent
+elsewhere.
+
+<p>If no transparency data is present in the input image,
+<b>pamtowinicon</b> assumes the whole image to be fully opaque.
+
+
+<h3 id="bmpoutput">BMP Output</h3>
+
+When BMP encoding an image, <b>pamtowinicon</b> tries to use the most
+compact <b>BI_RGB</b> format allowed for icon images with a color
+depth of eight bits per channel.
+
+<p><b>pamtowinicon</b> generates neither 16-bit <b>BI_RGB</b> nor
+<b>BI_BITFIELDS</b> BMP encoded images, even if the maxval of the input
+PAM is not 255.
+
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<ul>
+<li><a href="winicontopam.html"><b>winicontopam</b></a>
+<li><a href="ppmtowinicon.html"><b>ppmtowinicon</b></a>
+<li><a href="pam.html"><b>pam</b></a>
+<li><a href="winicon.html"><b>Windows Icons</b></a>
+</ul>
+
+<p>For information on the PNG format, see
+<a href="http://schaik.com/png">http://schaik.com/png</a>.
+
+
+<h2 id="history">HISTORY</h2>
+
+<p><b>pamtowinicon</b> was new in Netpbm 10.63 (June 2013).  It obsoleted
+<b>ppmtowinicon</b> by providing more function and conforming better to
+Netpbm conventions.
+
+
+<h2 id="author">AUTHOR</h2>
+
+<p>Copyright (C) 2013 by Ludolf Holzheid.
+
+<p>Translated to Netpbm coding style by Bryan Henderson.
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#images">IMAGES</a>
+  <ul>
+  <li><a href="#paminput">PAM Input</a>
+  <li><a href="#andmask">AND Mask</a>
+  <li><a href="#bmpoutput">BMP Output</a>
+  </ul>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#history">HISTORY</a>
+<li><a href="#author">AUTHOR</a>
+</ul>
+</body>
+</html>

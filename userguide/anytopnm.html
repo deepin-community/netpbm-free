@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Anytopnm User Manual</title></head>
+<body>
+<h1>anytopnm</h1>
+Updated: 15 November 2014
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+anytopnm - convert an arbitrary type of image file to PBM, PGM, or PPM
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>anytopnm</b> [<i>file</i>]
+
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>anytopnm</b> converts the input image, which may be in any of
+about 100 graphics formats, to PBM, PGM, or PPM format, depending on
+that nature of the input image, and outputs it to Standard Output.
+
+<p>To determine the format of the input, <b>anytopnm</b> uses the
+<b>file</b> program (possibly assisted by the magic numbers file
+fragment included with Netpbm). If that fails (very few image formats
+have magic numbers), <b>anytopnm</b> looks at the filename extension.
+If that fails, <b>anytopnm</b> punts.
+
+<p>The type of the output file depends on the input image.
+
+<p><b>anytopnm</b> uses the converters for particular graphics formats
+that are in the Netpbm package, so it can't convert any format that
+you couldn't convert with some other Netpbm program.  What
+<b>anytopnm</b> adds is the ability to recognize the format and choose
+the appropriate Netpbm program to convert it.  For example, if you
+invoke <b>anytopnm</b> on a GIF file, <b>anytopnm</b> will recognize
+that it is a GIF file and therefore <b>giftopnm</b> knows how to
+convert it to PNM, so <b>anytopnm</b> invokes <b>giftopnm</b>.
+
+<p><b>anytopnm</b> cannot recognize every possible input format, so you
+may still be able to convert an image with a specific Netpbm program when
+<b>anytopnm</b> fails to convert it.
+
+<p>If <b>file</b> indicates that the input file is compressed (either
+via Unix compress, gzip, or bzip compression), <b>anytopnm</b>
+uncompresses it and proceeds as above with the uncompressed result.
+
+<p>If <b>file</b> indicates that the input file is encoded by uuencode
+or btoa, <b>anytopnm</b> decodes it and proceeds as above with the
+decoded result.
+
+<p>If <i>file</i> is <b>-</b> or not given, <b>anytopnm</b> takes its
+input from Standard Input.
+
+<p>Many image formats are capable of representing multiple images.  In
+most cases, <b>anytopnm</b> converts these to multi-image Netpbm images,
+but for some formats, <b>anytopnm</b> converts only the first image and
+ignores the rest.
+
+<p>In the case of a multi-image GIF input, <b>anytopnm</b> converts all the
+images starting with Netpbm 10.69 (December 2014), but only the first in
+earlier releases.
+
+
+<h2 id="options">OPTIONS</h2>
+
+<p>There are no command line options defined specifically
+for <b>anytopnm</b>.
+
+<b>anytopnm</b> does not recognize the options common to all
+programs based on libnetpbm (See <a href="index.html#commonoptions">
+Common Options</a>.)  However, the <b>-version</b> option works.
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<b><a href="pamfile.html">pamfile</a></b>,
+<b><a href="pnm.html">pnm</a></b>,
+<b>file</b> man page
+
+<h2 id="author">AUTHOR</h2>
+
+Copyright (C) 1991 by Jef Poskanzer.
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#author">AUTHOR</a>
+</ul>
+</body>
+</html>

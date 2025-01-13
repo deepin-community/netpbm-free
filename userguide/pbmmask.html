@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Pbmmask User Manual</title></head>
+<body>
+<h1>pbmmask</h1>
+Updated: 28 September 2021
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+
+pbmmask - create a mask bitmap from a regular bitmap
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>pbmmask</b>
+[<b>-expand</b>]
+[<i>pbmfile</i>]
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>pbmmask</b> reads a PBM image as input and generates a
+corresponding mask of the foreground areas as another PBM image.
+
+<p>This is probably obsoleted by <b>pambackground</b>.
+  
+<p>The color to be interpreted as "background" is determined automatically.
+Regardless of which color is background, the mask will be white where the
+background is and black where the figure is.
+
+<p>This lets you do a masked paste like this, for objects with a black
+background:
+
+<pre>
+    pbmmask obj &gt; objmask
+    pnmpaste &lt; dest -and objmask &lt;x&gt; &lt;y&gt; | pnmpaste -or obj &lt;x&gt; &lt;y&gt;
+</pre>
+
+For objects with a white background, you can either invert them or
+add a step:
+<pre>
+    pbmmask obj &gt; objmask
+    pnminvert objmask | pnmpaste -and obj 0 0 &gt; blackback
+    pnmpaste &lt; dest -and objmask &lt;x&gt; &lt;y&gt; | pnmpaste -or blackback &lt;x&gt; &lt;y&gt;
+</pre>
+
+Note that this three-step version works for objects with black backgrounds
+too, if you don't care about the wasted time.
+
+<p>You can also use masks with grayscale and color images, using the
+<i>pnmarith</i> tool.  For instance:
+
+<pre>
+    ppmtopgm obj.ppm | pamditherbw -threshold | pbmmask &gt; objmask.pbm
+    pnmarith -multiply dest.ppm objmask.pbm &gt; t1.ppm
+    pnminvert objmask.pbm | pnmarith -multiply obj.ppm - &gt; t2.ppm
+    pnmarith -add t1.ppm t2.ppm
+</pre>
+
+An interesting variation on this is to pipe the mask through
+<i>pnmsmooth</i> before using it.  This makes the boundary between the
+two images less sharp.
+
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>pbmmask</b> recognizes the following
+command line option:
+
+<dl compact>
+<dt><b>-expand</b>
+
+<dd>Expands the mask by one pixel out from the image.  This is useful
+if you want a little white border around your image.  (A better
+solution might be to turn the <b>pbmlife</b> program into a general
+cellular automaton tool...)
+
+</dl>
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<b><a href="pambackground.html">pambackground</a></b>
+<b><a href="ppmcolormask.html">ppmcolormask</a></b>,
+<b><a href="pnmpaste.html">pnmpaste</a></b>,
+<b><a href="pnminvert.html">pnminvert</a></b>,
+<b><a href="pnmarith.html">pnmarith</a></b>,
+<b><a href="pnmsmooth.html">pnmsmooth</a></b>
+<b><a href="pbm.html">pbm</a></b>,
+
+<h2 id="author">AUTHOR</h2>
+
+Copyright (C) 1988 by Jef Poskanzer.
+
+<h2 id="history">HISTORY</h2>
+
+<p><b>pbmmask</b> is one of the oldest programs in Netpbm.  In September 2021,
+  the date on this manual was August 8, 1989 (being the date of the last
+  substantial update).  We updated the page  then just to add this historical
+  information and recommend <b>pambackground</b>.
+
+<p>It is likely that when Bryan wrote <b>pambackground</b> in 2006, he was
+  unaware <b>pbmmask</b> existed.  Otherwise, he would presumably have
+  replaced <b>pbmmask</b> with a wrapper around <b>pambackground</b>.
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#author">AUTHOR</a>
+<li><a href="#history">HISTORY</a>
+</ul>
+</body>
+</html>

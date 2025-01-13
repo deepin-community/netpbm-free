@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Pfmtopam User Manual</title></head>
+<body>
+<h1>pfmtopam</h1>
+Updated: 10 April 2004
+
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+pfmtopam - Convert PFM (Portable Float Map) image to Netpbm format
+
+<h2 id="synopsis">SYNOPSIS</h2>
+<b>pfmtopam</b>
+[<b>-maxval=</b><i>n</i>]
+[<b>-verbose</b>]
+[<i>imagefile</i>]
+
+<p>All options can be abbreviated to their shortest unique prefix.
+You may use two hyphens instead of one.  You may separate an option
+name and its value with white space instead of an equals sign.
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>pfmtopam</b> reads a PFM (Portable Float Map) image and converts
+it to PAM.
+
+<p>See <a href="pamtopfm.html"><b>pamtopfm</b></a> for a description of
+PFM.
+
+<p>If you want one of the older, more portable Netpbm formats, run the
+output through <b>pamtopnm</b>.
+
+<b>pamtopfm</b> creates a PAM with tuple type "RGB" or
+"GRAYSCALE" depending on whether or not the PFM is in the color
+subformat.
+
+<p>Use <a href="pamtopfm.html"><b>pamtopfm</b></a> to convert a PFM
+image to Netpbm format.
+
+
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>pfmtopam</b> recognizes the following
+command line options:
+
+<dl compact>
+<dt><b>-maxval=</b><i>n</i>
+
+<dd>
+     <p>This specifies the maxval for the PAM.  Default is 255.
+
+<dt><b>-verbose</b>
+
+<dd>
+     <p>This causes <b>pfmtopam</b> to display messages describing 
+     the PFM input file.
+
+</dl>
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<b><a href="pamtopfm.html">pamtopfm</a></b>,
+<b><a href="pam.html">pam</a></b>,
+
+<h2 id="history">HISTORY</h2>
+
+<p><b>pfmtopam</b> was added to Netpbm in Release 10.22 (April 2004).
+
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#history">HISTORY</a>
+</ul>
+</body>
+</html>

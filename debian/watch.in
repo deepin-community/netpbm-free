@@ -1,0 +1,17 @@
+version=4
+
+# opts="mode=svn,pgpmode=none" \
+# https://svn.code.sf.net/p/netpbm/code/release_number/ \
+#   (\d[\d.]+)/
+
+opts="mode=svn,pgpmode=none,uversionmangle=s/.*/@LATESTADVANCED@/" \
+ https://svn.code.sf.net/p/netpbm/code/advanced/ \
+ HEAD ignore
+
+# https://sf.net/netpbm/netpbm-?([\w+\d+\.]+|\d+)\.tgz
+
+# userguide is unversioned
+opts="mode=svn, pgpmode=none, \
+ component=userguide" \
+ https://svn.code.sf.net/p/netpbm/code/userguide/ \
+ HEAD ignore

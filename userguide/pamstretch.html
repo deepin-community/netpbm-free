@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Pamstretch User Manual</title></head>
+<body>
+<h1>pamstretch</h1>
+Updated: 02 February 2019
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+pamstretch - scale up a PNM or PAM image by interpolating between pixels.
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>pamstretch</b>
+
+[<b>-xscale=</b><i>X</i>]
+
+[<b>-yscale=</b><i>Y</i>]
+
+<br>
+
+[<b>-blackedge</b>]
+
+[<b>-dropedge</b>]
+
+<i>N</i>
+
+[<i>infile</i>]
+
+<p>You can use the minimum unique abbreviation of the options.  You can use
+two hyphens instead of one.  You can separate an option name from its value
+with white space instead of an equals sign.
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>pamstretch </b> scales up pictures by integer values, either
+vertically, horizontally, or both.  <b>pamstretch </b> differs from
+<b>pamscale</b> and <b>pamenlarge</b> in that when it inserts the
+additional rows and columns, instead of making the new row or column a
+copy of its neighbor, <b>pamstretch</b> makes the new row or column an
+interpolation between its neighbors.  In some images, this produces
+better looking output.
+
+<p>To scale up to non-integer pixel sizes, e.g. 2.5, try <b><a
+href="pamstretch-gen.html">pamstretch-gen</a></b> instead.
+
+<p>Options let you select alternative methods of dealing with the
+right/bottom edges of the picture.  Since the interpolation is done
+between the top-left corners of the scaled-up pixels, it's not obvious
+what to do with the right/bottom edges.  The default behaviour is to
+scale those up without interpolation (more precisely, the right edge
+is only interpolated vertically, and the bottom edge is only
+interpolated horizontally), but there are two other possibilities,
+selected by the <b>-blackedge</b> and <b>-dropedge</b> options.
+
+<p>In the special case that the stretch factor is 1, there is no issue with
+the right and bottom edges, the edges of the output are identical to the edges
+of the input regardless of <b>-blackedge</b> and <b>-dropedge</b>.  However,
+before Netpbm 10.86 (March 2019), <b>-dropedge</b> would cause the edge to be
+dropped even where the stretch factor was 1.
+  
+  
+<h2 id="parameters">PARAMETERS</h2>
+
+<p>The <i>N</i> parameter is the scale factor.  It is valid only if
+you <em>don't</em> specify <b>-xscale</b> or <b>-yscale</b>.  In that
+case, <b>pamstretch</b> scales in both dimensions and by the scale
+factor <i>N</i>.
+
+<p>Before Netpbm 10.86 (March 2019), 1 was not a valid value.
+  
+
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>pamstretch</b> recognizes the following
+command line options:
+
+<dl compact>
+<dt><b>-xscale=</b><i>X</i>
+
+<dd>This is the horizontal scale factor.  If you don't specify this, but do
+specify a vertical scale factor, the horizontal scale factor is 1. 
+
+<p>This option was new in Netpbm 9.21 (December 2001).
+  
+<dt><b>-yscale=</b><i>Y</i>
+
+<dd>This is the vertical scale factor.  If you don't specify this, but
+do specify a horizontal scale factor, the vertical scale factor is 1.
+
+<p>This option was new in Netpbm 9.21 (December 2001).
+
+<dt><b>-blackedge</b>
+
+<dd>interpolate to black at right/bottom edges.
+
+<dt><b>-dropedge</b>
+
+<dd>drop one (source) pixel at right/bottom edges. This is arguably
+more logical than the default behaviour, but it means producing output
+which is a slightly odd size.
+
+</dl>
+
+<h2 id="limitations">LIMITATIONS</h2>
+
+<p>Usually produces fairly ugly output for PBMs. For most PBM input
+you'll probably want to reduce the `noise' first using something like
+<b><a href="pnmnlfilt.html">pnmnlfilt</a></b>.
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<b><a href="pamstretch-gen.html">pamstretch-gen</a></b>,
+<b><a href="pamenlarge.html">pamenlarge</a></b>,
+<b><a href="pamscale.html">pamscale</a></b>,
+<b><a href="pnmnlfilt.html">pnmnlfilt</a></b>
+
+<h2 id="author">AUTHOR</h2>
+
+<p>Russell Marks (<a
+href="mailto:russell.marks@ntlworld.com">russell.marks@ntlworld.com</a>).
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#parameters">PARAMETERS</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#limitations">LIMITATIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#author">AUTHOR</a>
+</ul>
+</body>
+</html>

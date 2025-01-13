@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Pnmmargin User Manual</title></head>
+<body>
+<h1>pnmmargin</h1>
+Updated: 12 November 2014
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+
+pnmmargin - add borders to a PNM image
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>pnmmargin</b>
+[<b>-white</b>|<b>-black</b>|<b>-color</b> <i>colorspec</i>] <i>size</i>
+[<i>pnmfile</i>]
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>pnmmargin</b> adds a border around a PNM image.
+
+
+<h2 id="arguments">ARGUMENTS</h2>
+
+<p><i>pnmfile</i> is the name of the input file.  If you don't specify this
+argument, <b>pnmmargin</b> reads the input image from its Standard Input.
+
+
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-plain</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>pnmmargin</b> recognizes the following
+command line options:
+
+<p>You can specify the border color with the <b>-white</b>,
+<b>-black</b>, and <b>-color</b> options.  If you don't specify a color, the
+program makes a guess.
+
+<p>The value of <b>-color</b> is like the
+<a href="libnetpbm_image.html#colorname">argument of the
+<b>pnm_parsecolor()</b> library routine</a>.
+
+<p>The <b>-plain</b> common option was implemented beginning with Netpbm
+version 10.40 (September 2007).
+
+<p>The <b>-quiet</b> common option is not implemented.
+
+<h2 id="notes">NOTES</h2>
+
+<p>To remove a border of a specified size from an image, use
+<b>pamcut</b>.  <b>pnmcrop</b> also removes borders, but determines by itself
+what is border and what is subject.
+
+<p>For lower level control, including to add different size borders to
+different sides of the image, look at <b>pamcat</b>.
+
+<p>If all you're trying to do is get the image up to a certain required
+size, <b>pamcut</b> may be what you want.
+
+<p><b>pnmpad</b> does essentially the same thing, but gives you more control
+over the individual margins and does only black and white margins.
+
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<ul>
+<li><a href="pamcut.html">pamcut</a>
+<li><a href="pnmcrop.html">pnmcrop</a>
+<li><a href="pamcat.html">pamcat</a>
+<li><a href="pnmpad.html">pnmpad</a>
+<li><a href="pnm.html">pnm</a>
+</ul>
+
+<h2 id="author">AUTHOR</h2>
+
+Copyright (C) 1991 by Jef Poskanzer.
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#arguments">ARGUMENTS</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#notes">NOTES</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#author">AUTHOR</a>
+</ul>
+</body>
+</html>

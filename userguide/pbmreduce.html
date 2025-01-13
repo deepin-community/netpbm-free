@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Pbmreduce User Manual</title></head>
+<body>
+<h1>pbmreduce</h1>
+Updated: 13 April 2016
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+pbmreduce - read a PBM image and reduce it N times
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>pbmreduce</b>
+[<b>-floyd</b>|<b>-fs</b>|<b>-threshold</b>]
+[<b>-value</b> <i>val</i>]
+[<b>-randomseed=</b><i>integer</i>]
+<i>N</i>
+[<i>pbmfile</i>]
+
+<p>You can abbreviate any option to its shortest unique prefix.
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>pbmreduce</b> reads a PBM image as input and reduces it by a
+factor of <i>N</i>, producing a PBM image as output.
+
+<p><b>pbmreduce</b> duplicates a lot of the functionality of
+<b>pamditherbw</b>; you could do something like <kbd>pamscale |
+pamditherbw</kbd>, but <b>pbmreduce</b> is a lot faster.
+
+<p>You can use <b>pbmreduce</b> to "re-halftone" an image.
+Let's say you have a scanner that only produces black&amp;white, not
+grayscale, and it does a terrible job of halftoning (most b&amp;w
+scanners fit this description).  One way to fix the halftoning is to
+scan at the highest possible resolution, say 300 dpi, and then reduce
+by a factor of three or so using <b>pbmreduce</b>.  You can even
+correct the brightness of an image, by using the <b>-value</b> option.
+
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>pbmreduce</b> recognizes the following
+command line options:
+
+<dl>
+
+<dt><b>-threshold</b>
+<dd>
+By default, <b>pbmreduce</b> does the halftoning after the reduction via
+boustrophedonic Floyd-Steinberg error diffusion; however, you can use this
+option to specify simple thresholding.  This gives better results when
+reducing line drawings.
+
+<dt><b>-floyd</b>, <b>-fs</b>
+<dd>Specify the Floyd-Steinberg error diffusion method.  This is the
+default.
+
+<dt><b>-value</b>
+<dd>
+<p>This option alters the thresholding value for all quantizations.  It should
+be a real number between 0 and 1.  Above 0.5 means darker images; below 0.5
+means lighter.
+
+<dt><b>-randomseed=</b><i>integer</i>
+
+<dd>This is the seed for the random number generator that controls the
+halftoning.
+
+<p>Use this to ensure you get the same image on separate invocations.
+
+<p>This option was new in Netpbm 10.75 (June 2016).
+
+</dl>
+
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<a href="pamenlarge.html">pamenlarge</a>,
+<a href="pamscale.html">pamscale</a>,
+<a href="pamditherbw.html">pamditherbw</a>,
+<a href="pbm.html">pbm</a>
+
+<h2 id="author">AUTHOR</h2>
+
+Copyright (C) 1988 by Jef Poskanzer.
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#author">AUTHOR</a>
+</ul>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Yuvtoppm User Manual</title></head>
+<body>
+<h1>yuvtoppm</h1>
+Updated: 25 March 91
+<br>
+<a href="#index">Table Of Contents</a>
+<h2>NAME</h2>
+
+yuvtoppm - convert Abekas YUV bytes to PPM
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>yuvtoppm</b>
+
+<i>width</i> 
+<i>height</i>
+[<i>imagedata</i>]
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>yuvtoppm</b> reads raw Abekas YUV bytes as input and produces a
+PPM image as output.  The input file is just YUV bytes.  You have to
+specify the width and height on the command line, since the program
+obviously can't get them from the file.  <b>yuvotppm</b> assumes the
+maxval of the input is 255.
+
+<p>The <a href="ppmtoyuv.html"><b>ppmtoyuv</b> manual</a> tells a little
+about the Abekas YUV format.
+
+<h2 id="options">OPTIONS</h2>
+
+<p>There are no command line options defined specifically
+for <b>yuvtoppm</b>, but it recognizes the options common to all
+programs based on libnetpbm (See <a href="index.html#commonoptions">
+Common Options</a>.)
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<a href="ppmtoyuv.html">ppmtoyuv</a>, 
+<a href="ppm.html">ppm</a>
+
+<h2 id="author">AUTHOR</h2>
+
+Marc Boucher &lt;<a
+href="mailto:marc@PostImage.COM">marc@PostImage.COM</a>&gt;, based on
+Example Conversion Program, A60/A64 Digital Video Interface Manual,
+page 69.
+
+<p>Copyright (C) 1991 by DHD PostImage Inc.
+
+<p>Copyright (C) 1987 by Abekas Video Systems Inc.
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#author">AUTHOR</a>
+</ul>
+</body>
+</html>

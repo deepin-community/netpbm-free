@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Pambrighten User Manual</title></head>
+<body>
+<h1>pambrighten</h1>
+Updated: 18 August 2020
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+pambrighten - change a PPM image's Saturation and Value
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>pambrighten</b>
+[<b>-saturation=</b>[<b>+</b>|<b>-</b>]<i>saturation_percent</i>]
+[<b>-value=</b>[<b>+</b>|<b>-</b>]<i>value_percent</i>]
+[<i>netpbmfile</i>]
+
+<p>Minimum unique abbreviation of option is acceptable.  You may use
+double hyphens instead of single hyphen to denote options.  You may use
+white space in place of the equals sign to separate an option name
+from its value.
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>pambrighten</b> increases or decreases the Saturation and Value
+(from the HSV color space) of each pixel of a Netpbm image.  You specify
+the percentage change for each of those parameters.
+
+<p>You can also remap the colors of the pixels so their Values cover the full
+range of possible Values.
+
+<p>The input image is from the file named <i>netpbmfile</i>, or Standard
+Input if <i>netpbmfile</i> is not specified.
+  
+<p>The output format is the same as the input format and any extra channels,
+such as transparency, are passed through.
+  
+<p>Hue-Saturation-Value, or HSV, is one way to represent a color, like the
+more well-known RGB.  Hue, Saturation, and Value are numbers in the range from
+0 to 1.  We always capitalize them in this document when we mean the number
+from the HSV color space, especially since "value" as a conventional English
+word has a much more abstract meaning.
+
+<p>Value is a measure of how bright the color is, relative to some specified
+maximum (the Netpbm formats are also defined in terms of a specified maximum
+brightness -- For the purposes of this program, they are the same).  In
+particular, it is the brightness of the brightest primary color component of
+the color divided by the maximum brightness possible for a component.  Zero
+Value means black.  White has full Value.
+
+<p>Hue is an indication of the secondary color with the same brightness that
+most closely approximates the color.  A secondary color is made of a
+combination of at most two of the primary colors.
+
+<p>Saturation is a measure of how close the color is to the color indicated by
+the Hue and Value.  A lower number means more light of the third primary color
+must be added to get the exact color.  Full Saturation means the color is a
+secondary color.  Zero Saturation means the color is gray (or black or white).
+Decreasing the saturation of a color tends to make it washed out.
+
+<p>If it is impossible to increase the Value of a pixel by the amount you
+specify (e.g. the Value is .5 and you specify +200%), <b>pambrighten</b>
+increases it to full Value instead.
+
+<p>If it is impossible to increase the Saturation of a pixel by the amount
+you specify (e.g. it is already half saturated and you specify +200%),
+<b>pambrighten</b> increases it to full Saturation instead.
+
+<p>For a simpler kind of brightening, you can use <b>pamfunc -multiplier</b>
+simply to increase the brightness of each pixel by a specified percentage,
+clipping each RGB component where the calculated brightness would exceed full
+brightness.  Thus, the brightest colors in the image would change chromaticity
+in addition to not getting the specified brightness boost.  For
+<em>decreasing</em> brightness, <b>pamfunc</b> should do the same thing as
+<b>pambrighten</b>.
+
+<p><b>ppmflash</b> does another kind of brightening.  It changes the color of
+each pixel to bring it a specified percentage closer to white.  This increases
+the value and saturation.
+
+<p><b>pambrighten</b> is meant to replace <b>ppmbrighten</b>.  It is the same
+as <b>ppmbrighten</b>, except that it recognizes the various Netpbm image
+formats rather than treating them all as PPM.  The output format is the same
+as the input format and extra channels in a PAM image (such as a
+transparency channel) get passed through.
+
+<p>If you want to modify the hues in the image, use <b>pamhue</b>.
+
+  
+<h2 id="examples">EXAMPLES</h2>
+<p>To double the Value of each pixel:
+<pre>
+pambrighten -value=100
+</pre>
+
+<p>To double the Saturation and halve the Value of each pixel:
+<pre>
+pambrighten -saturation=+100 -value=-50
+</pre>
+
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>pambrighten</b> recognizes the following
+command line options:
+
+<dl>
+<dt><b>-value=</b><i>value_percent</i>
+
+<dd>This option specifies the amount, as a percentage, by which you want to
+increase the Value of each pixel.  It may be negative.
+<p>
+The default is zero.
+  
+<dt><b>-saturation=</b><i>value_percent</i>
+
+<dd>This option specifies the amount, as a percentage, by which you want to
+increase the Saturation of each pixel.  It may be negative.
+<p>
+The default is zero.
+
+</dl>  
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<a href="pnmnorm.html">pnmnorm</a>, 
+<a href="ppmdim.html">ppmdim</a>, 
+<a href="pamfunc.html">pamfunc</a>, 
+<a href="ppmflash.html">ppmflash</a>, 
+<a href="pamaltsat.html">pamaltsat</a>, 
+<a href="pamdepth.html">pamdepth</a>, 
+<a href="pnmgamma.html">pnmgamma</a>, 
+<a href="pamhue.html">pamhue</a>, 
+<a href="ppmhist.html">ppmhist</a>, 
+<a href="ppm.html">ppm</a>
+
+<h2 id="history">HISTORY</h2>
+
+<p><b>pambrighten</b> was new in Netphm 10.86 (March 2019).  It was a PAM
+conversion of the much older <b>ppmbrighten</b>.
+  
+
+<h2 id="author">AUTHOR</h2>
+
+<p>Copyright (C) 1990 by Brian Moffet.
+Copyright (C) 1989 by Jef Poskanzer.
+
+<p>
+Permission to use, copy, modify, and distribute this software and its
+documentation for any purpose and without fee is hereby granted, provided
+that the above copyright notice appear in all copies and that both that
+copyright notice and this permission notice appear in supporting
+documentation.  This software is provided "as is" without express or
+implied warranty.
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#examples">EXAMPLES</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#history">HISTORY</a>
+<li><a href="#author">AUTHOR</a>
+</ul>
+</body>
+</html>

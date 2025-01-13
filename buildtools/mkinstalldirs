@@ -29,8 +29,6 @@ do
 
         if test ! -d "$pathcomp"; then
   	  errstatus=$lasterr
-        else
-          chmod 755 "$pathcomp"
         fi
      fi
 

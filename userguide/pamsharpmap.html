@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Pamsharpmap User Manual</title></head>
+<body>
+<h1>pamsharpmap</h1>
+Updated: 07 February 2004
+<br>
+
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+pamsharpmap - create map of sharpness in a PNM/PAM image
+
+<h2 id="synopsis">SYNOPSIS</h2>
+<b>pamsharpmap</b> [<i>imagefile</i>]
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>pamsharpmap</b> reads a Netpbm image (PNM or PAM) and produces
+an image that shows how sharp it is at each location.
+
+<p>Sharpness is a measure of how suddenly (in space) colors change in
+the image.  <b>pamsharpmap</b> computes the sharpness of each
+component color (R, G, B) separately and produces a pixel whose
+intensity of each component color is directly proportional to the
+sharpness of that component color at the same location in the input
+image.  Thus, at a point where the image is very sharp in its red and
+green components, but dull in its blue component, you will see a
+yellow pixel in the output.
+
+<p><b>pamsharpmap</b> computes sharpness at a point simply as the
+average difference in intensity between the pixel at that point and
+the 8 pixels surrounding it.
+
+<p>At the edges of the image, where there are not 8 pixels surrounding
+a pixel, <b>pamsharpmap</b> assumes the image is extended with a black
+border.
+
+<p><b>pamsharpmap</b> assumes that the image is a PNM or PNM
+equivalent PAM.  If it isn't, the results are not necessarily
+meaningful.
+
+<p>The output image is the same dimensions, depth, and tuple type as
+the input, and has maxval 255.
+
+<h2 id="options">OPTIONS</h2>
+
+<p>There are no command line options defined specifically
+for <b>pamsharpmap</b>, but it recognizes the options common to all
+programs based on libnetpbm (See <a href="index.html#commonoptions">
+Common Options</a>.)
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<b><a href="pamsharpness.html">pamsharpness</a></b>,
+<b><a href="pammasksharpen.html">pammasksharpen</a></b>,
+<b><a href="pamedge.html">pamedge</a></b>,
+<b><a href="pam.html">pam</a></b>,
+<b><a href="pnm.html">pnm</a></b>
+
+<h2 id="history">HISTORY</h2>
+
+<p><b>pamsharpmap</b> was added to Netpbm in Release 10.21 (March
+2004).  Bryan Henderson derived it from the program <b>pnmsharp</b> by
+B.W. van Schooten and distributed as part of the Photopnmtools
+package.
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#history">HISTORY</a>
+</ul>
+</body>
+</html>

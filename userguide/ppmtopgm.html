@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Ppmtopgm User Manual</title></head>
+<body>
+<h1>ppmtopgm</h1>
+Updated: 25 June 2017
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+
+ppmtopgm - convert a PPM image to a PGM image
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>ppmtopgm</b>
+
+[<i>ppmfile</i>]
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>ppmtopgm</b> reads a PPM as input and produces a PGM as output.
+The output is a "black and white" rendering of the original
+image, as in a black and white photograph.  The quantization formula
+<b>ppmtopgm</b> uses is y = .299 r + .587 g + .114 b.
+
+<p>The dimensions and maxval of the output are the same as the input.
+Note that with only one color plane, there are far fewer brightnesses
+that can be represented with the same maxval than with three color
+planes, so you may want to increase the maxval of the input with
+<b>pamdepth</b> before giving it to <b>ppmtopgm</b> to avoid loss of
+information.  For example, with a maxval of 1, there are 8 brightnesses that
+are possible in a PPM (though some of them are barely distinguishable), but
+only 2 brightness levels possible in a PGM.
+
+<p>Note that although there is a <b>pgmtoppm</b> program, it is not
+necessary for simple conversions from pgm to ppm , because any ppm
+program can read pgm (and pbm ) files automatically.  <b>pgmtoppm</b>
+is for colorizing a pgm file.  Also, see <b>ppmtorgb3</b> for a
+different way of converting color to gray.  And <b>ppmdist</b>
+generates a grayscale image from a color image, but in a way that
+makes it easy to differentiate the original colors, not necessarily a
+way that looks like a black and white photograph.
+
+<h2 id="options">OPTIONS</h2>
+
+<p>There are no command line options defined specifically
+for <b>ppmtopgm</b>, but it recognizes the options common to all
+programs based on libnetpbm (See <a href="index.html#commonoptions">
+Common Options</a>.)
+
+<h2 id="quote">QUOTE</h2>
+
+<pre>
+Cold-hearted orb that rules the night
+Removes the colors from our sight
+Red is gray, and yellow white
+But we decide which is right
+And which is a quantization error.
+</pre>
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<b><a href="pgmtoppm.html">pgmtoppm</a></b>,
+<b><a href="ppmtorgb3.html">ppmtorgb3</a></b>,
+<b><a href="rgb3toppm.html">rgb3toppm</a></b>,
+<b><a href="ppmdist.html">ppmdist</a></b>,
+<b><a href="ppm.html">ppm</a></b>,
+<b><a href="pgm.html">pgm</a></b>
+
+<h2 id="author">AUTHOR</h2>
+
+Copyright (C) 1989 by Jef Poskanzer.
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#quote">QUOTE</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#author">AUTHOR</a>
+</ul>
+</body>
+</html>

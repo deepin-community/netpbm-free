@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Ppmtorgb3 User Manual</title></head>
+<body>
+<h1>ppmtorgb3</h1>
+Updated: 10 January 1991
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+
+ppmtorgb3 - separate a PPM image into three PGMs
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>ppmtorgb3</b>
+
+[<i>ppmfile</i>]
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>ppmtorgb3</b> reads a PPM image as input and writes three PGM
+images as output, one each for red, green, and blue.
+
+<p><b>ppmtorgb3</b> constructs the output filenames by taking the
+input filename, stripping off any extension, and appending
+<b>.red</b>, <b>.grn</b>, <b>.blu</b>.  For example, separating
+<b>lenna.ppm</b> would result in <b>lenna.red</b>, <b>lenna.grn</b>,
+and <b>lenna.blu</b>.  If the input comes from stdin, the names are
+<b>noname.red</b>, <b>noname.grn</b>, and <b>noname.blu</b>.
+
+<h2 id="options">OPTIONS</h2>
+
+<p>There are no command line options defined specifically
+for <b>ppmtorgb3</b>, but it recognizes the options common to all
+programs based on libnetpbm (See <a href="index.html#commonoptions">
+Common Options</a>.)
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<a href="rgb3toppm.html">rgb3toppm</a>, 
+<a href="pamchannel.html">pamchannel</a>, 
+<a href="ppmtopgm.html">ppmtopgm</a>, 
+<a href="pgmtoppm.html">pgmtoppm</a>, 
+<a href="ppm.html">ppm</a>, 
+<a href="pgm.html">pgm</a>
+
+<h2 id="author">AUTHOR</h2>
+
+Copyright (C) 1991 by Jef Poskanzer.
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#author">AUTHOR</a>
+</ul>
+</body>
+</html>

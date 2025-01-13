@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Pbmtoepsi User Manual</title></head>
+<body>
+<h1>pbmtoepsi</h1>
+Updated: June 2002
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+pbmtoepsi - convert a PBM image to an encapsulated PostScript
+style preview bitmap
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>pbmtoepsi</b>
+[<b>-dpi=</b><i>N</i>[<b>x</b><i>N</i>]]
+[<b>-bbonly</b>]
+[<i>pbmfile</i>]
+
+<p>All options can be abbreviated to their shortest unique prefix.
+You may use two hyphens instead of one.  You may separate an option
+name and its value with white space instead of an equals sign.
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p>Reads a PBM image as input.  Produces an encapsulated Postscript
+style bitmap as output.  The output is not a stand alone postscript
+file, it is only a preview bitmap, which can be included in an
+encapsulated PostScript file.
+
+<p><b>pbmtoepsi</b> assumes the PBM input describes a whole output
+page, with one pixel on the page corresponding to one PBM pixel.  It
+detects white borders in the image and generates Postscript output
+that contains a Bounding Box statement to describe the location of the
+principal image (the image excluding the white borders) on the page
+and thus does not include the borders in the raster part of the
+Postscript output.
+
+<p>There is no <b>epsitopbm</b> tool - this transformation is one way.
+
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>pbmtoepsi</b> recognizes the following
+command line options:
+
+<dl compact>
+<dt><b>-dpi=</b><i>N</i>[<b>x</b><i>N</i>]
+
+<dd>
+     <p>This option specifies the resolution in dots per inch of the
+     ultimate output device.  You must specify this because the
+     Bounding Box statement defines the bounding box in absolute
+     distances, not in pixels.  <b>pbmtoepsi</b> assumes in
+     calculating the bounding box that each PBM pixel will become one
+     dot on the output device, and applies your <b>dpi</b>
+     specification to calculate the size and location on the page of
+     the bounding box.
+
+     <p>If you specify <i>N</i><b>x</b>N, the first number is the
+     horizontal resolution and the second number is the vertical
+     resolution.  If you specify just a single number <i>N</i>, that is the
+     resolution in both directions.
+
+     <p>The default is 72 dots per inch in both directions.
+
+     <p>This option was new In Netpbm 10.3 (June 2002).  Before that, 
+     <b>pbmtoepsi</b> always assumed 72 dots per inch in both directions.
+     
+<dt><b>-bbonly</b>
+
+<dd>
+Only create a boundary box, don't fill it with the image.
+</dl>
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<b><a href="pbm.html">pbm</a></b>,
+
+<b><a href="pnmtops.html">pnmtops</a></b>,
+
+<b><a href="pstopnm.html">pstopnm</a></b>,
+
+<b><a href="psidtopgm.html">psidtopgm</a></b>,
+
+<b><a href="pbmtolps.html">pbmtolps</a></b>,
+
+Postscript language documentation
+
+<h2 id="author">AUTHOR</h2>
+
+Copyright (C) 1988 Jef Poskanzer, modified by Doug Crabill 1992
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#author">AUTHOR</a>
+</ul>
+</body>
+</html>

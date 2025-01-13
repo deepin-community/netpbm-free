@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Pamfile User Manual</title></head>
+<body>
+<h1>pamfile</h1>
+Updated: 04 July 2020
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+pamfile - describe a Netpbm (PAM or PNM) file
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>pamfile</b>
+
+[<b>-allimages</b>]
+[<b>-comments</b>]
+[<b>-count</b>]
+[<b>-machine</b>]
+[<b>-size</b>]
+
+[<i>file</i> ...]
+
+<p>Minimum unique abbreviations of options are acceptable.  You may use
+double hyphens instead of single hyphen to denote options.  You may use
+white space in place of the equals sign to separate an option name
+from its value.
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>pamfile</b> reads one or more Netpbm files as input and writes
+out short descriptions of the image type, size, etc.  This is partly
+for use in shell scripts, so the format is not particularly pretty.
+
+<p>By default, <b>pamfile</b> reads only the header of the input file.
+If that file is a pipe, that might cause problems for the process that is
+feeding the pipe.  In that case, see the <b>-allimages</b> option.
+
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>pamfile</b> recognizes the following
+command line options:
+
+<dl compact>
+<dt><b>-allimages</b>
+
+<dd>This option causes <b>pamfile</b> to describe every image in each
+input file.  Without this option, <b>pamfile</b> describes only the
+first image in each input file.
+
+<p>This option also causes <b>pamfile</b> to read all the images from 
+the input stream, whereas without it, <b>pamfile</b> reads only the header
+of the first one.  If the input stream is from a pipe, the process that is
+feeding the pipe might require the entire stream to be consumed.  In
+that case, use this option even if the stream contains only one image.
+
+<p>This option has no effect if you also specify <b>-count</b>.
+
+<p>Note that before July 2000, a file could not contain more than one
+image and many programs ignore all but the first.
+
+<p>This option was new in Netpbm 9.5 (July 2000).
+
+<dt><b>-comments</b>
+
+<dd>This option causes <b>pamfile</b> to include for each PAM image
+a report of the comments from the header of the image.
+
+<p>For a PBM, PGM, or PPM image, <b>pamfile</b> reports there are no
+comments, even if there are.
+
+<p>This option was new in Netpbm 10.35 (August 2006).
+
+<dt><b>-count</b>
+
+<dd>This option causes <b>pamfile</b> to display only a count of how many
+images are in each input file.
+
+<p>As with <b>-allimages</b>, this causes <b>pamfile</b> to read all the
+images.
+
+<p>You may specify at most one of <b>-count</b>, <b>-machine</b>,
+and <b>-size</b>.
+
+<p>This option was new with Netpbm 10.31 (December 2005).
+
+<dt><b>-machine</b>
+
+<dd>This makes the output more convenient for a machine to use, while
+  less convenient for a human.  <b>pamfile</b> reports the same information
+  as with no options.
+
+  <p>The output is one line of ASCII text per image.  Each line consists of
+     the file name, followed by a colon, followed by a space, then the
+     following tokens with a space in between:
+
+    <ol>
+      <li>Format: &quot;PAM&quot;, &quot;PBM&quot;, &quot;PGM&quot;, or
+        &quot;PPM&quot;,
+      <li>Subformat: &quot;PLAIN&quot; or &quot;RAW&quot;
+      <li>Width: in pixels, in decimal
+      <li>Height: in pixels, in decimal
+      <li>Depth: in decimal
+      <li>Maxval: in decimal (1 if image is PBM)
+      <li>Tuple type (emulated if the image is not PAM)
+    </ol>
+
+<p>You may specify at most one of <b>-count</b>, <b>-machine</b>,
+and <b>-size</b>.
+
+<p>This option was new in Netpbm 10.86 (March 2019).
+
+<dt><b>-size</b>
+
+<dd>This makes the output contain only the height and width of the image,
+in a form convenient for machine processing.
+
+<p>There is one line of output per image, consisting of two blank-delimited
+tokens:
+
+<ol>
+  <li>Width: in pixels, in decimal
+  <li>Height: in pixels, in decimal
+  </ol>
+    
+<p>Note that there is no way to tell which image is in which file, if you have
+multiple input files with multiple images.  If that is your case,
+use <b>-machine</b> instead.
+  
+<p>You may specify at most one of <b>-count</b>, <b>-machine</b>, and
+<b>-size</b>.
+
+<p>This option was new in Netpbm 10.86 (March 2019).
+
+</dl>
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<b><a href="pam.html">pam</a></b>,
+<b><a href="ppmhist.html">ppmhist</a></b>,
+<b>file</b>
+
+<h2 id="author">AUTHOR</h2>
+
+Copyright (C) 1991 by Jef Poskanzer.
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#author">AUTHOR</a>
+</ul>
+</body>
+</html>
+

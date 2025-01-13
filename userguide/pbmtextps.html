@@ -1,0 +1,383 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Pbmtextps User Manual</title></head>
+<body>
+<h1>pbmtextps</h1>
+Updated: 17 February 2023
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+pbmtextps - render text into a PBM image using a postscript interpreter
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>pbmtextps</b>
+[<b>-font</b> <i>fontname</i>]
+[<b>-fontsize</b> <i>float</i>]
+[<b>-resolution</b> <i>n</i>]
+[<b>-leftmargin=</b><i>n</i>]
+[<b>-rightmargin=</b><i>n</i>]
+[<b>-topmargin=</b><i>n</i>]
+[<b>-bottommargin=</b><i>n</i>]
+[<b>-ascent=</b><i>n</i>]
+[<b>-descent=</b><i>n</i>]
+[<b>-pad</b>]
+[<b>-crop</b>]
+[<b>-stroke</b> <i>n</i>]
+[<b>-asciihex</b>]
+[<b>-ascii85</b>]
+[<b>-verbose</b>]
+[<b>-dump-ps</b>]
+<i>text</i> [<i>text</i> ...]
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>pbmtextps</b> takes a single line of text from the command line and
+renders it into a PBM image.  The image is of a single line of text; newline
+characters in the input have no effect.
+
+<p>See <b>pbmtext</b> for a more sophisticated generator of text, but using
+less common font formats.  <b>pbmtext</b> can generate multiple lines of text.
+
+<p>The <b>-plain</b> <a href="index.html#commonoptions">common option</a> has
+no effect before Netpbm 10.42 (March 2008).  The output is always raw PBM.
+
+<h3 id="margins">Margins</h3>
+
+<p>By default, the image is cropped at the top and the right.  It is not
+cropped at the left or bottom so that the text begins at the same position
+relative to the origin.  The size of the default left and bottom margins is
+explained below.
+
+<p>You can set whatever margin you want with options
+<b>-leftmargin</b>, <b>-rightmargin</b>, <b>-topmargin</b> and
+<b>-bottommargin</b>.  The specified amount of white space gets added to the
+far edge of type, e.g. if you specify 10 points for <b>-topmargin</b>, you
+will get 10 points of white space above the highest character on the line.
+Specify 0 to crop a side.
+
+<p><b>-ascent</b> adds white space to the top to reach a specified distance
+above the text baseline, and <b>-descent</b> adds white space to to the bottom
+to reach a specified distance below the text baseline.
+
+<p><b>-ascent</b> and <b>-descent</b> are more useful than <b>-topmargin</b>
+and <b>-bottomargin</b> when you render two pieces of text (in separate
+invocations of <b>pbmtextps</b>) that you will concatenate horizontally.
+With <b>-ascent</b> and <b>-descent</b>, as long as you specify a value
+greater than the height or detph of every character in the font, the two
+images will be the same height with the text baseline in the same place.
+With <b>-topmargin</b> and <b>-bottommargin</b>, that may not be the case.
+
+<p>Example:
+
+<pre>
+<kbd>
+     $ pbmtextps -font=Times-Roman -descent=20 \
+          &quot;The soup is called&quot; &gt; a1.pbm
+     $ pbmtextps -font=Itallic -descent=20 &quot;Goulash.&quot; &gt; a2.pbm
+     $ pamcat -leftright -jbottom a1.pbm a2.pbm &gt; out.pbm
+</kbd>
+</pre>
+
+<p>If you're using <b>-descent</b> to line up the segments of text you are
+  concatenating horizontally with <b>pamcat</b>, use the <b>-jbottom</b>
+  (justify to bottom) option on <b>pamcat</b> as in the example above.  If you
+  use <b>-ascent</b>, use <b>-jtop</b> instead.
+
+<p>Similarly, if you render two lines of text (in separate invocations of
+  <b>pbmtextps</b>) that you will concatenate vertically, <b>-ascent</b> and
+  <b>-descent</b> with sufficiently large values will ensure your baselines
+  are uniformly spaced.
+
+<p>If you have <b>-ascent</b>, there is probably no point in specifying
+<b>-topmargin</b> too, but if you do, the effect is cumulative.  The same is
+true of <b>-descent</b> and <b>-bottommargin</b>.
+
+<p><b>-pad</b> pads the image on the top and bottom to the where the highest
+and lowest characters in the font would reach, even if you don't have those
+characters in your text.  This is useful if you will generate multiple images
+of text (with multiple invocations of <b>pbmtextps</b>) and concatenate them
+vertically to create a multiline text image.  <b>-pad</b> makes sure the lines
+in this image are equally spaced.
+
+<p>Example:
+
+<pre>
+<kbd>
+    $ pbmtextps &quot;cat&quot;   | pamfile
+    $ pbmtextps &quot;Catty&quot; | pamfile
+</kbd>
+</pre>
+
+<p>The commands above, with no <b>-pad</b>, show that the &quot;Catty&quot;
+image is higher because capital C reaches high and &quot;y&quot; reaches low.
+
+<pre>
+<kbd>
+    $ pbmtextps -pad &quot;cat&quot;   | pamfile
+    $ pbmtextps -pad &quot;Catty&quot; | pamfile
+</kbd>
+</pre>
+
+<p>The commands above, with <b>-pad</b>, show that both images are the same
+height.
+
+<p>If you specify <b>-pad</b> with <b>-ascent</b> or <b>-descent</b>, the
+larger value is effective.
+
+<p><b>-crop</b> makes the program crop all sides to the far edge of the type.
+It is the same as <kbd>-leftmargin=0 -rightmargin=0 -topmargin=0
+-bottommargin=0</kbd>.
+
+<p>You cannot specify any other margin-affecting options with <b>-crop</b>.
+
+<p>The default top margin, when you specify neither <b>-ascent</b>,
+<b>-topmargin</b>, nor <b>-pad</b>, is as if you specified
+<b>topmargin=0</b>.
+
+<p>The default bottom margin, when you specify neither <b>-descent</b>,
+<b>-bottommargin</b>, nor <b>-pad</b>, is as if you specified
+<b>-descent=</b><i>1.5*fontsize</i>.
+
+<p>The default left margin, when you do not specify <b>-leftmargin</b>, is
+as if you specified <b>-leftmargin=</b><i>0.5*fontsize</i>.
+
+<p>The default right margin, when you do not specify <b>-rightmargin</b>,
+is as if you specified <b>-rightmargin=0</b>.
+
+
+<h3 id="input_text">Input Text</h3>
+
+<p>The simplest way to specify the text to render is just to specify it,
+  in ASCII, as the sole argument of the command.  For example,
+
+  <pre>
+    <kbd>
+  $ pbmtextps &quot;hello world&quot;
+    </kbd>
+  </pre>
+
+<p>But you can also spread it across multiple arguments.  <b>pbmtextps</b>
+  concatenates them right to left with a single space in between:
+  
+  <pre>
+    <kbd>
+  $ pbmtextps hello world
+    </kbd>
+  </pre>
+
+<p>With an <b>-asciihex</b> option, you can specify the text in
+Postscript&apos;s ASCII-HEX code:
+  
+  <pre>
+    <kbd>
+  $ pbmtextps -asciihex 68656c6c6f20776f726c64
+    </kbd>
+  </pre>
+
+<p>You can optionally include the ASCII-HEX text delimiters that would appear
+around the text in a Postscript program:
+
+  <pre>
+    <kbd>
+  $ pbmtextps -asciihex &quot;<68656c6c6f20776f726c64>&quot;
+    </kbd>
+  </pre>
+
+<p>Note that the <> delimiters have special meaning to command shells, so if
+you are invoking <b>pbmtextps</b> via a command shell, be sure to quote them,
+as is done in this example.
+  
+<p>With <b>-asciihex</b>, you can include white space anywhere in the coded
+text; it has no effect.  And you can spread the argument across multiple
+arguments as for plain ASCII input:
+
+  <pre>
+    <kbd>
+  $ pbmtextps -asciihex &quot;<&quot; 68656c6c6f 20 776f726c64 &quot;>&quot;
+    </kbd>
+  </pre>
+
+<p>But note that while Postscript allows an ASCII NUL character as white
+  space, there is no way to pass an argument including a NUL character to
+  <b>pbmtextps</b>.
+  
+<p>With an <b>-ascii85</b> option, you can specify the text in
+Postscript&apos;s ASCII-85 code.  This is analogous to <b>-asciihex</b>.  The
+Postscript delimiters for an ASCII-85 text string are <~ ~>.
+
+  
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>pbmtextps</b> recognizes the following
+command line options:
+
+<dl compact>
+<dt><b>-font=</b><i>fontname</i>
+<dd>
+<p>This specifies the font to use.  <i>fontname</i> is the name of any valid
+Postscript font which is installed on the system.
+
+<p>The default is <b>TimesRoman</b>.
+
+<p>Here is a way to get a list of the names of all the available fonts:
+
+<pre>
+<kbd>
+        $ gs -c &apos;(*) {==} 256 string /Font resourceforall&apos;
+</kbd>
+</pre>
+  
+<p><strong>Warning:</strong> if <i>fontname</i> does not name a valid font,
+<b>pbmtextps</b> just uses the default font.  It does not tell you it is doing
+this.
+
+<dt><b>-fontsize=</b><i>float</i>
+<dd>
+This is the size of the font in points.  See the <b>-resolution</b> option for
+information on how to interpret this size.
+
+<p>The default is 24 points.
+
+<p>Before Netpbm 10.75 (June 2016), this has to be a whole number.
+
+<dt><b>-resolution=</b><i>n</i>
+<dd>
+This is the resolution in dots per inch of distance measurements pertaining to
+generation of the image.  PBM images don't have any inherent resolution, so a
+distance such as "1 inch" doesn't mean anything unless you separately specify
+what resolution you're talking about.  That's what this option does.
+
+<p>In particular, the meaning of the font size is determined by this
+resolution.  If the font size is 24 points and the resolution is 150 dpi, then
+the font size is 50 pixels.
+
+<p>The default is 150 dpi.
+
+<dt><b>-leftmargin=</b><i>n</i>
+<dt><b>-rightmargin=</b><i>n</i>
+<dt><b>-topmargin=</b><i>n</i>
+<dt><b>-bottommargin=</b><i>n</i>
+<dd>
+These options control the margins added to the image, measured from the far
+edge of the type.  See <a href="#margins">Margins</a> for details.
+
+<p>All sizes are in points, as a floating point number.
+
+<p>These options were new in Netpbm 10.75 (June 2016).
+
+<dt><b>-ascent=</b><i>n</i>
+<dt><b>-descent=</b><i>n</i>
+<dd>
+These options control the margins added to the image, measured from
+the text baseline.  See <a href="#margins">Margins</a> for details.
+
+<p>Sizes are in points, as a floating point number.
+
+<p>These options were new in Netpbm 10.75 (June 2016).
+
+<dt><b>-pad</b>
+<dd>
+This pads the image on the top and bottom to the where the highest and lowest
+characters in the font would reach, even if you don't have those characters in
+your text.  See <a href="#margins">Margins</a> for details.
+
+<p>This option was new in Netpbm 10.75 (June 2016).
+
+<dt><b>-crop</b>
+<dd>
+This makes the program crop all sides to the far edge of the type.  It is the
+same as <kbd>-leftmargin=0 -rightmargin=0 -topmargin=0 -bottommargin=0</kbd>.
+See <a href="#margins">Margins</a> for details.
+
+<p>This option was new in Netpbm 10.75 (June 2016).
+
+<dt><b>-asciihex</b>
+<dd>
+This means the text in the arguments is in Postscript ASCII-HEX code.
+See <a href="#input_text">Input Text</a>.
+
+<p>You cannot specify this together with <b>-ascii85</b>.
+
+<p>This option was new in Netpbm 11.02 (March 2023)
+
+<dt><b>-ascii85</b>
+<dd>
+This means the text in the arguments is in Postscript ASCII-85 code.
+See <a href="#input_text">Input Text</a>.
+
+<p>You cannot specify this together with <b>-asciihex</b>.
+
+<p>This option was new in Netpbm 11.02 (March 2023)
+  
+<dt><b>-stroke=</b><i>n</i>
+<dd>
+This is the width of line, in points, to use for stroke font.  There is no
+default stroke width because the characters are solid by default.
+
+<dt><b>-verbose</b>
+<dd>
+This option makes <b>pbmtextps</b> display extra information on Standard Error
+about its processing.
+
+<dt><b>-dump-ps</b>
+<dd>
+This option makes <b>pbmtextps</b> write to Standard Output the Postscript
+program it would use to create the image, rather than the image itself.  You
+can use this as input to a Postscript interpreter (such as Ghostscript or a
+printer) or to understand the program better.
+
+<p>This option was new in Netpbm 10.75 (June 2016).
+
+</dl>
+
+<h2 id="usage">USAGE</h2>
+
+You can generate antialiased text by using a larger resolution than the
+default and scaling the image down using <b>pamscale</b>.
+
+<p>See the manual for the similar <b>pbmtext</b> for more advice on
+usage.
+
+<h2 id="history">HISTORY</h2>
+
+<p><b>pbmtextps</b> was added to Netpbm in Release 10.0 (June 2002).
+
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<b><a href="pbmtext.html">pbmtext</a></b>,
+<b><a href="pamcut.html">pamcut</a></b>,
+<b><a href="pnmcrop.html">pnmcrop</a></b>,
+<b><a href="pamcomp.html">pamcomp</a></b>,
+<b><a href="ppmchange.html">ppmchange</a></b>,
+<b><a href="pnmrotate.html">pnmrotate</a></b>,
+<b><a href="pamscale.html">pamscale</a></b>,
+<b><a href="ppmlabel.html">ppmlabel</a></b>,
+<b><a href="pbm.html">pbm</a></b>
+
+<h2 id="author">AUTHOR</h2>
+
+Copyright (C) 2002 by James McCann
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+  <ul>
+  <li><a href="#margins">Margins</a>
+  <li><a href="#input_text">Input Text</a>
+  </ul>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#usage">USAGE</a>
+<li><a href="#history">HISTORY</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#author">AUTHOR</a>
+</ul>
+</body>
+</html>

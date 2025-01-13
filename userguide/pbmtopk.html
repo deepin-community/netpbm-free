@@ -1,0 +1,157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Pbmtopk User Manual</title></head>
+<body>
+<h1>pbmtopk</h1>
+Updated: 06 August 1990
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+pbmtopk - convert a PBM image into a packed (PK) format font
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>pbmtopk</b>
+<i>pkfile</i>[<b>.pk</b>]
+<i>tfmfile</i>[<b>.tfm</b>]
+<i>resolution</i>
+[<b>-s</b> <i>designsize</i>]
+[<b>-p</b> <i>num</i> <i>param</i>...]
+[<b>-C</b> <i>codingscheme</i>]
+[<b>-F</b> <i>family</i>]
+[<b>-f</b> <i>optfile</i>]
+[<b>-c</b> <i>num</i>]
+[<b>-W</b> <i>width</i>]
+[<b>-H</b> <i>height</i>]
+[<b>-D</b> <i>depth</i>]
+[<b>-I</b> <i>ital</i>]
+[<b>-h</b> <i>horiz</i>]
+[<b>-v</b> <i>vert</i>]
+[<b>-x</b> <i>xoff</i>]
+[<b>-y</b> <i>yoff</i>]
+[<i>pbmfile</i> ...]
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>pbmtopk</b> reads PBM images as input and produces a packed (PK)
+font file and a TFM (TeX font metric) file as output. The resolution
+parameter indicates the resolution of the font, in dots per inch. If
+the filename "-" is used for any of the filenames,
+<b>pbmtopk</b> uses Standard Input or Standard Output.
+
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>pbmtopk</b> recognizes the following
+command line options:
+
+<dl compact>
+<dt><b>-s</b> <i>designsize</i>
+<dd>
+Sets the design size of the font, in TeX's points (72.27pt to the inch). The
+default design size is 1. The TFM parameters are given as multiples of the
+design size.
+
+<dt><b>-p</b> <i>num</i> <i>param</i>...
+
+<dd>Sets the first num font parameters for the font. The first seven
+parameters are the slant, interword spacing, interword space
+stretchability, interword space shrinkability, x-height, quad width,
+and post-sentence extra space of the font. Math and symbol fonts may
+have more parameters; see The TeXbook for a list of these. Reasonable
+default values are chosen for parameters which are not specified.
+
+<dt><b>-C</b> <i>codingscheme</i>
+
+<dd>
+Sets the coding scheme comment in the TFM file.
+
+<dt><b>-F</b> <i>family</i><dd>
+Sets the font family comment in the TFM file.
+
+<dt><b>-f</b> <i>optfile</i>
+
+<dd>Reads the file optfile, which should contain a lines of the form:
+
+<pre>
+   filename xoff yoff horiz vert width height depth ital
+</pre>
+
+<p>The PBM files specified by the filename parameters are inserted
+consecutively in the font with the specified attributes. If any of the
+attributes are omitted, or replaced with "*", a default
+value will be calculated from the size of the bitmap. The settings of
+the -W, -H, -D, -I, -h, -v, -x, and -y options do not affected
+characters created in this way.  The character number can be changed
+by including a line starting with "=", followed by the new
+number.  Lines beginning with "%" or "#" are
+ignored.
+
+<dt><b>-c</b> <i>num</i>
+<dd>Sets the character number of the next bitmap encountered to num.
+
+<dt><b>-W</b> <i>width</i>
+
+<dd>Sets the TFM width of the next character to width (in design size
+multiples).
+
+<dt><b>-H</b> <i>height</i>
+
+<dd>Sets the TFM height of the next character to height (in design
+size multiples).
+
+<dt><b>-D</b> <i>depth</i>
+
+<dd>Sets the TFM depth of the next character to depth (in design size
+multiples).
+
+<dt><b>-I</b> <i>ital</i>
+
+<dd>Sets the italic correction of the next character to ital (in
+design size multiples).
+
+<dt><b>-h</b> <i>horiz</i>
+
+<dd>Sets the horizontal escapement of the next character to horiz (in
+pixels).
+
+<dt><b>-v</b> <i>vert</i>
+
+<dd>Sets the vertical escapement of the next character to vert (in pixels).
+
+<dt><b>-x</b> <i>xoff</i>
+
+<dd>Sets the horizontal offset of the next character to xoff (in
+pixels).
+
+<dt><b>-y</b> <i>yoff</i>
+
+<dd>Sets the vertical offset of the next character to yoff (in pixels,
+from the top row).
+
+</dl>
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<a href="pktopbm.html">pktopbm</a>, 
+<a href="pbm.html">pbm</a>
+
+<h2 id="author">AUTHOR</h2>
+
+<p>Adapted from Tom Rokicki's pxtopk by Angus Duggan &lt;<a
+href="mailto:ajcd@dcs.ed.ac.uk">ajcd@dcs.ed.ac.uk</a>&gt;.
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#author">AUTHOR</a>
+</ul>
+</body>
+</html>

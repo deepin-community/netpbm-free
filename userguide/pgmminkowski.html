@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Pgmminkowski User Manual</title></head>
+<body>
+<h1>pgmminkowski</h1>
+Updated: 29 October 2002
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+
+pgmminkowski - compute Minkowski integral
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>pgmminkowski</b> <i>pgmfile</i>
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<b>pgmminkowski</b> computes the 3 Minkowski integrals of a PGM image. 
+
+<p>The Minkowski integrals mathematically characterize the shapes in the
+image and hence are the basis of "morphological image analysis."
+
+<p>Hadwiger's theorem has it that these integrals are the only
+motion-invariant, additive and conditionally continuous functions of a
+two-dimensional image, which means that they are preserved under
+certain kinds of deformations of the image.  On top of that, they are
+very easy and quickly calculated.  This makes them of interest for
+certain kinds of pattern recognition.
+
+<p>Basically, the Minkowski integrals are the area, total perimeter
+length, and the Euler characteristic of the image, where these metrics
+apply to the foreground image, not the rectangular PGM image itself.  The
+foreground image consists of all the pixels in the image that are
+white.  For a grayscale image, there is some threshold of intensity
+applied to categorize pixels into black and white, and the Minkowski
+integrals are calculated as a function of this threshold value. The
+total surface area refers to the number of white pixels in the PGM and
+the perimeter is the sum of perimeters of each closed white region in
+the PGM.
+
+<p>For a grayscale image, these numbers are a function of the threshold
+of what you want to call black or white.  <b>pgmminkowski</b> reports these
+numbers as a function of the threshold for all possible threshold
+values.  Since the total surface area can increase only as a function
+of the threshold, it is a reparameterization of the threshold.  It
+turns out that if you consider the other two functions, the boundary
+length and the Euler characteristic, as a function of the first one,
+the surface, you get two functions that are a fingerprint of the
+picture.  This fingerprint is e.g. sufficient to recognize the
+difference between pictures of different crystal lattices under a
+scanning tunnelling electron microscope.
+
+<p>For more information about Minkowski integrals, see e.g. 
+<ul>
+<li><a href="http://rugth30.phys.rug.nl/pdf/prechaos.pdf">
+J.S. Kole, K. Michielsen, and H. De Raedt,
+"Morphological Image Analysis of Quantum Motion in Billiards",
+Phys. Rev. E 63, 016201-1 - 016201-7 (2001)
+</a>
+
+<li>K. Michielsen and
+H. De Raedt, "Integral-Geometry Morphological Image Analysis",
+Phys. Rep. 347, 461-538 (2001).
+
+</ul>
+
+<p>The output is suitable for direct use as a datafile in <b>gnuplot</b>.
+
+<p>In addition to the three Minkowski integrals, <b>pgmminkowski</b> also
+lists the horizontal and vertical edge counts.
+
+
+
+<h2 id="options">OPTIONS</h2>
+
+<p>There are no command line options defined specifically
+for <b>pgmminkowski</b>, but it recognizes the options common to all
+programs based on libnetpbm (See <a href="index.html#commonoptions">
+Common Options</a>.)
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<b><a href="pgmmorphconv.html">pgmmorphconv</a></b>
+<b><a href="pbmminkowski.html">pbmminkowski</a></b>
+<b><a href="pgm.html">pgm</a></b>
+
+<h2 id="authors">AUTHORS</h2>
+
+Luuk van Dijk, 2001.
+
+<p>Based on work which is Copyright (C) 1989, 1991 by Jef Poskanzer.
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#authors">AUTHORS</a>
+</ul>
+</body>
+</html>

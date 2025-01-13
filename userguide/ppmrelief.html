@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Ppmrelief User Manual</title></head>
+<body>
+<h1>ppmrelief</h1>
+Updated: 02 August 2014
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+
+ppmrelief - compute a relief of a PPM image
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>ppmrelief</b>
+
+[<i>ppmfile</i>]
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>ppmrelief</b> reads a PPM image as input, and writes a relief of
+that image as a PPM image as output.
+
+<p>The relief process is described in "Beyond Photography" by
+Holzmann, equation 3.19.  It's a sort of edge-detection and is essentially
+a convolution with this matrix:
+
+<pre>
+<span style="font-family: monospace">
+    |  1  0  0 |
+    |  0  0  0 |
+    |  0  0 -1 |
+</span>
+</pre>
+
+<h2 id="options">OPTIONS</h2>
+
+<p>There are no command line options defined specifically
+for <b>ppmrelief</b>, but it recognizes the options common to all
+programs based on libnetpbm (See <a href="index.html#commonoptions">
+Common Options</a>.)
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<a href="pamshadedrelief.html">pamshadedrelief</a>, 
+<a href="pgmbentley.html">pgmbentley</a>, 
+<a href="pgmoil.html">pgmoil</a>, 
+<a href="ppm.html">ppm</a>
+
+<h2 id="author">AUTHOR</h2>
+
+Copyright (C) 1990 by Wilson Bent (<a
+href="mailto:whb@hoh-2.att.com">whb@hoh-2.att.com</a>)
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#author">AUTHOR</a>
+</ul>
+</body>
+</html>

@@ -1,10 +1,235 @@
-netpbm-free (2:10.0-15.4) unstable; urgency=medium
+netpbm-free (2:11.05.02-1) unstable; urgency=medium
+
+  * 21-clarify-tifftopnm-doc.diff Closes: #496156 (The 2nd issue described
+    there, unspecified behavior on multiimage tiffs has already been fixed.)
+  * New upstream version, fixes ppmtowinicon crash. Closes: #1061667
+
+ -- Andreas Metzler <ametzler@debian.org>  Mon, 29 Jan 2024 18:10:45 +0100
+
+netpbm-free (2:11.05.01-3) unstable; urgency=low
+
+  * Remove Andreas Barth from uploader's list. - Thank you!
+  * Upload to unstable.
+
+ -- Andreas Metzler <ametzler@debian.org>  Sun, 07 Jan 2024 06:51:49 +0100
+
+netpbm-free (2:11.05.01-2) experimental; urgency=medium
+
+  * Team upload.
+  * Rename patches for correct sorting by filename.
+  * 20-Fix-typo-in-ppm_readppm-prototype.patch: Fix documentation of
+    ppm_readppm() function prototype. Closes: #576008
+  * Add myself to uploaders.
+  * Run wrap-and-sort -ast.
+  * Add lintian override for spelling-error-in-binary Optio.
+  * [lintian] Drop debian-revision of b-d on libtiff-dev.
+  * Build with -DUNDEBUG.
+  * Use /usr/bin/install instead of buildtools/install.sh and do not strip
+    binaries at install time to get useful netpbm-dbgsym package.
+
+ -- Andreas Metzler <ametzler@debian.org>  Sat, 06 Jan 2024 15:26:08 +0100
+
+netpbm-free (2:11.05.01-1) experimental; urgency=medium
+
+  * Team upload.
+  * New upstream version.
+    + Unfuzz netpbm-security-code.patch.
+  * Add symbol file.
+
+ -- Andreas Metzler <ametzler@debian.org>  Sat, 30 Dec 2023 15:10:22 +0100
+
+netpbm-free (2:11.04.05-2) unstable; urgency=medium
+
+  * Upload to unstable.
+
+ -- Andreas Metzler <ametzler@debian.org>  Sat, 16 Dec 2023 13:27:17 +0100
+
+netpbm-free (2:11.04.05-1) experimental; urgency=low
+
+  * Team upload.
+  * For better stability switch to packaging
+    https://svn.code.sf.net/p/netpbm/code/advanced/ instead of
+    https://svn.code.sf.net/p/netpbm/code/release_number/. The downside is
+    that uscan cannot get the version number of these minor releases (Only
+    parseable from filename contents but not part of the path.
+    Add debian/updatewatchfile script to get this info and hardcode the
+    version in debian/watch.
+  * New upstream version.
+    + Drop netpbm-ppmfadeusage.patch, fix_test_shebang.diff,
+      01-Add-apos-translation.patch and
+      02-Include-LDFLAGS-in-link-of-shared-library.patch, superseded/applied
+      upstream.
+    + Drop buildtoolsstamp-date-remove-compiled_by.patch, export COMPILED_BY
+      in debian/rules instead.
+    + doc/Netpbm.programming dropped upstream, stop trying to install it.
+  * Upload to experimental.
+
+ -- Andreas Metzler <ametzler@debian.org>  Sun, 10 Dec 2023 11:52:58 +0100
+
+netpbm-free (2:11.03.06-1) unstable; urgency=low
+
+  * New upstream minor release.
+    + Unfuzz patches.
+    + Ship userguide as separate tarball (component) instead of tarball
+      in debian subdirectory. Update watch file (Thanks for the help, Hugh
+      McMaster!), switch to https there and update debian/copyright.
+
+ -- Andreas Metzler <ametzler@debian.org>  Sun, 15 Oct 2023 13:59:54 +0200
+
+netpbm-free (2:11.03.00-3) unstable; urgency=low
+
+  * Upload to unstable.
+
+ -- Andreas Metzler <ametzler@debian.org>  Sat, 23 Sep 2023 11:22:06 +0200
+
+netpbm-free (2:11.03.00-2) experimental; urgency=medium
+
+  * Replace local patches with changes committed to upstream SVN trunk:
+    man_apostr.diff --> 01-Add-apos-translation.patch
+    respect_LDFLAGS.diff --> 02-Include-LDFLAGS-in-link-of-shared-library.patch
+  * netpbm-ppmfadeusage.patch updated/replaced with patch mirroring upstream
+    SVN head behavior.
+  * Add 03_stdin-ppm3.test.result.diff to let stdin-ppm3.test succeed with
+    picttoppm removal, and check whether testsuite succeeds now.
+  * Drop netpbm-CVE-2017-2587.patch. It probably was only necessary in the
+    forked version. Doublechecked with CVE reproducer
+    https://bugzilla.suse.com/show_bug.cgi?id=1024294 and in mail with
+    upstream maintainer.
+
+ -- Andreas Metzler <ametzler@debian.org>  Wed, 20 Sep 2023 13:36:23 +0200
+
+netpbm-free (2:11.03.00-1) experimental; urgency=low
+
+  * Team upload.
+  * Ship library documentation. (Thanks, Torrekie for report and diagnosis!)
+    Closes: #1037069
+  * Fix binary build after successful build.  Closes: #1049800
+  * respect_LDFLAGS.diff: Use Debian (hardened) LDFLAGS for building shared
+    lib. (lintian: hardening-no-bindnow)
+  * New upstream version.
+    + Unfuzz netpbm-security-code.patch.
+  * Update debian/userguide/userguide.tar.xz from SVN.
+    + man_apostr.diff: Handle &apos; in html to man conversion.
+  * fix_test_shebang.diff: Fix typo in shebang line.
+
+ -- Andreas Metzler <ametzler@debian.org>  Thu, 17 Aug 2023 13:24:51 +0200
+
+netpbm-free (2:11.01.00-2) unstable; urgency=medium
+
+  * Team upload.
+  * Do not embed username in /usr/lib/*/libnetpbm.*
+    Closes: #1020658
+  * Do not provide libnetpbm9-dev
+
+ -- Andreas Tille <tille@debian.org>  Wed, 11 Jan 2023 16:30:00 +0100
+
+netpbm-free (2:11.01.00-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream version
+  * Standards-Version: 4.6.2 (routine-update)
+  * d/rules: dh_auto_test checks DEB_BUILD_OPTIONS
+  * Add missing License fields
+  * Lintian-overrides for false positive
+
+ -- Andreas Tille <tille@debian.org>  Wed, 11 Jan 2023 15:17:13 +0100
+
+netpbm-free (2:10.98.00-1) unstable; urgency=medium
+
+  * Team upload.
+  * Remove outdaded debian/README* files
+  * Unversioned development package (Provides: libnetpbm9-dev, libnetpbm10-dev)
+    Closes: #1007984
+  * Close other bugs which are not valid in this version any more
+    Closes: #914850, #360255, #733464, #789874
+  * Review d/copyright
+  * Lintian-overrides for false positive
+
+ -- Andreas Tille <tille@debian.org>  Thu, 26 May 2022 07:29:29 +0200
+
+netpbm-free (2:10.97.00-2) unstable; urgency=medium
+
+  [ Andreas Tille ]
+  * Fix Uploader address
+
+  [ Mathieu Malaterre ]
+  * Team upload.
+  * d/patch: Remove -DNDEBUG during compilation
+  * d/rules: Discard test suite result for now
+
+ -- Mathieu Malaterre <malat@debian.org>  Tue, 29 Mar 2022 14:11:39 +0200
+
+netpbm-free (2:10.97.00-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream version
+     - Closes: #977007, #386388, #847241
+    CVE-2017-2579, CVE-2017-2580 and CVE-2017-2581 before 10.61 thus
+     - Closes: #854978
+  * debian/watch: Use svn mode
+  * Move package to Debian Phototools team
+    Closes: #813227, #864796
+  * Drop debian/gbp.conf by using branch names per team policy
+  * Use Python3 in manpage creation
+    Closes: #968024
+  * Provide userguide in debian/userguide since it is not part of the
+    upstream source tarball obtained via svn mode
+  * Standards-Version: 4.6.0 (routine-update)
+  * debhelper-compat 13 (routine-update)
+  * Remove trailing whitespace in debian/changelog (routine-update)
+  * Remove trailing whitespace in debian/copyright (routine-update)
+  * Remove trailing whitespace in debian/rules (routine-update)
+  * Rules-Requires-Root: no (routine-update)
+  * Fix day-of-week for changelog entry 1:19940301.2-4.
+  * Use d-shlibs to install library and libdevel package
+  * DEP3
+  * Add Build-Depends: ghostscrip to pass one test
+  * Disable two remaining tests that are failing
+  * Remove manweb completely since test had shown this does not work at all
+  * Try hardening options
+  * Enhance long descriptions
+    Closes: #209957
+  * ppmqvga does not belong to the source any more
+    Closes: #256402, #669365
+  * Previous upload to experimental switched to 3.0 source format
+    Closes: #1007030
+  * DEP5
+
+ -- Andreas Tille <tille@debian.org>  Sun, 13 Mar 2022 10:40:03 +0100
+
+netpbm-free (2:10.78.05-0.1) experimental; urgency=medium
 
   * Non-maintainer upload.
-  * Fix FTBFS with gcc 10, patch from Logan Rosen <logan@ubuntu.com>
-    Also add -fcommon to CFLAGS to fix another problem. (Closes: #957599)
+  * New upstream release (Closes: #159847, #380172, LP: #270479)
+    - Bump libnetpbm soname to 11 and drop the old compatibility library
+      (libnetpbm9)
+    - Fix various segfaults (Closes: #315795, #412935, #412783, #412785,
+      #502847, #614156, #777480, #777485, #777489, #777533, #838367)
+    - Drop all the patches. The current fork is 10 years+ old and most of them
+      are not applying anymore. Instead rely on the security patches shipped
+      on Fedora.
+    - Do not call install with -s and honour DEB_BUILD_OPTIONS=nostrip
+      (Closes: #777476)
+    - Ship the ppmtoppm program (Closes: #596113)
+    - Add C++ guard in header files (Closes: #377247)
+    - Add multi-image PBM support to pbmttolj (Closes: #398953)
+    - Add -truetransparent option to ppmtowinicon (Closes: #597686)
+    - Ship the pnmstitch program (Closes: #405877)
+    - Add "-image=all" option to giftopnm (Closes: #395087)
+  * Bump debhelper compatibility to 10
+  * Switch to dh sequences.
+  * Switch to source format 3.0 (quilt)
+  * Bump Standards-Version to 3.9.8
+  * debian/control:
+    - Add a dependency against perl on netpbm package (${perl:Depends})
+    - Add libx11-dev, pkg-config and libxml2-dev to the build-dependencies
+    - Add a build-dependency against python, used to generate the manpages
+    - Drop all the old Conflict/Replaces, these were ancient
+    - Point the Homepage to http://netpbm.sourceforge.net/
+  * Install a netpbm.pc pkg-config file
+  * Build with SSE support on amd64 architecture
 
- -- Chris Hofstaedtler <zeha@debian.org>  Sun, 07 Feb 2021 18:32:35 +0000
+ -- Laurent Bigonville <bigon@debian.org>  Thu, 15 Jun 2017 01:24:45 +0200
 
 netpbm-free (2:10.0-15.3) unstable; urgency=medium
 
@@ -144,7 +369,7 @@ netpbm-free (2:10.0-11.1+etch1) stable-security; urgency=high
 netpbm-free (2:10.0-11) unstable; urgency=high
 
   * Fix heap corruption in pnmtopng (no CVE yet),
-    thanks to Christoph Biedl for detection and the patch. 
+    thanks to Christoph Biedl for detection and the patch.
     Closes: #407605
   * Fix xwdtopnm on 64-bit systems. Thanks to Jim Paris for
     detection and the patch. Closes: #352261
@@ -229,7 +454,7 @@ netpbm-free (2:10.0-3) unstable; urgency=low
   * removed subtle build error with sudo
 
  -- Andreas Barth <aba@not.so.argh.org>  Tue,  3 Feb 2004 19:27:10 +0100
-  
+
 netpbm-free (2:10.0-2) unstable; urgency=low
 
   * Really included st4topgm this time.
@@ -298,7 +523,7 @@ netpbm-free (2:9.25-3) unstable; urgency=low
 
   * autosizing of rawtopgm works. Closes: #199053
   * ppmcie use lower case x and y for chromaticities. Closes: #176313
-  * libraries are compiled correct now: with -D_REENTRANT and if 
+  * libraries are compiled correct now: with -D_REENTRANT and if
     (and only if) shared, also with -fPIC.
   * created unified libs in libnetpbm10-*, and set libnetpbm9-* to
     deprecated (but still produce them).
@@ -499,7 +724,7 @@ netpbm-free (1:19940301.2-13) frozen unstable; urgency=low
     the patch. Fixes Bugs #57285, #20121.
   * pbmtog3 now seems to work fine. Closing Bug #21020.
   * Updated Standards-Version.
-  
+
  -- Steve McIntyre <stevem@chiark.greenend.org.uk>  Sun, 13 Feb 2000 15:58:50 +0000
 
 netpbm-free (1:19940301.2-12) unstable; urgency=low
@@ -518,7 +743,7 @@ netpbm-free (1:19940301.2-10) unstable; urgency=low
 
   * Fixed warning in ppmtogif from comments in rgb.txt. Fixes Bug#33627.
   * Moved ppmtomap here from netpbm-nonfree, as it _is_ free.
-  * Added papersize handling to pnmtops, using libpaper. Thanks to Brian May 
+  * Added papersize handling to pnmtops, using libpaper. Thanks to Brian May
     <bam@snoopy.apana.org.au> for the patch. Fixes Bug#34254.
   * Compiled using RAWBITS option; fixes Bug#35815
 
@@ -570,7 +795,7 @@ netpbm-free (1:19940301.2-4) frozen unstable; urgency=high
 
   * Make sure Alpha NMU stuff makes it in for hamm - apparently the -lm flag needed for m68k too and the m68k package just won't work without it.
 
- -- Steve McIntyre <stevem@chiark.greenend.org.uk>  Mon, 28 Jun 1998 23:16:22 +0100
+ -- Steve McIntyre <stevem@chiark.greenend.org.uk>  Sun, 28 Jun 1998 23:16:22 +0100
 
 netpbm-free (1:19940301.2-3) unstable; urgency=low
 
@@ -629,7 +854,7 @@ netpbm (1994.03.01p1-6.2) unstable; urgency=low
 
   * Non-maintainer release
   * Switch to libc6 / glibc2
-   
+
  -- Wichert Akkerman <wakkerma@debian.org>  Sat, 27 Dec 1997 12:41:29 +0100
 
 netpbm (1994.03.01p1-6.1) unstable; urgency=low
@@ -648,10 +873,10 @@ netpbm (1994.03.01p1-6.1) unstable; urgency=low
 netpbm (1994.03.01p1-6) unstable; urgency=low
 
   * Added Suggests: csh|tcsh; clears Bug #6411
-  * All man pages are compressed; clears Bug #6701 
-  * Included g3topbm and pbmtog3 binaries; clears Bug #6818 
+  * All man pages are compressed; clears Bug #6701
+  * Included g3topbm and pbmtog3 binaries; clears Bug #6818
   * Added pbmplus.h to the netpbm-dev package; clears Bug #7350
-  * New maintainer 
+  * New maintainer
   * New source package format.
 
  -- Susan G. Kleinmann <sgk@kleinmann.com>  Sat, 15 Feb 1997 21:10:35 -0500

@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Ppmbrighten User Manual</title></head>
+<body>
+<h1>ppmbrighten</h1>
+Updated: 09 August 2020
+
+<h2>NAME</h2>
+
+ppmbrighten - replaced by pambrighten
+
+<h2>DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p>Starting with Netpbm 10.86 (March 2019), <b>ppmbrighten</b> is
+obsolete.  Use <a href="pambrighten.html"><b>pambrighten</b></a> instead.
+
+<b>pambrighten</b> is mostly backward compatible with <b>ppmbrighten</b>.  You
+can use the <b>pambrighten</b> manual for <b>ppmbrighten</b> as long as you
+ignore features that were added after Netpbm 10.86.
+
+<p>One way in which <b>pambrighten</b> is not backward compatible is that
+  <b>pambrighten</b> does not have a <b>-normalize</b> option.  If you want
+  that function, use <b>pnmnorm</b> on the image before passing it to
+  <b>pambrighten</b>.
+
+<p>Another backward incompatibility is that <b>pambrighten</b> produces the
+  same kind of output as the input, whereas <b>ppmbrighten</b> always
+  produces PPM.  If you need PPM output, pass the results through
+  <b>ppmtoppm</b>.
+
+<p><b>ppmbrighten</b> is currently implemented as a triviel program that
+  invokes <b>pambrighten</b>, <b>pnmnorm</b>, and <b>ppmtoppm</b>.
+  
+</body>
+</html>
+
+
+

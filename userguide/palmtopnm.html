@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Palmtopnm User Manual</title></head>
+<body>
+<h1>palmtopnm</h1>
+Updated: 26 January 2005
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+palmtopnm - convert a Palm Bitmap to a PNM image
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>palmtopnm</b>
+
+[<b>-verbose</b>]
+
+[<b>-rendition</b> <i>N</i>]
+
+[<b>-showhist</b>]
+
+[<i>palmfile</i>]
+
+<br>
+
+<b>palmtopnm</b>
+
+<b>-transparent</b>
+
+[<b>-verbose</b>]
+
+[<i>palmfile</i>]
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>palmtopnm</b> reads a Palm Bitmap as input, from Standard Input or
+<i>palmfile</i> and produces a PPM image as output.
+
+<p>Alternatively (when you specify <b>-transparent</b>),
+<b>palmtopnm</b> writes the value of the transparent color in the Palm
+Bitmap to Standard Output.
+
+
+<p><b>Palmtopnm</b> can convert Palm Bitmaps with the following features.
+This does not mean that it doesn't handle other features.  These are just
+the ones we found worth mentioning.
+<ul>
+<li>Version 0
+<li>Version 1
+<li>Version 2
+<li>Version 3 (new in Netpbm 10.27 (March 2005))
+<li>Scanline compression
+<li>RLE compression
+<li>Packbits compression (new in Netpbm 10.27 (March 2005))
+</ul>
+
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>palmtopnm</b> recognizes the following
+command line options:
+
+<dl compact>
+<dt><b>-verbose</b>
+
+<dd>
+Display various interesting information about the input file and process.
+
+<dt><b>-transparent</b>
+
+<dd>
+If the Palm Bitmap has a transparent color set, 
+<b>palmtopnm</b> writes the value for that
+color to Standard Output in the form #RRGGBB, where
+RR, GG, and BB are two-digit hexadecimal numbers
+indicating a value in the range 0 through 255.  If no transparent color is set
+in the Bitmap, <b>palmtopnm</b> writes nothing.  <b>palmtopnm</b> does not
+generate any output image when you specify <b>-transparent</b>.
+
+<dt><b>-rendition N</b>
+
+<dd>
+Palm Bitmaps may contain several different renditions of the same
+image, with different depths.  By default, <b>palmtopnm </b> operates
+on the first rendition (rendition number 1) in the image.  This
+switch allows you to operate on a different rendition.  The value must
+be between 1 and the number of renditions in the image, inclusive.
+
+<dt><b>-showhist</b>
+
+<dd>
+This option causes <b>palmtopnm</b> to 
+write a histogram of colors in the input file to Standard Error.
+
+</dl>
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<b><a href="pnmtopalm.html">pnmtopalm</a></b>,
+<b><a href="pamtopdbimg.html">pamtopdbimg</a></b>,
+
+<a href="pnm.html">pnm</a>,
+
+<h2 id="limitations">LIMITATIONS</h2>
+
+<p>You cannot generate a transparency mask if the Palm Bitmap has a
+transparent color.  However, you can still do this with
+<b>ppmcolormask</b> with a Netpbm pipe similar to:
+
+<p>
+<b>palmtopnm bitmap.palm | 
+ppmcolormask `palmtopnm -transparent bitmap.palm`</b>
+
+<h2 id="history">HISTORY</h2>
+
+<p>Before Netpbm 10.23 (July 2004), there was a <b>-forceplain</b>
+option.  But that had been redundant for a long time, since the Netpbm 
+common option <b>-plain</b> does the same thing.
+
+<h2 id="authors">AUTHORS</h2>
+
+This program was originally written as Tbmptopnm.c, by Ian Goldberg.
+It was heavily modified by Bill Janssen to add color, compression, and
+transparency function.
+
+<p>Copyright 1995-2001 by Ian Goldberg and Bill Janssen.
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#limitations">LIMITATIONS</a>
+<li><a href="#history">HISTORY</a>
+<li><a href="#authors">AUTHORS</a>
+</ul>
+</body>
+</html>

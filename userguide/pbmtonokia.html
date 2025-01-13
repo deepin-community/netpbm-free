@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Pbmtonokia User Manual</title></head>
+<body>
+<h1>pbmtonokia</h1>
+Updated: 14 September 2006
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+pbmtonokia - convert a PBM image to Nokia Smart Messaging Formats
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>pbmtonokia</b>
+[
+<b>-fmt</b>
+  {
+    <b>HEX_NOL</b>,
+    <b>HEX_NGG</b>,
+    <b>HEX_NPM</b>,
+    <b>NOL</b>,
+    <b>NGG</b>,
+    <b>NPM</b>
+  }   
+]
+<br>
+[<b>-net</b> <i>networkcode</i>]
+[<b>-txt</b> <i>text</i>]
+[<i>pbmfile</i>]
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>pbmtonokia</b> reads a PBM image as input and produces a Nokia
+Smart Messaging (hexcode, .ngg, .nol, .npm) file as output.
+
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>pbmtonokia</b> recognizes the following
+command line options:
+
+<dl compact>
+<dt><b>-fmt</b>
+<dd>
+Specifies the output format (default is HEX_NOL).
+
+<dl>
+<dt><b>HEX_NOL</b>
+<dd>
+Nokia Operator Logo as (uploadable) hexcode.
+Use option -net to specify network code.
+
+<dt><b>HEX_NGG</b>
+<dd>
+Nokia Group Graphic as (uploadable) hexcode.
+
+<dt><b>HEX_NPM</b>
+<dd>
+Nokia Picture Message as (uploadable) hexcode.
+Use option <b>-txt</b> to specify an optional text message.
+
+<dt><b>NOL</b>
+<dd>Nokia Operator Logo as .nol format. This is editable by
+the Group-Graphic Editor from Kessler Wireless Design (<a
+href="http://www.kessler-design.com">www.kessler-design.com</a>)
+
+<dt><b>NGG</b>
+
+<dd>Nokia Group Graphic as .ngg format. This is editable by the
+Group-Graphic Editor from Kessler Wireless Design (<a
+href="http://www.kessler-design.com">www.kessler-design.com</a>)
+
+<dt><b>NPM</b>
+
+<dd>Nokia Picture Message as .npm format. This is editable by the
+Picture-Message Editor from Kessler Wireless Design (<a
+href="http://www.kessler-design.com">www.kessler-design.com</a>)
+
+<p>This option was new in Netpbm 10.36 (October 2006).
+
+</dl>
+     
+<dt><b>-net</b>
+
+<dd>Specifies the 6 hex-digit operator network code for Operator
+Logos (Default is 62F210 = D1,Germany).
+
+<dt><b>-txt</b>
+
+<dd>
+Specifies the text message for Picture Messages.  The maximum size
+text message allowed by the format is 120 characters.
+
+<p>Default is no text message.
+
+</dl>
+
+<h2 id="limitations">LIMITATIONS</h2>
+
+This program currently accepts all PBM images with up to 255 rows or up to 255
+columns.  (Valid Nokia Group Graphics or Operator Logos can be 72 columns by 14
+rows and 78 columns by 21 rows; valid Nokia Picture Messages are 72 columns by
+28 rows.)  This program generates black and white graphics, not animated.
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<ul>
+<li><b><a href="pbm.html">pbm</a></b>,
+
+<li><a href="http://www.kessler-design.com/wireless/samples.html">
+http://www.kessler-design.com/wireless/samples.html</a>
+
+<li><a href="http://www.gnokii.org">Gnokii</a>
+
+</ul>
+
+<h2 id="author">AUTHOR</h2>
+
+Copyright (C) 2001 Tim Ruehsen &lt;<a
+href="mailto:tim.ruehsen@openmediasystem.de">tim.ruehsen@openmediasystem.de</a>&gt;.
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#limitations">LIMITATIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#author">AUTHOR</a>
+</ul>
+</body>
+</html>

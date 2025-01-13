@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Pbmtocis User Manual</title></head>
+<body>
+<h1>pbmtocis</h1>
+Updated: 13 August 2020
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+pbmtocis - convert a PBM image to a CompuServe RLE image
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>pbmtocis</b>
+[<b>-i</b>]
+[<b>-w</b>]
+[<i>cisfile</i>]
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>pbmtocis</b> reads a PBM image as input and produces a CompuServe
+RLE image as output.
+
+<p>A CompuServe RLE image can be either 128 x 96 pixels or 256 x 192 pixels.
+Anything in excess on the right or bottom is cropped.  If width or height
+is insufficient, padding is added on the right or bottom.  For better
+control of the size adjustment use <b>pamcut</b> or <b>pnmpad</b>.
+
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>pbmtocis</b> recognizes the following
+command line options:
+
+<dl>
+<dt><b>-i</b>
+
+<dd>Inverse: Reverse the mapping of foreground/background to black/white.
+
+<dt><b>-w</b>
+
+<dd>If the input image is smaller than the fixed size of the output image,
+pad with white pixels rather than black.
+
+</dl>
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<a href="cistopbm.html">cistopbm</a>,
+<a href="pamcut.html">pamcut</a>,
+<a href="pnmpad.html">pnmpad</a>,
+<a href="pbm.html">pbm</a>
+<a href="https://web.archive.org/web/20140721001738/staticweb.rasip.fer.hr/research/compress/algorithms_run-length_coding.htm">CompuServe RLE file format</a>
+
+
+<h2 id="history">HISTORY</h2>
+
+<p><b>pbmtocis</b> was new in Netpbm 10.48 (September 2009).
+
+<h2 id="author">AUTHOR</h2>
+
+Copyright (C) 2009 John Elliot &lt;jce@seasip.demon.co.uk&gt;
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#history">HISTORY</a>
+<li><a href="#author">AUTHOR</a>
+</ul>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Ppmwheel User Manual</title></head>
+<body>
+<h1>ppmwheel</h1>
+Updated: 03 February 2019
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+ppmwheel - make a PPM image of a color wheel
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>ppmwheel</b>
+<i>diameter</i>
+[{<b>-huevalue</b> | <b>-huesaturation</b>}]
+[<b>-maxval=</b><i>N</i>]
+
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>ppmwheel</b> produces a PPM image of a color wheel of the
+specified diameter inside a white square just large enough to hold it.
+
+<p>The color wheel is based on the HSV color model.  Hues are distributed
+  angularly around the circle and the values and saturations are distributed
+  radially.
+
+<p>You can generate three kinds of color wheel:
+<ul>
+  <li>Hue-value: Select this with a <b>-huevalue</b> option.
+  <p>The saturation is 100% everywhere.  The value goes from zero to 100%
+  linearly, from the center of the wheel to the edge.  So the center is black.
+      
+  <p>Hence, the image consists of all of the secondary colors based on the
+  red, green, and blue primary colors.  A secondary color is one that is
+  composed of light of at most two of the three primary colors.
+
+  <li>Hue-saturation: Select this with a <b>-huesaturation</b> option.
+  <p>The value is 100% everywhere.  The saturation goes from zero to 100%
+  linearly, from the center of the wheel to the edge.  So the center is white.
+
+  <li>Ppmcirc: Select this by not specifying any other wheel type option.
+  <p>The saturation is 100% everywhere.  The value is a strange function of
+  the distance from the center, increasing as the square root of the distance
+  until halfway out, then decreasing as the 8th root of the distance the rest
+  of the way.  We don't know what the point of this is, but it is what the
+  program Ppmcirc by Peter Kirchgessner in 1995 does, and was the only option
+  in <b>ppmwheel</b> from its inception in 2003 to 2019.
+      
+</ul>
+
+
+<h2 id="arguments">ARGUMENTS</h2>
+
+<p>You must specify one non-option argument: the radius of the color wheel
+in pixels.
+
+<p>This is also the height and width of the output image.
+
+  
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>ppmwheel</b> recognizes the following
+command line options:
+
+<dl>
+  <dt><b>-huevalue</b>
+  <dd>This selects a hue-value color wheel.
+  <p>This option was new in Netpbm 10.86 (March 2019).
+
+  <dt><b>-huesaturation</b>
+  <dd>This selects a hue-saturation color wheel.
+  <p>This option was new in Netpbm 10.86 (March 2019).
+
+  <dt><b>-maxval=</b><i>N</i>
+  <dd>This selects the maxval for the image.  The default is 255.
+  <p>This option was new in Netpbm 10.86 (March 2019).
+
+</dl>
+
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<b><a href="ppmcie.html">ppmcie</a></b>,
+<b><a href="ppmrainbow.html">ppmrainbow</a></b>,
+<b><a href="ppm.html">ppm</a></b>
+
+<h2 id="history">HISTORY</h2>
+
+<p><b>ppmwheel</b> was added to Netpbm in Release 10.14 (March 2003).
+
+
+<h2 id="author">AUTHOR</h2>
+
+Copyright (C) 1995 by Peter Kirchgessner
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#arguments">ARGUMENTS</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#history">HISTORY</a>
+<li><a href="#author">AUTHOR</a>
+</ul>
+</body>
+</html>

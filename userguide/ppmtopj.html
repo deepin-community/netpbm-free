@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Ppmtopj User Manual</title>
+</head><body>
+<h1>ppmtopj</h1>
+Updated: 13 July 1991
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+ppmtopj - convert a PPM image to an HP PaintJet file
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>ppmtopj</b>
+
+[<b>-gamma</b> <i>val</i>]
+
+[<b>-xpos</b> <i>val</i>]
+
+[<b>-ypos</b> <i>val</i>]
+
+[<b>-back</b> {<b>dark</b>|<b>lite</b>}]
+
+[<b>-rle</b>]
+
+[<b>-center</b>]
+
+[<b>-render</b> {
+<b>none</b> |
+<b>snap</b> |
+<b>bw</b> |
+<b>dither</b> |
+<b>diffuse</b> |
+<b>monodither</b> |
+<b>monodiffuse</b> |
+<b>clusterdither</b> |
+<b>monoclusterdither</b>
+}]
+
+[<i>ppmfile</i>]
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>ppmtopj</b> reads a PPM image as input and converts it into a
+format suitable to be printed by an HP PaintJet printer.
+
+<p>
+For best results, the input file should be in 8-color RGB form;
+i.e. it should have only
+the 8 binary combinations of full-on and full-off primaries.
+You could convert your input to this format like this:
+
+<pre>
+    pamseq 3 1 testimg.ppm &gt;8color.pam
+    pnmremap -map 8color.pam testimg.pam | ppmtopj
+</pre>
+
+Or you could use 
+<pre>
+    ppmdither -red 2 -green 2 -blue 2
+</pre>
+
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>ppmtopj</b> recognizes the following
+command line options:
+
+<dl compact>
+
+<dt><b>-rle</b>
+
+<dd>
+Run length encode the image.
+(This can result in larger images)
+
+<dt><b>-back</b>
+
+<dd>
+Enhance the foreground by indicating if the background is light or
+dark compared to the foreground.
+
+<dt><b>-render</b> <i>alg</i>
+
+<dd>
+Use an internal rendering algorithm (default dither).
+
+<dt><b>-gamma</b> <i>int</i>
+
+<dd>
+Gamma correct the image using the integer <i>int</i> as a gamma (default 0).
+
+<dt><b>-center</b>
+
+<dd>
+Center the image to an 8.5 by 11 page
+
+<dt><b>-xpos</b> <i>pos</i>
+
+<dd>
+Move by <i>pos</i> pixels in the x direction.
+
+<dt><b>-ypos</b> <i>pos</i>
+
+<dd>
+Move by <i>pos</i> pixels in the y direction.
+
+</dl>
+
+<h2 id="seealso">SEE ALSO</h2>
+
+HP PaintJet XL Color Graphics Printer User's Guide,
+<a href="pnmtopclxl.html"><b>pnmtopclxl</b></a>,
+<a href="pjtoppm.html"><b>pjtoppm</b></a>,
+<a href="pamdepth.html"><b>pamdepth</b></a>,
+<a href="pnmremap.html"><b>pnmremap</b></a>,
+<a href="pamseq.html"><b>pamseq</b></a>,
+<a href="ppmdither.html"><b>ppmdither</b></a>,
+<a href="pbmtolj.html"><b>pbmtolj</b></a>,
+<a href="ppmtolj.html"><b>ppmtolj</b></a>,
+<a href="ppmtopjxl.html"><b>ppmtopjxl</b></a>,
+<a href="thinkjettopbm.html"><b>thinkjettopbm</b></a>,
+<a href="ppm.html"><b>ppm</b></a>
+
+<h2 id="author">AUTHOR</h2>
+
+Copyright (C) 1991 by Christos Zoulas.
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#author">AUTHOR</a>
+</ul>
+</body>
+</html>

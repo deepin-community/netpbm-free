@@ -93,7 +93,12 @@ while [ x"$1" != x ]; do
 
 	*)  if [ x"$src" = x ]
 	    then
-		src=$1
+                if [ -f "$1.exe" ]
+                then
+		    src=$1.exe
+                else
+                    src=$1
+                fi
 	    else
 		# this colon is to work around a 386BSD /bin/sh bug
 		:

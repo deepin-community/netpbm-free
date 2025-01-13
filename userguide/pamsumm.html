@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Pamsumm User Manual</title></head>
+<body>
+<h1>pamsumm</h1>
+Updated: 26 October 2012
+<br>
+
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+pamsumm - Summarize the samples in a Netpbm image arithmetically
+
+<h2 id="synopsis">SYNOPSIS</h2>
+<b>pamsumm</b>
+{
+<b>-sum</b> |
+<b>-mean</b> |
+<b>-min</b> |
+<b>-max</b>
+}
+[<b>-normalize</b>]
+[<b>-brief</b>]
+[<i>imagefile</i>]
+
+<p>All options can be abbreviated to their shortest unique prefix.
+You may use two hyphens instead of one.  You may separate an option
+name and its value with white space instead of an equals sign.
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>pamsumm</b> reads a Netpbm image (PNM or PAM) and performs a
+summary function over all the samples in all the rows, columns, and planes
+and prints the result to Standard Output.
+
+<p><b>pamsumm</b> performs the operation on the actual sample values.  In the
+case of a PGM or PPM or PAM equivalent (i.e. a visual image), this is not the
+same as the light intensities represented by those samples.  See the format
+specifications of <a href="pgm.html">PGM</a>,
+<a href="ppm.html">PPM</a>, and <a href="pam.html">PAM</a>, for the precise
+meanings of samples in these formats.  If you want to do arithmetic on light
+intensities of such a visual image, you can use <b>pnmgamma</b> to convert it
+to one with samples proportional to light intensity, and then
+use <b>pamsumm</b> on the result.
+
+<p>If you want to summarize by column (e.g. add up the columns
+separately), use <b>pamsummcol</b>.  If you want to summarize by row,
+use a combination of <b>pamsummcol</b> and <b>pamflip</b>.  If you
+want to summarize a particular plane, use <b>pamchannel</b> to
+extract it and then <b>pamsumm</b>.
+
+
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>pamsumm</b> recognizes the following
+command line options:
+
+<p>You must specify exactly one of <b>-sum</b>, <b>-mean</b>,
+<b>-min</b>, or <b>-max</b>.
+
+<dl compact>
+<dt><b>-sum</b>
+
+<dd>
+     <p>This option makes the summary function addition.
+
+<dt><b>-mean</b>
+
+<dd>
+     <p>This option makes the summary function arithmetic mean.
+
+<dt><b>-min</b>
+
+<dd>
+     <p>This option makes the summary function arithmetic minimum.
+
+<dt><b>-max</b>
+
+<dd>
+     <p>This option makes the summary function arithmetic maximum.
+
+<dt><b>-normalize</b>
+
+<dd>
+     <p>This option causes each sample to be normalized to a fraction
+     (in the range 0..1) so the result is independent of the image's
+     maxval.  E.g. if you request the mean of an image which has maxval
+     200 and all the samples have value 50, <b>pamsumm</b> will give you
+     50 as an answer.  But <b>pamsumm -normalize</b> will give you .25.
+
+     <p>If instead you want a result that is independent of maxval but still
+     in integers, you can use <b>pamdepth</b> to convert the input to some
+     standard maxval and not use <b>-normalize</b>.  For example, if you want
+     the mean brightness of a PPM image, on a scale of 0 to 99, do
+
+<pre>
+<kbd>
+    pamdepth 99 myimage.ppm | pamsumm -mean
+</kbd>
+</pre>
+
+<p>This option was new in Netpbm 10.22 (April 2004)
+     
+<dt><b>-brief</b>
+<dd>
+     <p>This option causes <b>pamsumm</b> to display the answer as a bare
+     number, rather than in a complete sentence.
+
+<p>This option was new in Netpbm 10.22 (April 2004)
+
+</dl>
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<b><a href="pamsummcol.html">pamsummcol</a></b>,
+<b><a href="pam.html">pam</a></b>,
+
+<h2 id="history">HISTORY</h2>
+
+<p><b>pamsumm</b> was added to Netpbm in Release 10.21 (March
+2004).
+
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#history">HISTORY</a>
+</ul>
+</body>
+</html>

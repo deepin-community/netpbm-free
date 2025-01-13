@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Pnmrotate User Manual</title></head>
+<body>
+<h1>pnmrotate</h1>
+Updated: 30 August 2002
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+pnmrotate - rotate a PNM image by some angle
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>pnmrotate</b>
+[<b>-noantialias</b>] [<b>-background=</b><i>color</i>] <i>angle</i>
+[<i>pnmfile</i>]
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<b>pnmrotate</b> reads a PNM image as input.  It rotates it by the
+specified angle and produces the same kind of PNM image as output.
+
+<p>The input is the file named by <i>pnmfile</i> or Standard Input if you
+don't specify <i>pnmfile</i>.  The output goes to Standard Output.
+
+<p>The resulting image is a rectangle that contains the (rectangular)
+input image within it, rotated with respect to its bottom edge.  The
+containing rectangle is as small as possible to contain the rotated
+image.  The background of the containing image is a single color that
+<b>pnmrotate</b> determines to be the background color of the original
+image, or that you specify explicitly.
+
+<p><i>angle</i> is in decimal degrees (floating point), measured
+counter-clockwise.  It can be negative, but it should be between -90
+and 90.
+
+<p>You should use <b>pamflip</b> instead for rotations that are a
+multiple of a quarter turn.  It is faster and more accurate.
+
+<p>For rotations greater than 45 degrees you may get better results if
+you first use <i>pamflip</i> to do a 90 degree rotation and then
+<i>pnmrotate</i> less than 45 degrees back the other direction.
+
+<p>The rotation algorithm is Alan Paeth's three-shear method.  Each
+shear is implemented by looping over the source pixels and
+distributing fractions to each of the destination pixels.  This has an
+"anti-aliasing" effect - it avoids jagged edges and similar
+artifacts.  However, it also means that the original colors or gray
+levels in the image are modified.  If you need to keep precisely the
+same set of colors, you can use the <b>-noantialias</b> option.
+
+<p>The program runs faster and uses less real memory with the
+<b>-noantialias</b> option.  It uses a large amount of virtual memory
+either way, as it keeps a copy of the input image and a copy of the
+output image in memory, using 12 bytes per pixel for each.  But with
+<b>-noantialias</b>, it accesses this memory sequentially in half a
+dozen passes, with only a few pages of memory at a time required in
+real memory.
+
+<p>In contrast, without <b>-noantialias</b>, the program's real memory
+working set size is one page per input image row plus one page per output
+image row.  Before Netpbm 10.16 (June 2003), <b>-noantialias</b> had the
+same memory requirement.
+
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>pnmrotate</b> recognizes the following
+command line options:
+
+<p>
+All options can be abbreviated to their shortest unique prefix.  You
+may use two hyphens instead of one to designate an option.  You may
+use either white space or equals signs between an option name and its
+value.
+
+<dl compact>
+<dt><b>-background=</b><i>color</i>
+
+<dd>This determines the color of the background on which the rotated image
+sits.
+
+<p>Specify the color (<i>color</i>) as described for the <a
+href="libnetpbm_image.html#colorname">argument of the <b>pnm_parsecolor()</b>
+library routine</a>.
+
+<p>By default, if you don't specify this option, <b>pnmrotate</b> selects
+what appears to it to be the background color of the original image.  It 
+determines this color rather simplistically, by taking an average of the colors
+of the two top corners of the image.
+
+<p>This option was new in Netpbm 10.15.  Before that, <b>pnmrotate</b>
+always behaved as is the default now.
+
+<dt><b>-noantialias</b>
+
+<dd>This option forces <b>pnmrotate</b> to simply move pixels around instead 
+of synthesizing output pixels from multiple input pixels.  The latter could
+cause the output to contain colors that are not in the input, which may not
+be desirable.  It also probably makes the output contain a large number of
+colors.  If you need a small number of colors, but it doesn't matter if they
+are the exact ones from the input, consider using <b>pnmquant</b> on the 
+output instead of using <b>-noantialias</b>.
+
+<p>Note that to ensure the output does not contain colors that are not
+in the input, you also must consider the background color.  See the
+<b>-background</b> option.
+
+</dl>
+
+<h2 id="references">REFERENCES</h2>
+
+"A Fast Algorithm for General Raster Rotation" by Alan Paeth,
+Graphics Interface '86, pp. 77-81.
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<a href="pnmshear.html">pnmshear</a>,
+<a href="pamflip.html">pamflip</a>,
+<a href="pnmquant.html">pnmquant</a>,
+<a href="pnm.html">pnm</a>
+
+<h2 id="author">AUTHOR</h2>
+
+Copyright (C) 1989, 1991 by Jef Poskanzer.
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#references">REFERENCES</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#author">AUTHOR</a>
+</ul>
+</body>
+</html>

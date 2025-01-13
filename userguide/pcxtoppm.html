@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Pcxtoppm User Manual</title></head>
+<body>
+<h1>pcxtoppm</h1>
+Updated: 19 April 2004
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+
+pcxtoppm - convert a PCX file into a PPM image
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>pcxtoppm</b>
+[<b>-stdpalette</b>]
+[<b>-verbose</b>]
+[<i>pcxfile</i>]
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>pcxtoppm</b> reads a PCX file as input and produces a PPM image
+as output.
+
+<p><b>pcxtoppm</b> recognizes the following PCX types:
+
+<ul compact>
+<li>Colormapped files with 2-16 colors.
+
+<p>"Packed pixel" format (1, 2 or 4 bits/pixel, 1 plane) or
+bitplane format (1 bit/pixel, 1-4 planes).  The program uses a
+predefined standard palette if the image does not provide one.
+"Does not provide one" means the palette in the PCX header is
+completely black.
+
+<li>Colormapped files with 256 colors.
+
+<p>8 bits/pixel, 1 plane, colormap at the end of the file.
+
+<li>24bit truecolor files.
+
+<p>24bit RGB: 8 bits/pixel, 3 planes.
+
+<li>32bit truecolor files.
+
+<p>24bit RGB + 8bit intensity: 8 bits/pixel, 4 planes.
+
+</ul>
+
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>pcxtoppm</b> recognizes the following
+command line options:
+
+<dl compact>
+<dt><b>-stdpalette</b>
+
+<dd>This option causes <b>pcxtoppm</b> to use its predefined standard 
+palette even if the PCX image provides its own.  This is meaningful only
+for an image in the 16 color paletted PCX format.
+
+<p>The image may appear to provide its own palette but in fact be created
+by a program too primitive to understand palettes that created a random
+palette by accident.
+
+<dt><b>-verbose</b>
+
+<dd>Report details of the PCX header.
+
+</dl>
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<b><a href="ppmtopcx.html">ppmtopcx</a></b>,
+<b><a href="ppm.html">ppm</a></b>
+
+<h2 id="authors">AUTHORS</h2>
+
+<p>Copyright 1990 by Michael Davidson.
+
+<p>Modified 1994 by Ingo Wilken (<a
+href="mailto:Ingo.Wilken@informatik.uni-oldenburg.de">Ingo.Wilken@informatik.uni-oldenburg.de</a>)
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#authors">AUTHORS</a>
+</ul>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html>
+<head>
+<title>The PNM Format</title>
+<meta name="manual_section" content="5">
+</head>
+<body>
+
+<h1>pnm</h1>
+Updated: 27 November 2013
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+
+pnm - Netpbm superformat
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>The PNM format is just an abstraction of the PBM, PGM, and PPM
+formats.  I.e. the name "PNM" refers collectively to
+PBM, PGM, and PPM.
+
+<p>The name "PNM" is an acronym derived from "Portable
+Any Map." This derivation makes more sense if you consider
+it in the context of the other Netpbm format names: PBM, PGM, and PPM.
+
+<p>The more general term "Netpbm format" refers to the PNM
+formats plus PAM.
+
+<p>PNM is principally used with <a href="index.html">Netpbm</a>.
+
+<p>Note that besides being names of formats, PBM, PGM, PPM, and PNM
+are also classes of programs.  A PNM program can take PBM, PGM, or PPM
+input.  That's nothing special -- a PPM program can too.  But a PNM
+program can often produce multiple output formats as well, and a PNM
+program can see the difference between PBM, PGM, and PPM input and
+respond to each differently whereas a PPM program sees everything as
+if it were PPM.  This is discussed more in <a href="index.html">the
+description of the netpbm programs</a>.
+
+<p>"pnm" also appears in the names of the most general <a
+href="libnetpbm.html">Netpbm library routines</a>, some of which aren't even
+related to the PNM format.
+
+<h2 id="internetmediatype">INTERNET MEDIA TYPE</h2>
+
+<p>No Internet Media Type (aka MIME type, content type) for PNM has been
+registered with the IANA, but the value <code>image/x-portable-anymap</code>
+is conventional.
+
+<p>Note that there are also conventional Internet Media Types for each of the
+PNM subformats.  The recommended practice is to use those in preference to the
+PNM code when it is convenient to do so.
+
+<h2 id="filename">FILE NAME</h2>
+
+<p>There are no requirements on the name of a PNM file, but the convention is
+to use the suffix "pbm", "pgm", or "ppm",
+depending on the particular subformat, or "pnm" if it is not
+convenient to distinguish the subformats.
+
+
+<h2 id="seealso">SEE ALSO</h2>
+<a href="ppm.html">ppm</a>,
+<a href="pgm.html">pgm</a>,
+<a href="pbm.html">pbm</a>,
+<a href="pam.html">pam</a>,
+<a href="directory.html">programs that process PNM</a>,
+<a href="libnetpbm.html">libnetpbm</a>
+
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#internetmediatype">INTERNET MEDIA TYPE</a>
+<li><a href="#filename">FILE NAME</a>
+<li><a href="#seealso">SEE ALSO</a>
+</ul>
+</body>
+</html>

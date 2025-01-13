@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Pgmenhance User Manual</title></head>
+<body>
+<h1>pgmenhance</h1>
+Updated: 13 January 1989
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+
+pgmenhance - edge-enhance a PGM image
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>pgmenhance</b>
+
+[-<i>N</i>]
+
+[<i>pgmfile</i>]
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>pgmenhance</b> reads a PGM image as input, enhances the edges,
+and writes a PGM image as output.
+
+<p>The edge enhancing technique is taken from Philip R. Thompson's
+"xim" program, which in turn took it from section 6 of
+"Digital Halftones by Dot Diffusion", D. E. Knuth, ACM
+Transaction on Graphics Vol. 6, No. 4, October 1987, which in turn got
+it from two 1976 papers by J. F. Jarvis et. al.
+
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>pgmenhance</b> recognizes the following
+command line option:
+
+<dl compact>
+<dt><b>-</b><i>N</i>
+
+<dd>
+<p>The optional <b>-</b><i>N</i> option should be a digit from 1 to 9.
+1 is the lowest level of enhancement; 9 is the highest.  The default
+is 9.
+
+</dl>
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<a href="pamedge.html">pamedge</a>,
+<a href="pgm.html">pgm</a>
+
+<h2 id="author">AUTHOR</h2>
+
+Copyright (C) 1989 by Jef Poskanzer.
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#author">AUTHOR</a>
+</ul>
+</body>
+</html>

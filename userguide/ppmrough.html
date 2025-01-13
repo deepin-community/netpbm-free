@@ -1,0 +1,169 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Ppmrough User Manual</title></head>
+<body>
+<h1>ppmrough</h1>
+Updated: 20 August 2023
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+ppmrough - create PPM image of a single color rectangle with ragged edges on a
+different color background
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>ppmrough</b>
+
+[<b>-left </b><i>pixels</i>]
+
+[<b>-right </b><i>pixels</i>]
+
+[<b>-top </b><i>pixels</i>]
+
+[<b>-bottom </b><i>pixels</i>]
+
+[<b>-width </b><i>pixels</i>]
+
+[<b>-height </b><i>pixels</i>]
+
+[<b>-bg </b><i>colorspec</i>]
+
+[<b>-fg </b><i>colorspec</i>]
+
+[<b>-var </b><i>pixels</i>]
+
+[<b>-randomseed </b><i>seed</i>]
+
+[<b>-verbose</b>]
+
+<p>All options can be abbreviated to their shortest unique prefix.
+You may use two hyphens instead of one.  You may separate an option
+name and its value with white space instead of an equals sign.
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>ppmrough</b> generates a PPM image of the specified width and height.
+  The image consists of a rectangle of the specified foreground color
+  surrounded by borders of the specified size and background color, except
+  that the boundary between the foreground rectangle and the borders is
+  ragged.  The ragged effect is random.
+
+<p><b>ppmrough</b> writes the PPM image to Standard Output.
+
+<p>The maxval of the output image is 255 (You can change this with
+<b>pamdepth</b>).
+
+<p>Use the options <b>-left</b> or <b>-right</b>, respectively, to make
+vertical borders, and <b>-top</b> or <b>-bottom</b>, respectively, to generate
+horizontal borders inside the image.  The value of each of these options is
+the minimum width of the border on that edge.  Beyond that minimum, the width
+at any given location on that edge is random, varying along the edge in a
+fractal kind of way.
+
+  
+<p>Use the <b>-var</b> option to control the "raggedness" of
+the border.  The lower its value, the smoother the border is.  You
+can initialize the pseudo-random generator with the <b>-init</b>
+option.
+
+<p>You could use <b>ppmrough</b> with <b>ppmtopgm</b> to create a PGM
+transparency mask and use it to roughen up the edges of another image.
+
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>ppmrough</b> recognizes the following
+command line options:
+
+<dl compact>
+
+<dt><b>-width=</b><i>pixels</i>
+
+<dd>This specifies the width of the image in pixels (default: 100).
+
+<dt><b>-height=</b><i>pixels</i>
+
+<dd>This specifies the height of the image in pixels (default: 100).
+
+<dt><b>-left=</b><i>pixels</i>
+<dt><b>-right=</b><i>pixels</i>
+<dt><b>-top=</b><i>pixels</i>
+<dt><b>-bottom=</b><i>pixels</i>
+
+<dd>This option causes the program to create a left, right, top, or bottom
+border, respectively, at least <i>pixels</i> pixels wide, varying randomly
+beyond that.  You may specify any combination of these.
+
+<dt><b>-bg=</b><i>colorspec</i>
+
+<dd>This is the background color, i.e. the color of the
+borders.  <i>colorspec</i> is as described for the
+<a href="libnetpbm_image.html#colorname">argument of the
+<b>pnm_parsecolor()</b> library routine</a>.  Default is black.
+
+<dt><b>-fg=</b><i>color</i>
+
+<dd>This specifies the foreground color, i.e. the color of the center of the
+mage -- everything but the borders.  <i>colorspec</i> is as described for the
+<a href="libnetpbm_image.html#colorname">argument of the
+<b>pnm_parsecolor()</b> library routine</a>.  Default is white.
+
+<dt><b>-var=</b><i>pixels</i>
+
+<dd>This specifies how ragged the borders are -- how much and how quickly its
+width varies along the image edge.  Its specific meaning is complex, but the
+larger it is, the more the border varies.  Zero means it does not vary at all
+-- the edge of the foreground is straight.
+
+<p>This must be a nonnegative integer.  The default is 10.
+
+<dt><b>-randomseed=</b><i>seed</i>
+
+<dd>Use this option to initialize the pseudo-random number generator
+with <i>seed</i>.
+
+<p>You can use this to cause the program to produce repeatable output.
+
+<p>Before Netpbm 10.61 (December 2012), this is called <b>-init</b>,
+and that still works.
+
+<dt><b>-verbose</b>
+
+<dd>Run <b>ppmrough</b> in verbose mode.  It reports all parameters on
+Standard Error.
+
+</dl>
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<b><a href="ppmmake.html">ppmmake</a></b>,
+<b><a href="pamcat.html">pamcat</a></b>,
+<b><a href="ppmtopgm.html">ppmtopgm</a></b>,
+<b><a href="ppm.html">ppm</a></b>,
+
+<h2 id="history">HISTORY</h2>
+
+<p>
+This program was added to Netpbm in Release 10.9 (September 2002).
+
+<h2 id="author">AUTHOR</h2>
+
+Copyright (C) 2002 by Eckard Specht.
+
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#history">HISTORY</a>
+<li><a href="#author">AUTHOR</a>
+</ul>
+<hr>
+</body>
+</html>

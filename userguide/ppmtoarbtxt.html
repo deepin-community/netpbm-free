@@ -1,0 +1,271 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Ppmtoarbtxt User Manual</title></head>
+<body>
+<h1>ppmtoarbtxt</h1>
+Updated: 26 November 2014
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+ppmtoarbtxt - generate image in arbitrary text format from PPM image
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>ppmtoarbtxt</b>
+<i>bodytmpl</i>
+[<b>-hd</b> <i>headtmpl</i>]
+[<b>-tl</b> <i>tailtmpl</i>]
+[<i>ppmfile</i>]
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>ppmtoarbtxt</b> generates simple text-based graphics formats based on
+format descriptions given as input.  A text-based graphics format is one in
+which an image is represented by text (like PNM plain format, but unlike
+PNM raw format).
+
+<b>ppmtoarbtxt</b> reads a PPM image as input.  For each pixel in the
+image, <b>ppmtoarbtxt</b> writes the contents of the template file
+<i>bodytmpl</i>, with certain substitutions based on the value of the
+pixel, to Standard Output.
+
+<p>You may also supply a head template file, in which case <b>ppmtoarbtxt</b>
+generates text from the template file, based on the image dimensions, and
+includes it in the output before anything else.
+
+<p>Likewise, you may supply a tail template file to cause text to be placed
+at the end of the output.
+
+
+<h3 id="templatefiles">Template Files</h3>
+
+<p>The text that <b>ppmtoarbtxt</b> generates from a template file is the
+literal text of the template file, except with substitution specifier replaced
+with something else.  The program recognizes a substitution specifier as
+text of the form <b>#(</b>...<b>)</b>.
+
+<p><b>ppmtoarbtxt</b> treats white space in the template files the same as any
+other characters, placing it in the output, with one exception: If the
+template file ends with a newline character, <b>ppmtoarbtxt</b> ignores it --
+it does not include it in the output.
+
+<p>Many substitution specifiers use format strings (another form of template)
+to specify the substitution.  You should make these format strings as minimal
+as possible, placing literal text outside the substitution specifier instead
+of inside the format string.  For example,
+
+<p>Wrong: <kbd>#(flum %%%2.2f 0 1) </kbd>
+
+<p>Right: <kbd>%#(flum %2.2f 0 1) </kbd>
+
+<p>The valid substitution specifiers are as follows.  Text that has the
+form of a substitution specifier but is not actually valid (e.g.
+<b>#(random junk)</b> usually just specifies its literal value, but if it is
+close enough to something valid, <b>ppmtoarbtxt</b> assumes you made a mistake
+and fails.
+
+<p>Useful in a body template, to do substitutions based on a particular pixel:
+
+<dl compact>
+<dt><b>#(ired</b><i> format blackref whiteref</i><b>)</b>
+
+<dd>generates an integer in the range <i>blackref</i> to
+<i>whiteref</i> in a format specified by <i>format</i> representing the red
+intensity of the pixel.  A red intensity of 0 becomes <i>blackref</i>; a red
+intensity of maxval becomes <i>whiteref</i>, with the rest linearly
+interpolated in between.
+
+<p><i>format</i> is a printf-like format specifier like "%d".
+<b>ppmtoarbtxt</b> uses as the entire format string to a <b>fprintf</b> POSIX
+library call whose only other argument is the red itensity as an integer data
+type.  <b>ppmtoarbtxt</b> does not necessarily verify that your format string
+makes sense; there are values you could specify that could even crash the
+program.  To avoid unexpected behavior, keep format strings simple and
+hardcoded, and never include a per cent sign or newline.
+
+<p><b>#(ired)</b> is equivalent to <b>#(ired %d 0 255)</b>.
+
+<dt><b>#(igreen</b><i> format blackref whiteref</i><b>)</b>
+
+<dd>Same as <b>#(ired...</b>, but for green.
+
+<dt><b>#(iblue</b><i> format blackref whiteref</i><b>)</b>
+
+<dd>Same as <b>#(ired...</b>, but for blue.
+
+<dt><b>#(ilum</b><i> format blackref whiteref</i><b>)</b>
+
+<dd>Same as <b>#(ired...</b>, but representing the luminance value
+(0.299*red + 0.587*green + 0.114*blue) of the pixel.
+
+<dt><b>#(fred</b><i> format blackref whiteref</i><b>)</b>
+
+<dd>Same as <b>#(ired...</b>, but generates a floating point number instead
+of an integer.
+
+<p>In this case, the second argument to the <b>fprintf</b> that uses 
+<i>format</i> has a double precision floating point data type.
+
+<p><b>#(fred)</b> is equivalent to <b>#(fred %f 0.0 1.0)</b>.
+
+<dt><b>#(fgreen </b><i>format blackref whiteref</i><b>)</b>
+
+<dd>Same as <b>#(fred...</b>, but for green.
+
+<dt><b>#(fblue </b><i>format blackref whiteref</i><b>)</b>
+
+<dd>Same as <b>#(fred...</b>, but for blue.
+
+<dt><b>#(flum </b><i>format blackref whiteref</i><b>)</b>
+
+<dd>Same as <b>#(fred...</b>, but representing the luminance value
+(0.299*red + 0.587*green + 0.114*blue) of the pixel.
+
+<dt><b>#(posx </b><i>format</i><b>)</b>
+
+<dd>Generates the horizontal position of the pixel, in pixels from the left
+edge of the image.
+
+<p>The second argument to the <b>fprintf</b> that uses <i>format</i> has an
+unsigned integer data type.
+
+<p><i>format</i> defaults to <b>%u</b>
+
+<dt><b>#(posy </b><i>format</i><b>)</b>
+
+<dd>Same as <b>#(width...</b>, but for the vertical position.
+
+</dl>
+
+<p>If you use any of the above substitution specifiers in a head or tail
+template, the result is undefined.
+
+<p>Useful in a head or tail template, to do substitutions based on whole-image
+attributes:
+
+<dl compact>
+<dt><b>#(width </b><i>format</i><b>)</b>
+
+<dd>Generates the width in pixels of the image.
+
+<p>The second argument to the <b>fprintf</b> that uses <i>format</i>
+has an unsigned integer data type.
+
+<p><i>format</i> defaults to <b>%u</b>
+
+<dt><b>#(height </b><i>format</i><b>)</b>
+
+<dd>Same as <b>#(width...</b>, but for the height of the image.
+
+</dl>
+
+
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>ppmtoarbtxt</b> recognizes the following
+command line options:
+
+<dl compact>
+<dt><b>-hd</b> <i>headtmpl</i>
+
+<dd>This option specifies a head template (<i>headtmpl</i> is the name of the
+head template file); it causes <b>ppmtoarbtxt</b> to place the contents of the
+file named <i>headtmpl</i> at the beginning of the output
+
+<dt><b>-tl</b> <i>tailtmpl</i>
+
+<dd>This option specifies a tail template; it is analogous to <b>-hd</b>.
+
+</dl>
+
+<h2 id="examples">EXAMPLES</h2>
+
+<h3>gray inversion</h3>
+
+<p>Here we generate a PGM plain-format image with gray inversion
+(like <b>ppmtopgm | pnminvert</b>).
+
+<p>Contents of our head template file:
+
+<pre>
+P2
+#(width) #(height)
+255
+</pre>
+
+<p>Contents of our body skeleton file:
+
+<pre>
+#(ilum %d 255 0)
+</pre>
+
+<h3>povray file</h3>
+
+<p>Here we generate a povray file where each pixel is represented by a
+sphere at location (x,y,z) = (posx,height-posy,luminance).  The color
+of the sphere is the color of the pixel.
+
+<p>Contents of our head skeleton:
+
+<pre>
+#include "colors.inc"
+#include "textures.inc"
+camera {
+   location  &lt;#(width) * 0.6, #(height) * 0.7, 80&gt;
+   look_at   &lt;#(width) * 0.5, #(height) * 0.5, 0&gt;
+}
+
+light_source { &lt;#(width) * 0.5, #(height) * 0.5, 25&gt; color White
+}
+</pre>
+
+<p>Contents of our body skeleton:
+
+<pre>
+sphere { &lt;#(posx),#(height)-#(posy),#(ilum %d 0 10)&gt;, 0.5
+  texture {
+    pigment {
+      color rgb &lt;#(fred),#(fgreen),#(fblue)&gt;
+    }
+    finish {
+      phong 1
+    }
+  }
+}
+</pre>
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<a href="pnmtoplainpnm.html">pnmtoplainpnm</a>
+<a href="pamtable.html">pamtable</a>
+<a href="ppm.html">ppm</a>
+
+<h2 id="history">HISTORY</h2>
+
+<p><b>ppmtoarbtxt</b> was added to Netpbm in Release 10.14 (March 2003).
+It existed under the name <b>ppmtotxt</b> since 1995.
+
+<h2 id="author">AUTHOR</h2>
+
+Copyright (C) 1995 by Peter Kirchgessner
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<ul>
+  <li><a href="#templatefiles">Template Files</a>
+  </ul>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#examples">EXAMPLES</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#history">HISTORY</a>
+<li><a href="#author">AUTHOR</a>
+</ul>
+</body>
+</html>

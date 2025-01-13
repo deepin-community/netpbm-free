@@ -1,1 +1,3 @@
 debian/imagetops.1
+netpbmdoc/*.1
+netpbmdoc/*.5

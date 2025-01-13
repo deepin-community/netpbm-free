@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Pbmpscale User Manual</title></head>
+<body>
+<h1>pbmpscale</h1>
+Updated: 03 October 2003
+<br>
+
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+
+pbmpscale - enlarge a PBM image with edge smoothing
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>pbmpscale</b>
+<i>N</i>
+[<i>pbmfile</i>]
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>pbmpscale</b> reads a PBM image as input, and outputs a PBM
+image enlarged N times.  <b>pbmpscale</b> does this enlargement by
+pixel replication, with some additional smoothing of corners and
+edges.
+
+
+<h2 id="options">OPTIONS</h2>
+
+<p>There are no command line options defined specifically
+for <b>pbmpscale</b>, but it recognizes the options common to all
+programs based on libnetpbm (See <a href="index.html#commonoptions">
+Common Options</a>.)
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<a href="pamenlarge.html">pamenlarge</a>,
+<a href="pamscale.html">pamscale</a>,
+<a href="pamstretch.html">pamstretch</a>,
+<a href="pbm.html">pbm</a>
+
+
+<h2 id="author">AUTHOR</h2>
+
+Copyright (C) 1990 by Angus Duggan
+Copyright (C) 1989 by Jef Poskanzer.
+
+<p>Permission to use, copy, modify, and distribute this software and its
+documentation for any purpose and without fee is hereby granted, provided
+that the above copyright notice appear in all copies and that both that
+copyright notice and this permission notice appear in supporting
+documentation.  This software is provided "as is" without express or
+implied warranty.
+
+<h2 id="notes">NOTES</h2>
+
+<p><b>pbmpscale</b> works best for enlargements of 2. To do
+enlargements greater than 2, you should do as many enlargements of 2 as
+possible, then enlarge by the remaining factor.
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#author">AUTHOR</a>
+<li><a href="#notes">NOTES</a>
+</ul>
+</body>
+</html>
+

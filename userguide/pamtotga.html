@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Pamtotga User Manual</title></head>
+<body>
+<h1>pamtotga</h1>
+Updated: 06 November 2018
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+pamtotga - convert a Netpbm image to a TrueVision Targa file
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>pamtotga</b>
+[<b>-mono|-cmap|-cmap16|-rgb</b>]
+[<b>-norle</b>]
+[<b>-name=</b><i>name</i>
+[<b>-verhose</b>]
+[<i>pamfile</i>]
+
+<p>All options can be abbreviated to their shortest unique prefix.  You
+may use two hyphens instead of one to designate an option.  You may
+use either white space or equals signs between an option name and its
+value.
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>pamtotga</b> reads a PBM, PGM, PPM, or PAM image as input and
+produces a TrueVision Targa file as output.  The PAM image may be
+either a BLACKANDWHITE, GRAYSCALE, RGB, or RGB_ALPHA image.
+
+<p>To create a TGA image with transparency (i.e. with a transparency mask),
+use RGB_ALPHA PAM input.  Some Netpbm programs that generate images with
+transparency masks generate them in that format.  For another way to create
+the proper input stream, see <a href="pamstack.html"><b>pamstack</b></a>.
+
+<p>It is unclear that anything except <b>pamtotga</b> knows about TGAs
+with transparency.  The history behind this feature of <b>pamtotga</b>
+is not clear.  The format <b>pamtotga</b> produces is simply the same
+as an ordinary RGB TGA image except with a 4th plane added for
+transparency.  The PixelSize field of the TGA header specifies 32 bits
+instead of 24 and the raster has an extra byte added to each pixel, at
+the tail end.  The value of that byte has the same meaning as in a PAM
+image with maxval 255.
+
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>pamtotga</b> recognizes the following
+command line options:
+
+<dl compact>
+<dt><b>-cmap</b>
+<dd>
+Make output Targa file use a color map (palette) to make the output smaller.
+<p>
+Each color in the color map is 3 bytes, 8 bits each of red, green, and blue,
+unless the input is black and white or grayscale, in which case each color in
+the palette is represented by one byte.
+
+<p>Input must contain no more than 256 distinct colors and must not contain
+transparency information.
+
+<p>(The transparency limitation is not a limitation of the format, but
+of <b>pamtotga</b>.  Implementing a color map that contains transparency
+information is harder to implement).
+
+<dt><b>-cmap16</b>
+<dd>
+Same as <b>-cmap</b>, except a color map entry for full color input is 5
+bits each of red, green, and blue, stored as two bytes (16 bits).
+
+<p>Restrictions are the same as for <b>-cmap</b>.
+
+<p>This option was new in Netpbm 10.85 (December 2018).
+    
+<dt><b>-mono</b>
+<dd>
+Make output Targa file of type 8 bit monochrome.  Input must be PBM or PGM
+or a PAM with BLACKANDWHITE or GRAYSCALE tuple type.
+See <b>-cmap</b>.
+
+<p>You may specify at most one of <b>-mono</b>, <b>-cmap</b>, and
+<b>-rgb</b>.  If you specify neither, the default image type is the
+most highly constrained compatible type is used, where monochrome is
+more constrained than colormapped which is in turn more constrained
+than unmapped.
+
+<dt><b>-rgb</b>
+<dd>
+Make output Targa file of type 24 bit unmapped color.  See <b>-cmap</b>.
+
+<dt><b>-norle</b>
+<dd>Do not use run-length encoding in the output Targa file.
+Run-length encoded files are smaller, but Some Targa readers can't
+read run-length encoded files.
+
+<dt><b>-name=</b><i>name</i>
+
+<dd>This is the value for the image ID stated in the header of the TGA
+output file.  <b>pamtotga</b> truncates it as necessary to meet TGA
+standards.
+
+<p>By default, <b>pamtotga</b> uses the input file name argument, up to
+the first period (or the whole thing if there is no period).  It truncates
+it as necessary to meet TGA standards.  If you specify (or default to)
+Standard Input, <b>pamtotga</b> omits the image ID from the TGA header.
+
+<dt><b>-verbose</b>
+<dd>This causes <b>pamtotga</b> to issues messages about the conversion
+process.
+
+      
+</dl>
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<a href="tgatoppm.html">tgatoppm</a>,
+<a href="pnmquant.html">pnmquant</a>,
+<a href="pamstack.html">pamstack</a>,
+<a href="pam.html">pam</a>
+<a href="pnm.html">pnm</a>
+
+<h2 id="history">HISTORY</h2>
+
+<p>This program was called <b>ppmtotga</b> until Netpbm 10.6 (July 2002).
+That was always a misnomer, though, because a PPM class program would not be
+able to tell the difference between PGM and PPM input (it would all look like
+PPM), and thus could not choose the output Targa image type based on the type
+of the input.  Netpbm 10.6 also added the ability to handle a transparency
+channel, so it became a PAM class program.
+
+<p>In Netpbm 10.15 (April 2003), the program became the first in the
+Netpbm package to recognize a transparency channel in a PAM.  It recognized
+tuple type "RGBA".  But when this kind of PAM image was later
+added to the PAM specification, it was specified with tuple type
+"RGB_ALPHA".  So in Netpbm 10.26 (January 2005), <b>pamtotga</b>
+changed to recognize "RGB_ALPHA" instead of "RGBA".
+
+<h2 id="author">AUTHOR</h2>
+
+Copyright (C) 1989, 1991 by Mark Shand and Jef Poskanzer.
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#history">HISTORY</a>
+<li><a href="#author">AUTHOR</a>
+</ul>
+</body>
+</html>

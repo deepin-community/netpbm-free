@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Pamlevels User Manual</title>
+</head><body>
+<h1>pamlevels</h1>
+Updated: 13 June 2018
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+pamlevels - effect a &quot;levels&quot; transformation
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>pamlevels</b>
+<b>-from1</b> <i>from1</i>
+<b>-to1</b> <i>to1</i>
+<b>-from2</b> <i>from2</i>
+<b>-to2</b> <i>to2</i>
+[<b>-from3</b> <i>from3</i>
+<b>-to3</b> <i>to3</i>]
+[<b>-linear</b>]
+[<b>-fitbrightness</b>]
+[<i>pamfile</i>]
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>pamlevels</b> reads a Netpbm image from <i>pamfile</i> or standard
+input, applies a &quot;levels&quot; transformation, and sends the result to
+standard output. It finds a unique transformation that maps color
+<i>from1</i> to <i>to1</i>, color <i>from2</i> to <i>to2</i>,
+and&mdash;if <b>-from3</b> and <b>-to3</b> are supplied&mdash;color
+<i>from3</i> to <i>to3</i>. Transformations based on two mappings are linear
+in light intensity and those based on three mappings quadratic.  The
+color-mapping options may be shortened to <b>-f1</b>...<b>-f3</b> and
+<b>-t1</b>...<b>-t3</b>.  
+
+<p>Color values have the following format:
+<i>color</i>[:<i>scale</i>], where <i>color</i> is a
+<a href="libppm.html#colorname"> Netpbm color specification</a> and
+<i>scale</i> an optional coefficient that is applied to the intensity
+(i.e. <em>not</em> gamma-adjusted) of each RGB component of <i>color</i>.
+
+<p>When the transformation is linear (i.e. uses two mappings) and preserves
+zero (i.e. maps black to black), it corresponds to multiplication of light
+intensity by a constant and preserves
+<a href="http://www.c-f-systems.com/ColorIntegrity.html">color integrity</a>.
+
+
+<h2 id="examples">EXAMPLES</h2>
+In the examples below, <code>\</code> denotes a line continuation:
+
+<p>To brighten an image by setting a darker white point&mdash;
+<pre>
+    pamlevels -f1 black -t1 black \
+      -f2 white:0.9 -t2 white in.ppm &gt; out.ppm
+</pre>
+
+<p>To adjust the white point&mdash;
+<pre>
+    pamlevels -f1 black -t1 black \
+      -f2 rgbi:0.9/0.83/0.80 -t2 white in.ppm &gt; out.ppm
+</pre>
+
+<p>To set a lighter black point&mdash;
+<pre>
+    pamlevels -f1 white:0.06 -t1 black \
+      -f2 white -t2 white in.ppm &gt; out.ppm
+</pre>
+
+<p>To increase brightness by compression&mdash;
+<pre>
+    pamlevels \
+      -f1 black -t1 black -f2 white -t2 white \
+      -f3 white:0.5 -t3 white:0.6 in.ppm &gt; out.ppm
+</pre>
+The latter transformation is similar to gamma-correction.
+
+
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>pamlevels</b> recognizes the following
+command line options:
+
+<dl>
+<dt><b>-from1</b>
+<dt><b>-to1</b>
+<dt><b>-from2</b>
+<dt><b>-to2</b>
+<dt><b>-from3</b>
+<dt><b>-to3</b>
+<dd>
+These options define the mappings of input colors to output colors that anchor
+the transformation function.  See <a href="#description">DESCRIPTION</a>.
+<p>
+You must specify at least two of these pairs.
+
+<dt><b>-linear</b>
+<dd>This option tells <b>pamlevels</b> to work with the intensity-linear
+variation on PPM where the samples are proportional to light intensity, rather
+than brightness (gamma-adjusted) as in true PPM.  The input must be of this
+form and the <b>pamlevels</b> makes the output of this form.
+
+<p>Note that the numbers in a color specification like
+<b>rgbi:0.9/0.83/0.80</b> are brightness levels (gamma-adjusted) regardless of
+the input and output format.
+
+<p>You cannot use this with <b>-fitbrightness</b> because that function is
+not implemented.
+  
+<dt><b>-fitbrightness</b>
+<dd>This option selects a transformation which is not very useful - it is
+linear or quadratic in brightness rather than light intensity of the pixels.
+There is no physical basis for doing it this way and the result is normally
+undesirable.
+
+<p>Note that many tools other than Netpbm do the transformation this way.  One
+use for this option is simply to demonstrate the poor result of this method.
+
+<p>One advantage of this transformation is that it is faster, because the
+input and output image formats use brightness values.  The result is
+approximately correct.
+  
+<p>You cannot use this with <b>-linear</b> because that function is not
+implemented.
+  
+</dl>
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<b><a href="pnmnorm.html">pnmnorm</a></b>,
+<b><a href="pamrecolor.html">pamrecolor</a></b>,
+<b><a href="pnmgamma.html">pnmgamma</a></b>,
+<b><a href="pam.html">pnm</a></b>
+
+<h2 id="author">AUTHOR</h2>
+
+<p>This program was first submitted by Anton Shepelev
+(<a href="mailto:anton.txt@gmail.com">anton.txt@gmail.com</a>).
+
+<h2 id="history">HISTORY</h2>
+
+<p><b>pamlevels</b> was new in Netpbm 10.83 (June 2018).
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#examples">EXAMPLES</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#author">AUTHOR</a>
+<li><a href="#history">HISTORY</a>
+</ul>
+</body>
+</html>

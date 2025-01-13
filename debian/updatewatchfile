@@ -1,0 +1,29 @@
+#!/bin/sh
+
+set -e
+
+if which wget > /dev/null ; then
+	httpsdump="wget --quiet -O-"
+elif which curl > /dev/null ; then
+	httpsdump="curl --silent"
+else
+	echo neither wget nor curl found
+	exit 1
+fi
+
+latest=$(export \
+	$($httpsdump https://svn.code.sf.net/p/netpbm/code/advanced/version.mk |\
+	grep '^NETPBM_[A-Z]*_RELEASE *= *[0-9][[0-9]*$' |\
+	sed -e 's/[[:space:]]\+//g'); \
+	printf '%02d.%02d.%02d\n' $NETPBM_MAJOR_RELEASE $NETPBM_MINOR_RELEASE $NETPBM_POINT_RELEASE)
+
+echo found $latest
+
+if test -e debian/watch.in ; then
+	sed -e "s/@LATESTADVANCED@/$latest/g" \
+		< debian/watch.in \
+		> debian/watch
+else
+	echo debian/watch.in not found
+	exit 1
+fi

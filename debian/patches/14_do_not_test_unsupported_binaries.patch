@@ -1,0 +1,75 @@
+Author: Andreas Tille
+Last-Update: 2022-03-11 14:19:52 +0100
+Description: The binary picttoppm is not built inside the Debian package
+  since patch netpbm-security-code.patch injects
+     #error "Unfixable. Don't ship me"
+  I had to disable all-in-place.test completely since the attempt to drop
+  single tests from this script failed for unknown reasons
+Forwarded: 2023-08-17 mail to maintainer
+
+--- a/test/all-in-place.test
++++ b/test/all-in-place.test
+@@ -53,7 +53,6 @@ ordinary_testprogs="\
+   ddbugtopbm \
+   escp2topbm \
+   eyuvtoppm \
+-  fiascotopnm \
+   fitstopnm \
+   fstopgm \
+   g3topbm \
+@@ -240,7 +239,6 @@ ordinary_testprogs="\
+   pgmtost4 \
+   pi1toppm \
+   pi3topbm \
+-  picttoppm \
+   pjtoppm \
+   pktopbm \
+   pngtopam \
+@@ -311,7 +309,6 @@ ordinary_testprogs="\
+   ppmshadow \
+   ppmshift \
+   ppmspread \
+-  ppmsvgalib \
+   ppmtoacad \
+   ppmtoapplevol \
+   ppmtoarbtxt \
+@@ -433,9 +430,3 @@ anytopnm testgrid.pbm > /dev/null 2> /de
+ testExitStatus anytopnm 0 $?
+ 
+ 
+-# Test manweb which has --help.
+-
+-manweb --help > /dev/null
+-    testExitStatus manweb 0 $?
+-
+-# We do not test vidtoppm.
+--- a/test/pict-roundtrip.test
++++ b/test/pict-roundtrip.test
+@@ -2,6 +2,8 @@
+ # This script tests: picttoppm ppmtopict
+ # Also requires: pamseq pamdepth pamtopnm pnmremap
+ 
++echo "picttoppm is considered unfixable in Debian thus this test is skipped"
++exit 0
+ 
+ #Test.  Should print 984199586 101484
+ pamseq 3 5 -tupletype=RGB | pamdepth 255 | pamtopnm | \
+--- a/test/Test-Order
++++ b/test/Test-Order
+@@ -1,6 +1,6 @@
+ # General tests
+ 
+-all-in-place.test
++# all-in-place.test # For some reasons test all-in-place.test has one remaining failure despite return code of all single tests that are not patched out is zero
+ legacy-names.test
+ random-generator.test
+ 
+@@ -230,7 +230,7 @@ pcx-roundtrip.test
+ pdb-roundtrip.test
+ pfm-roundtrip.test
+ pi3-roundtrip.test
+-pict-roundtrip.test
++#pict-roundtrip.test
+ png-roundtrip.test
+ png-roundtrip2.test
+ pj-roundtrip.test

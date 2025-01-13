@@ -1,25 +1,36 @@
-SRCDIR = ..
+ifeq ($(SRCDIR)x,x)
+  SRCDIR = $(CURDIR)/..
+  BUILDDIR = $(SRCDIR)
+endif
+SUBDIR = urt
+VPATH=.:$(SRCDIR)/$(SUBDIR)
 
-include $(SRCDIR)/Makefile.config
+default: all
 
-OBJECTS = Runput.o cmd_name.o \
-	rle_addhist.o rle_error.o rle_getcom.o rle_getrow.o rle_getskip.o \
+include $(BUILDDIR)/config.mk
+
+LIBOBJECTS = Runput.o cmd_name.o \
+	rle_addhist.o rle_getcom.o rle_getrow.o rle_getskip.o \
 	rle_global.o rle_hdr.o rle_open_f.o rle_putcom.o rle_putrow.o \
-        rle_row_alc.o \
-        scanargs.o vaxshort.o     
+	rle_row_alc.o \
+	vaxshort.o     
+
+MERGE_OBJECTS =
+
+OMIT_URT_RULE = 1
+include $(SRCDIR)/common.mk
 
 all: librle.a
 
-librle.a: $(OBJECTS)
+librle.a: $(LIBOBJECTS)
 	rm -f $@
-	ar rc $@ $^
+	$(AR) rc $@ $^
 	$(RANLIB) $@
 
 # Rule for objects.
-$(OBJECTS): %.o: %.c
-	$(CC) -c $(CFLAGS) -o $@ $<
+$(LIBOBJECTS): %.o: %.c importinc
+	$(CC) -c $(INCLUDES) -o $@ $< $(CFLAGS_ALL)
 
-.PHONY: clean
-clean: 
-	rm -f *.o *.s *.i librle.a
+BINARIES =
+SCRIPTS =
 

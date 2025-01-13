@@ -1,0 +1,239 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Ppmtoilbm User Manual</title></head>
+<body>
+<h1>ppmtoilbm</h1>
+Updated: 15 January 2022
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+
+ppmtoilbm - convert a PPM image into an ILBM file
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>ppmtoilbm</b>
+
+[<b>-maxplanes</b>|<b>-mp</b> <i>N</i>]
+
+[<b>-fixplanes</b>|<b>-fp</b> <i>N</i>]
+
+[<b>-ham6</b>|<b>-ham8</b>]
+
+[{<b>-dcbits</b>|<b>-dcplanes</b>} <i>r</i> <i>g</i> <i>b</i>]
+
+[
+<b>-normal</b>|<b>-hamif</b>|<b>-hamforce</b>|<b>-24if</b>|<b>-24force</b>|
+<b>-dcif</b>|<b>-dcforce</b>|<b>-cmaponly</b>
+]
+
+[<b>-ecs</b>|<b>-aga</b>]
+
+[<b>-compress</b>|<b>-nocompress</b>]
+
+[<b>-cmethod</b> <i>type</i>]
+
+[<b>-map</b> <i>ppmfile</i>]
+
+[<b>ppmfile</b>]
+
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>ppmtoilbm</b> reads a PPM image as input.  Produces an ILBM file
+as output.  <b>ppmtoilbm</b> understands the following ILBM types:
+
+<ul compact>
+
+<li>Normal ILBMs with 1-16 planes
+
+<li>Amiga HAM with 3-16 planes
+
+<li>24 bit
+
+<li>Color map (BMHD + CMAP chunk only, nPlanes = 0)
+
+<li>Unofficial direct color.  1-16 planes for each color component.
+
+</ul>
+
+<p>Chunks written: BMHD, CMAP, CAMG (only for HAM), BODY (not for
+colormap files) unofficial DCOL chunk for direct color ILBM.
+
+
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>ppmtoilbm</b> recognizes the following
+command line options:
+
+<p>Options marked with (*) can be prefixed with a "no",
+e.g. "-nohamif".  All options can be abbreviated to their
+shortest unique prefix.
+
+<dl compact>
+<dt><b>-maxplanes</b> | <b>-mp</b> <i>n</i>
+
+<dd>(default 5, minimum 1, maximum 16) Maximum planes to write in a
+normal ILBM.  If the image does not fit into &lt;n&gt; planes,
+ppmtoilbm writes a HAM file (if -hamif is used), a 24bit file (if
+-24if is used) or a direct color file (if -dcif is used) or aborts
+with an error.
+
+<dt><b>-fixplanes</b> | <b>-fp</b> <i>b</i>
+
+<dd>(min 1, max 16) If a normal ILBM is written, it will have exactly
+&lt;n&gt; planes.
+
+<dt><b>-hambits</b> | <b>-hamplanes</b> <i>n</i>
+
+<dd>(default 6, min 3, max 16) Select number of planes for HAM
+picture.  The current Amiga hardware understands 6 and 8 planes, so for
+now you should only use this values.
+
+<dt><b>-normal</b>
+
+<dd>Turns off -hamif/-24if/-dcif, -hamforce/-24force/-dcforce and
+-cmaponly.  Also sets compression type to byterun1.
+
+<p>This is the default.
+
+<dt><b>-hamif</b> (*)
+<dt><b>-24if</b> (*)
+<dt><b>-dcif</b> (*)
+
+<dd>Write a HAM/24bit/direct color file if the image does not fit into
+&lt;maxplanes&gt; planes.
+
+<dt><b>-hamforce</b> (*)
+<dt><b>-24force</b> (*)
+<dt><b>-dcforce</b> (*)
+
+<dd>Write a HAM/24bit/direct color file.
+
+<dt><b>-dcbits</b> <i>r</i> <i>g</i> <i>b</i>
+<dt><b>-dcplanes</b> <i>r</i> <i>g</i> <i>b</i>
+
+<dd>(default 5, min 1, max 16).  Select number of bits for red, green
+and blue in a direct color ILBM.
+
+<dt><b>-ecs</b>
+
+<dd>Shortcut for: -hamplanes 6 -maxplanes 5
+
+<p>This is the default.
+
+<dt><b>-aga</b>
+
+<dd>Shortcut for: <b>-hamplanes 8 -maxplanes 8</b>
+
+<dt><b>-ham6</b>
+
+<dd>Shortcut for: <b>-hamplanes 6 -hamforce</b>
+
+<dt><b>-ham8</b>
+
+<dd>Shortcut for: <b>-hamplanes 8 -hamforce</b>
+
+<dt><b>-compress</b> (*)
+
+<dd>This is the default.
+
+<dd>Compress the BODY chunk.  The default compression method is
+byterun1.  Compression requires building the ILBM image in memory;
+turning compression off allows stream-writing of the image, but the
+resulting file will usually be 30% to 50% larger.  Another alternative
+is the -savemem option, this will keep memory requirements for
+compression at a minimum, but is very slow.
+
+<dt><b>-cmethod</b> <b>none</b>|<b>byterun1</b>
+
+<dd>This option does the same thing as <b>-compress</b>.
+
+<dt><b>-map</b> <i>ppmfile</i>
+
+<dd>Write a normal ILBM using the colors in &lt;ppmfile&gt; as the
+colormap.  The colormap file also determines the number of planes;
+<b>-maxplanes</b> and <b>-fixplanes</b> are ignored.
+
+<dt><b>-cmaponly</b>
+
+<dd>Write a colormap file: only BMHD and CMAP chunks, no BODY chunk,
+nPlanes = 0.
+
+<dt><b>-savemem</b>
+
+<dd>See the <b>-compress</b> option.
+
+</dl>
+
+
+<h2 id="limitations">LIMITATIONS</h2>
+
+<p>HAM pictures will always get a grayscale colormap; a real color
+selection algorithm might give better results.  On the other hand,
+this allows row-by-row operation on HAM images, and all HAM images of
+the same depth (no. of planes) share a common colormap, which is
+useful for building HAM animations.
+
+<h2 id="references">REFERENCES</h2>
+
+Amiga ROM Kernel Reference Manual - Devices (3rd Ed.)
+<br>
+Addison Wesley, ISBN 0-201-56775-X
+
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<a href="ppm.html">ppm</a>, 
+<a href="ilbmtoppm.html">ilbmtoppm</a>
+
+
+<h2 id="history">HISTORY</h2>
+
+<p>For about a year in 1993-1994, there was a <b>-savemem</b> option.
+
+<p>There used to be a <b>-floyd</b> (aka <b>-fs</b>) option that was supposed
+  to cause images to be dithered so that a larger number of colors in the PPM
+  input could be represented in a smaller number of colors in the ILBM output.
+  But it was never documented.  Furthermore, developers discovered in January
+  2022 that the code for this was nonfunctional because of defects, and had
+  been for a very long time and maybe always.  Finally,, this functions is not
+  appropriate in the Netpbm philosophy, because dithering should be done by a
+  separate dithering program, not a format conversion program.  Indeed,
+  the programs <b>ppmdither</b>, <b>pnmquant</b>, and <b>pnmremap</b> can do
+  this.
+
+<p>Therefore, since Netpbm 10.98 (March 2022), the dithering code has not been
+  in the program and any attempt to use the options fails with a simple
+  invalid option message.  But the <b>-nofloyd</b> and <b>-nofs</b> options
+  remain, doing nothing as they were designed to do, and still not documented.
+  This is just in case something uses those options, since the cost of
+  maintaining them is so small.
+
+  
+<h2 id="authors">AUTHORS</h2>
+
+<p>Copyright (C) 1989 by Jef Poskanzer.
+
+<p>Modified October 1993 by Ingo Wilken (<a
+href="mailto:Ingo.Wilken@informatik.uni-oldenburg.de">Ingo.Wilken@informatik.uni-oldenburg.de</a>)
+
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#limitations">LIMITATIONS</a>
+<li><a href="#references">REFERENCES</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#history">HISTORY</a>
+<li><a href="#authors">AUTHORS</a>
+</ul>
+</body>
+</html>

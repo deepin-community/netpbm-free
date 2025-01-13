@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Pgmdeshadow User Manual</title></head>
+<body>
+<h1>pgmdeshadow</h1>
+Updated: 06 July 2006
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+
+pgmdeshadow - Deshadow a PGM image
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>pgmdeshadow</b>
+
+[<i>pnmfile</i>]
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>pgmdeshadow</b> removes gray shadows from an image.  This is
+useful for an image containing text, such as a scanned book pages,
+where a shadow typically appears near the book crease or near one side
+of the image.  <b>pgmdeshadow</b> recognizes a gray shadow as an area
+of smoothly changing color, starting from the outer edges of the
+image.  The program uses a simple image reconstruction algorithm to
+determine the local shadow gray level, then divides each pixel's gray
+level by the local shadow gray level.
+
+<p>The algorithm is the "fast hybrid grayscale reruction"
+algorithm from Luc Vincent, "Morphological Grayscale Reruction in
+Image Analysis: Applications and Efficient Algorithms.
+
+
+<h2 id="options">OPTIONS</h2>
+
+<p>There are no command line options defined specifically
+for <b>pgmdeshadow</b>, but it recognizes the options common to all
+programs based on libnetpbm (See <a href="index.html#commonoptions">
+Common Options</a>.)
+
+<h2 id="references">REFERENCES</h2>
+
+<ul>
+
+<li>Luc Vincent, "Morphological Grayscale Reconstruction in Image
+Analysis: Applications and Efficient Algorithms," IEEE
+Transactions on Image Processing, vol. 2, no. 2, April 1993,
+pp. 176-201.
+
+</ul>
+
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<a href="ppmshadow.html">ppmshadow</a>,
+<a href="pgm.html">pgm</a>
+
+<h2 id="history">HISTORY</h2>
+
+<p><b>pgmdeshadow</b> was added to Netpbm in Version 10.35 (August 2006).
+
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#references">REFERENCES</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#history">HISTORY</a>
+</ul>
+
+</body>
+</html>

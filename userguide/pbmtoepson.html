@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Pbmtoepson User Manual</title></head>
+<body>
+<h1>pbmtoepson</h1>
+Updated: 08 August 2003
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+pbmtoepson - convert a PBM image into Epson printer graphics
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>pbmtoepson</b>
+
+[<b>-dpi=</b><i>n</i>]
+[<b>-protocol=</b>{<b>escp9</b>|<b>escp</b>}]
+[<b>-adjacent</b>]
+[<b>-nonadjacent</b>]
+
+[<i>pbmfile</i>]
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<b>pbmtoepson</b> reads a PBM image as input and produces a stream of
+Epson printer graphics as output.
+
+<p>The input is from the file identified by the <i>pbmfile</i> argument
+or, if you don't specify <i>pbmfile</i>, from Standard Input.  Output is
+to Standard Output.
+
+<p>The output is for traditional (ca 1991) Epson 9-wire dot matrix
+(sometimes called ESC/P 9-wire) printers or newer ESC/P printers.  For
+a more modern Epson ESC/P2 type printer, try <b>pbmtoescp2</b>.
+
+<p>Before Netpbm 10.23 (July 2004), <b>pbmtoepson</b> could not produce
+ESC/P streams -- only ESC/P 9-wire.
+
+<p>The Epson printer protocols are described in Epson's protocol
+specification.
+
+<p>Note that there is no epsontopbm tool - this transformation is one way.
+
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>pbmtoepson</b> recognizes the following
+command line options:
+
+<dl compact>
+
+<dt><b>-protocol=</b>{<b>escp9</b>|<b>escp</b>}
+
+<dd>This determines which Epson printer protocol the output uses.
+<b>escp9</b> is the older ESC/P 9-pin protocol.  <b>escp</b> is the
+newer ESC/P protocol.  For the even newer <b>ESC/P2</b> protocol, you
+have to use <b>pbmtoescp2</b> instead.
+
+<p>This option was new in Netpbm 10.23 (July 2004).     
+</dd>
+
+<dt><b>-dpi=</b><i>n</i>
+
+<dd>This specifies the horizontal print density in dots per inch.  The
+protocol allows only certain values: 60, 72, 80, 90, 120, 144, and 240.
+Actually, the ESC/P protocol allows a few others, but <b>pbmtoepson</b>
+doesn't know how to generate the command streams that use them.
+
+<p>If you don't specify this, <b>pbmtoepson</b> chooses a horizontal
+print density for you consistent with your other options.
+
+<p>This option was new in Netpbm 10.23 (July 2004).     
+
+<dt><b>-adjacent</b>
+<dt><b>-nonadjacent</b>
+
+<dd>These options determine whether the output uses "adjacent dot
+printing" or not, whatever that is.
+
+<p>If you don't specify this, <b>pbmtoepson</b> selects adjacent dot
+printing unless that is incompatible with your other options.
+
+<p>This option was new in Netpbm 10.23 (July 2004).     
+
+</dl>
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<a href="pbmtoescp2.html">pbmtoescp2</a>,
+<a href="pbm.html">pbm</a>,
+
+<h2 id="author">AUTHOR</h2>
+
+Copyright (C) 1991 by John Tiller (<a
+href="mailto:tiller@galois.msfc.nasa.gov">tiller@galois.msfc.nasa.gov</a>)
+and Jef Poskanzer.
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#author">AUTHOR</a>
+</ul>
+</body>
+</html>

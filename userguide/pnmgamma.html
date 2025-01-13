@@ -1,0 +1,329 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Pnmgamma User Manual</title></head>
+<body>
+<h1>pnmgamma</h1>
+Updated: 30 June 2007
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+pnmgamma - perform gamma adjustment on a PNM image
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<p>
+<b>pnmgamma</b>
+{
+ <b>-bt709tolinear</b> | 
+ <b>-lineartobt709</b> |
+ <b>-bt709tosrgb</b> | 
+ <b>-srgbtobt709</b>
+}
+[<b>-gamma=</b><i>float</i>]
+[<b>-rgamma=</b><i>float</i>]
+[<b>-ggamma=</b><i>float</i>]
+[<b>-bgamma=</b><i>float</i>]
+
+[<i>pnmfile</i>]
+
+<p>
+<b>pnmgamma </b>
+[
+ <b>-bt709ramp</b> |
+ <b>-srgbramp</b> 
+]
+[<b>-ungamma</b>]
+<br>
+[{<i>gamma</i> | <i>redgamma</i> <i>greengamma</i> <i>bluegamma</i>}
+[<i>pnmfile</i>]]
+
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>Pnmgamma</b> performs gamma adjustment on pseudo-PNM images.
+
+<p>The PPM format specification specifies that certain sample values
+in a file represent certain light intensities in an image.  In
+particular, they specify that the sample values are directly
+proportional to luminance as defined by ITU-R Recommendation BT.709.
+BT.709 luminance as a function of radiance is a power function
+modified with a linear ramp near black.
+
+<p>However, people sometimes work with approximations of PPM and PGM
+where the sample values represent intensity in different ways:
+
+<p>In one common variation, the sample value is directly proportional
+to radiance (often called "linear intensity").
+
+<p>Another popular variation is to make the samples proportional to
+luminance as defined by the International Electrotechnical Commission
+(IEC) SRGB standard.  The SRGB gamma transfer function is like the
+BT.709 one except with different constants in it.
+
+<p>Note that SRGB is often spelled "sRGB".  In this
+document, we use standard English typography, though, which doesn't
+allow for that kind of capitalization.
+
+<p><b>pnmgamma</b> allows you to manipulate the gamma transfer
+function, thus working with and/or creating pseudo-PPM files that are
+useful for various things.
+
+<p>For example, if you feed a true PPM to <kbd>pnmgamma -bt709tolinear
+</kbd>, you get as output a file which is PPM in every respect except
+that the sample values are radiances.  If you feed such a file to
+<kbd>pnmgamma -linearto709</kbd>, you get back a true PPM.
+
+<p>The situation for PGM images is analogous.  And <b>pnmgamma</b>
+treats PBM images as PGM images.
+
+<p>When you feed a radiance-proportional pseudo-PPM image to a display
+program that expects a true PPM, the display appears darker than it
+should, so <b>pnmgamma</b> has the effect of lightening the image.
+When you feed a true PPM to a display program that expects
+radiance-proportional sample values, and therefore does a gamma
+adjustment of its own on them, the display appears lighter than it
+should, so <b>pnmgamma</b> with a gamma value less than one (the
+multiplicative inverse of whatever gamma value the display program
+uses) has the effect of darkening the image.
+
+<h2 id="parameters">PARAMETERS</h2>
+
+<p>The form of the parameters depends on whether you're using the old
+syntax or the new syntax.  With the old syntax, the parameters are
+a mixture of gamma values and the input file name.  With the new
+syntax, the only parameter is the input file name and you specify gamma
+values with option.
+
+<p>You use the old syntax if you specify <b>-bt709ramp</b> (or
+its synonym <b>-cieramp</b>) or <b>-srgramp</b> or if you don't specify
+any transfer function at all (and thus default to a simple exponential).
+Otherwise, you use the new syntax.
+
+<p>With the old syntax, you may specify a single gamma value or 3
+separate gamma values (red, green, and blue) or no gamma values.  In
+any case, the meanings of those parameters is the same as the more
+modern <b>-gamma</b>, <b>-rgamma</b>, <b>-ggamma</b>, and
+<b>-bgamma</b> options described below.
+
+
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>pnmgamma</b> recognizes the following
+command line options:
+
+<dl compact>
+
+<dt><b>-bt709tolinear</b>
+
+<dd>Convert the image from BT.709 luminance to radiance.  I.e. convert
+from true PPM or PGM to a radiance-linear variation that can be used
+with certain tools that need it.
+
+<p>This option was new in Netpbm 10.32 (February 2006).
+
+<dt><b>-lineartobt709</b>
+
+<dd>Convert the image from radiance to BT.709 luminance.  I.e. convert
+to true PPM or PGM from a radiance-linear variation.
+
+<p>You get true BT.709 (ergo true PPM or PGM) only if you use the
+default gamma value (i.e. don't specify <b>-gamma</b>, etc.).
+
+<p>This option was new in Netpbm 10.32 (February 2006).
+
+<dt><b>-bt709tosrgb</b>
+
+<dd>Convert the image from BT.709 luminance to SRGB luminance.
+I.e. convert from true PPM or PGM to an SRGB-based variation that is
+required by certain tools and display devices.
+
+<p>You get true SRGB only if you use the default gamma value
+(i.e. don't specify <b>-gamma</b>, etc.).
+
+<p>This option was new in Netpbm 10.32 (February 2006).
+
+<dt><b>-srgbtobt709</b>
+
+<dd>Convert the image from SRGB luminance to BT.709 luminance.
+I.e. convert to true PPM or PGM from an SRGB-based variation.
+
+<p>This option was new in Netpbm 10.32 (February 2006).
+
+<dt><b>-bt709ramp</b>
+
+<dd>Same as <b>-lineartobt709</b>, but using the old syntax.
+
+<p>This option was renamed in Netpbm 10.32 (February 2006).  Before that,
+its name is <b>-cieramp</b>.
+
+<dt><b>-cieramp</b>
+
+<dd>This is an obsolete synonym for <b>-bt709ramp</b>.
+
+<p>The name of this option comes from a former belief that this was a
+standard of CIE (International Commission On Illumination), but it now
+(August 2005) looks like it never was.
+
+<dt><b>-srgbramp </b>
+
+<dd>Convert the image from radiance to SRGB luminance.  Note that it is
+true SRGB only if you use the default gamma value (i.e. don't specify
+any gamma parameters).
+
+<p>This is an old syntax option.  There is no equivalent in the new
+syntax because it really shouldn't be a function of <b>pnmgamma</b> at
+all.  It exists solely for backward compatibility.  The reason it
+shouldn't exist is that the way to do this conversion consistent with
+the Netpbm philosophy is do a <b>-lineartobt709</b> followed by a
+<b>-bt709tosrgb</b>.  It's exactly analogous to the way you have to
+convert from PNG to TIFF by doing a <b>pngtopam</b> followed by a
+<b>pnmtotiff</b>.  The <b>-srgbramp</b> option actually dates to
+before there was a standard definition of what the sample values of a
+Netpbm image measure, and <b>pnmgamma</b> considered radiance-linear
+to be the proper intermediate format.
+
+<dt><b>-ungamma</b>
+
+<dd>Apply the inverse of the specified transfer function (i.e. go from
+gamma-adjusted luminance to radiance).
+
+<p>This is valid only with <b>-bt709ramp</b> (aka <b>-cieramp</b>),
+<b>-srgbramp</b>, and the default exponential transfer function.
+
+<dt><b>-gamma=</b><i>float</i>
+
+<dd>This specifies the gamma value to use in the transfer function.  All
+of the transfer functions involve an exponent, and the gamma value is that
+exponent.
+
+<p>The standards specify a particular gamma value.  If you use anything
+else, you are varying from the standard.
+
+<p>The default is the standard value.  For the simple exponential transfer
+function (which is not a standard), the default is 2.2.
+
+<p>In the <b>-bt709tosrgb</b> and <b>-srgbtobt709</b> conversions
+there are <em>two</em> exponents.  <b>-gamma</b> affects the
+"to" function; the "from" function always uses the
+standard gamma value.
+
+<p>If you specify one of the component-specific options (<b>-rgamma</b>,
+etc.), that overrides the <b>-gamma</b> value.
+
+<p>With the <b>-bt709ramp</b> (aka <b>-cieramp</b>), <b>-srgbramp</b>,
+or the default exponential transfer function, you can't actually use
+this option, but you specify the same thing with <a
+href="#parameters">parameters.</a>
+
+<p>This option was new in Netpbm 10.32 (February 2006).
+
+<dt><b>-rgamma=</b><i>float</i>
+<dt><b>-ggamma=</b><i>float</i>
+<dt><b>-bgamma=</b><i>float</i>
+
+<dd>These options are just like <b>-gamma</b>, except they specify the
+value for a particular one of the color components.
+
+<p>If you don't specify this option for a particular color component,
+the default is the <b>-gamma</b> value (or <b>-gamma</b>'s default if
+you didn't specify that either).
+
+<p>With the <b>-bt709ramp</b> (aka <b>-cieramp</b>), <b>-srgbramp</b>,
+or the default exponential transfer function, you can't actually use
+this option, but you specify the same thing with <a
+href="#parameters">parameters.</a>
+
+<p>This option was new in Netpbm 10.32 (February 2006).
+
+<dt><b>-maxval=</b><i>maxval</i>
+
+<dd>This is the maxval of the output image.  By default, the maxval of
+the output is the same as that of the input.
+
+<p>Because the transformation is not linear, you need a greater maxval
+in the output in order not to lose any information from the input.
+For example, if you convert to radiance-linear sample values with 
+<kbd>-ungamma -bt709ramp</kbd> and default gamma value, and your maxval is
+255 on both input and output, 3 different input sample values all
+generate output sample value 254.  In order to have a different output
+sample value for each input sample value, you would need an output
+maxval at least 3 times the input maxval.
+
+<p>This option was new in Netpbm 10.32 (February 2006).  Before that,
+you can achieve the same result by increasing the maxval of the input
+or decreasing the maxval of the output using <b>pamdepth</b>.
+
+</dl>
+
+<h2 id="gamma">WHAT IS GAMMA?</h2>
+
+<p>A good explanation of gamma is in Charles Poynton's Gamma FAQ at
+<a href="http://www.poynton.com/GammaFAQ.html">
+http://www.poynton.com/GammaFAQ.html</a> and Color FAQ at <a
+href="http://www.poynton.com/ColorFAQ.html">
+http://www.poynton.com/ColorFAQ.html</a>.
+
+<p>In brief: The simplest way to code an image is by using sample
+values that are directly proportional to the radiance of the color
+components.  Radiance is a physical quantification based on the amount
+of power in the light; it is easily measurable in a laboratory, but
+does not take into account what the light looks like to a person.  It
+wastes the sample space because the human eye can't discern
+differences between low-radiance colors as well as it can between
+high-radiance colors.  So instead, we pass the radiance values
+through a transfer function that makes it so that changing a sample
+value by 1 causes the same level of perceived color change anywhere in
+the sample range.  We store those resulting values in the image file.
+That transfer function is called the gamma transfer function and the
+transformation is called gamma adjusting.
+
+<p>The gamma-adjusted value, proportional to subjective brightness,
+are known as the luminance of the pixel.
+
+<p>There is no precise objective way to measure luminance, since it's
+psychological.  Also, perception of brightness varies according to a
+variety of factors, including the surrounding in which an image is
+viewed.  Therefore, there is not just one gamma transfer function.
+
+<p>Virtually all image formats, either specified or de facto, use
+gamma-adjusted values for their sample values.
+
+<p>What's really nice about gamma is that by coincidence, the inverse
+function that you have to do to convert the gamma-adjusted values
+back to radiance is done automatically by CRTs.  You just apply a
+voltage to the CRT's electron gun that is proportional to the
+gamma-adjusted sample value, and the radiance of the light that comes
+out of the screen is close to the radiance value you had before you
+applied the gamma transfer function!
+
+<p>And when you consider that computer video devices usually want you
+to store in video memory a value proportional to the signal voltage
+you want to go to the monitor, which the monitor turns into a
+proportional drive voltage on the electron gun, it is really
+convenient to work with gamma-adjusted sample values.
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<b><a href="pnm.html">pnm</a></b>
+
+<h2 id="author">AUTHOR</h2>
+
+Copyright (C) 1991 by Bill Davidson and Jef Poskanzer.
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#parameters">PARAMETERS</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#gamma">WHAT IS GAMMA?</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#author">AUTHOR</a>
+</ul>
+</body>
+</html>

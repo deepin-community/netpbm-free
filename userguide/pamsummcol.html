@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Pamsummcol User Manual</title></head>
+<body>
+<h1>pamsummcol</h1>
+Updated: 25 January 2009
+<br>
+
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+pamsummcol - summarize (sum, average, etc) a Netpbm image by column
+
+<h2 id="synopsis">SYNOPSIS</h2>
+<b>pamsummcol</b>
+{
+<b>-sum</b> |
+<b>-mean</b> |
+<b>-min</b> |
+<b>-max</b>
+}
+[<i>imagefile</i>]
+
+<p>All options can be abbreviated to their shortest unique prefix.
+You may use two hyphens instead of one.  You may separate an option
+name and its value with white space instead of an equals sign.
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>pamsummcol</b> reads a Netpbm image (PNM or PAM) and performs a
+summary function over all the rows in each column (sum, mean, etc.).
+It produces an image of the same kind that the same width and depth as
+the input, and one row high.  Its sample values are the result of the
+summary.
+
+<p><b>pamsummcol</b> performs the summary operation on each plane
+independently.
+
+<p><b>pamsummcol</b> performs the operation on the actual sample values,
+not on the light intensities represented by them in the case that the
+image is a PGM or PPM image.
+
+<p>If you want to summarize by row instead of by column, run the input
+through <b>pamflip</b> first (and if you want the output to be a single
+column instead of a single row, use <b>pamflip</b> again).
+
+<p>If you want to summarize over the entire image (getting a one-tuple
+output image), use <b>pamsumm</b> to get a summary row, <b>pamflip</b>
+to turn that into a column, the <b>pamsumm</b> again to summarize the
+column.
+
+<p>If you want to summarize the individual samples in an entire image,
+instead of by tuple, use <b>pamsumm</b>.
+
+<p><b>pamsummcol</b> performs the operation on the actual sample values,
+not on the light intensities represented by them in the case that the
+image is a PGM or PPM image or PAM equivalent.  You can use
+<b>pnmgamma</b> to convert such an image to one with samples proportional
+to light intensity, and then use <b>pamsummcol</b> on the result.
+
+<p>You can achieve the same thing as <b>pamsummcol -mean</b> with
+<b>pamscale</b>.  Just scale vertically to a single row, without scaling
+horizontally at all.  Use the pixel mixing method.
+
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>pamsummcol</b> recognizes the following
+command line options:
+
+<p>You must specify exactly one of <b>-sum</b>, <b>-mean</b>,
+<b>-min</b>, or <b>-max</b>.
+
+<dl compact>
+<dt><b>-sum</b>
+
+<dd>
+     <p>This option makes the summary function addition.
+     In each column and plane of the output row, the sample value is the
+     sum of all the samples values in the same column and plane of the input.
+     If a result is greater than the image maxval, it is clipped to
+     the maxval.
+
+<dt><b>-mean</b>
+
+<dd>
+     <p>This option makes the summary function arithmetic mean.
+     In each column and plane of the output row, the sample value is the
+     mean of all the samples values in the same column and plane of the input.
+
+<dt><b>-min</b>
+
+<dd>
+     <p>This option makes the summary function arithmetic minimum.
+     In each column and plane of the output row, the sample value is the
+     minimum of all the samples values in the same column and plane of
+     the input.
+
+<dt><b>-max</b>
+
+<dd>
+     <p>This option makes the summary function arithmetic maximum.
+     In each column and plane of the output row, the sample value is
+     the maximum of all the samples values in the same column and
+     plane of the input.
+
+</dl>
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<b><a href="pamsumm.html">pamsumm</a></b>,
+<b><a href="pamflip.html">pamflip</a></b>,
+<b><a href="pamfunc.html">pamfunc</a></b>,
+<b><a href="pamarith.html">pamarith</a></b>,
+<b><a href="pamscale.html">pamscale</a></b>,
+<b><a href="pam.html">pam</a></b>,
+
+<h2 id="history">HISTORY</h2>
+
+<p><b>pamsummcol</b> was added to Netpbm in Release 10.21 (March
+2004).
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#history">HISTORY</a>
+</ul>
+</body>
+</html>

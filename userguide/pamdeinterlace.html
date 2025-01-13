@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Pamdeinterlace User Manual</title></head>
+<body>
+<h1>pamdeinterlace</h1>
+Updated: 11 November 2001
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+
+pamdeinterlace - remove every other row from a PAM/PNM image
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>pamdeinterlace</b>
+
+[<b>-takeodd</b>]
+
+[<b>-takeeven</b>]
+
+[<i>infile</i>]
+
+<p>You can use the minimum unique abbreviation of the options.  You
+can use two hyphens instead of one.  You can separate an option name
+from its value with white space instead of an equals sign.
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>pamdeinterlace</b> removes all the even-numbered or odd-numbered
+rows from the input PNM or PAM image.  Specify which with the
+<b>-takeeven</b> and <b>-takeodd</b> options.
+
+<p>This can be useful if the image is a video capture from an
+interlaced video source.  In that case, each row shows the subject
+1/60 second before or after the two rows that surround it.  If the
+subject is moving, this can detract from the quality of the image.
+
+<p>Because the resulting image is half the height of the input image,
+you will then want to use <b>pamstretch</b> or <b>pamscale</b> to
+restore it to its normal height:
+
+<pre>
+<kbd>
+pamdeinterlace myimage.ppm | pamstretch -yscale=2 &gt;newimage.ppm
+</kbd>
+</pre>
+
+<p>Another, usually better, way to deinterlace an image is with
+<b>pammixinterlace</b>.
+
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>pamdeinterlace</b> recognizes the following
+command line options:
+
+<dl compact>
+
+<dt><b>-takeodd</b>
+
+<dd>Take the odd-numbered rows from the input and put them in the
+output.  The rows are numbered starting at zero, so the first row in
+the output is the second row from the input.  You cannot specify both
+<b>-takeeven</b> and <b>-takeodd</b>.
+
+<dt><b>-takeeven</b>
+
+<dd>Take the even-numbered rows from the input and put them in the
+output.  The rows are numbered starting at zero, so the first row in
+the output is the first row from the input.  This is the default.  You
+cannot specify both <b>-takeeven</b> and <b>-takeodd</b>.
+
+</dl>
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<b><a href="pammixinterlace.html">pammixinterlace</a></b>,
+<b><a href="pam.html">pam</a></b>
+<b><a href="pnm.html">pnm</a></b>
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+</ul>
+</body>
+</html>

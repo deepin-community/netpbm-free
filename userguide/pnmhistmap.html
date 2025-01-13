@@ -1,0 +1,179 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Pnmhistmap User Manual</title></head>
+<body>
+<h1>pnmhistmap</h1>
+Updated: 13 July 2009
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+pnmhistmap - draw a histogram for a PGM or PPM file
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>pnmhistmap</b>
+
+[<b>-red</b>] [<b>-green</b>] [<b>-blue</b>]
+
+[<b>-black</b>] [<b>-white</b>]
+
+[<b>-max</b> <i>N</i>]
+
+[<b>-lval</b>] [<b>-rval</b>]
+
+[<b>-height</b>] [<b>-width</b>]
+
+[<b>-dots</b>]
+
+[<b>-verbose</b>]
+
+[<i>pnmfile</i>]
+
+<p>Minimum unique abbreviation of option is acceptable.  You may use
+double hyphens instead of single hyphen to denote options.  You may use
+white space in place of the equals sign to separate an option name
+from its value.
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>pnmhistmap</b> reads a PNM image as input and produces an image
+showing a histogram of the color (or gray) values in the input.  A PGM
+input results in a PBM output.  A PPM input results in a PPM output
+with three overlaid histograms: a red one for the red input, a green
+one for the green input, and a blue one for the blue input.
+
+<p>For example, from the following image produces the following histogram:
+
+<p><img src="testimg.png" alt="image">
+<img src="testimg_histbar.png" alt="histogram from image">
+
+<p>If the input is PBM, <b>pnmhistmap</b> produces an error message
+and no output image.
+
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>pnmhistmap</b> recognizes the following
+command line options:
+
+<dl>
+
+<dt><b>-red</b>
+<dt><b>-green</b>
+<dt><b>-blue</b>
+
+<dd>Include the indicated color component in the output.  If you
+specify none of these, <b>pnmhistmap</b> include all three.
+
+<p>These options are meaningless if the input is PGM.
+
+<p>These options were new in Netpbm 10.26 (January 2005).  Before
+that, <b>pnmhistmap</b> always included all three color components.
+
+<dt><b>-dots</b>
+
+<dd>Plot the histogram as dots.  By default, <b>pnmhistmap</b> plots
+bars.
+
+<p>Example of dots: <img src="testimg_histdot.png" alt="-dots example">
+
+<p>This option was new in Netpbm 10.26 (January 2005).  Before that,
+<b>pnmhistmap</b> always plotted bars.
+
+<dt><b>-lval</b> <i>minpixval</i>
+<dt><b>-rval</b> <i>maxpixval</i>
+
+<dd>These options specify the range of intensity values to include.
+<b>pnmhistmap</b> ignores intensities less than <i>minpixval</i> and
+greater than <i>maxpixval</i>.  So the left side of the histogram
+corresponds to <i>minpixval</i> and the right side corresponds to
+<i>maxpixval</i>.
+
+<p>By default, <b>pnmhistmap</b> plots the entire possible range: zero
+to the maxval.
+
+<p>These options were new in Netpbm 10.26 (January 2005).  Before that,
+<b>pnmhistmap</b> always plotted from zero to the maxval.
+
+<dt>-height
+<dt>-width
+
+<dd>These options specify the dimensions, in pixels of the histogram image.
+
+<p>The default height is 200 pixels.
+
+<p>The default width is one pixel for each plotted intensity value (so it's 
+controlled by the maxval of the image and the <b>-lval</b> and <b>-rval</b>
+options).  The "count buckets" in the histogram are always
+one pixel wide.  If you specify a width less than the number of plotted
+intensity values, a bucket represents more than one intensity value.
+If you specify a width greater that the number of plotted intensity values,
+some buckets represent no color (the count is zero).
+
+<p>This option was new in Netpbm 10.26 (January 2005).  Before that,
+the dimensions were always what the default is today.
+
+<dt><b>-black </b>
+
+<dd>Ignore the count of black pixels when scaling the histogram.
+
+<dt><b>-white</b>
+
+<dd>Ignore the count of white pixels when scaling the histogram.
+
+<p>The -black and -white options, which can be used separately or
+together, are useful for images with a large percentage of pixels
+whose value is zero or 255, which can cause the remaining histogram
+data to become unreadably small.  Note that, for color inputs, these
+options apply to all colors; if, for example, the input has a large
+number of bright-red areas, you will probably want to use the -white
+option.
+
+<dt><b>-max N</b>
+
+<dd>Force the scaling of the histogram to use N as the largest-count value.
+This is useful for inputs with a large percentage of single-color pixels
+which are not black or white.
+
+<dt><b>-verbose</b>
+
+<dd>Report the progress of making the histogram, including the largest-count
+value used to scale the output.
+
+</dl>
+
+
+<h2 id="limitations">LIMITATIONS</h2>
+
+<p><b>pnmhistmap</b> assumes maxval is always 255.  Images with a
+smaller maxval will only use the lower-value side of the histogram.
+You can overcome this either by piping the input through
+<b>pamdepth</b> or by cutting and scaling the lower-value side of the
+histogram.  Neither is a particularly elegant solution to the problem.
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<a href="pgmhist.html">pgmhist</a>,
+<a href="ppmhist.html">ppmhist</a>,
+<a href="pgm.html">pgm</a>,
+<a href="ppm.html">ppm</a>
+
+<h2 id="author">AUTHOR</h2>
+
+<p>Wilson H. Bent. Jr. (<a href="mailto:whb@usc.edu">whb@usc.edu</a>).
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#limitations">LIMITATIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#author">AUTHOR</a>
+</ul>
+</body>
+</html>

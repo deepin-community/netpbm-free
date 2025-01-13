@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Pamdepth User Manual</title></head>
+<body>
+<h1>pamdepth</h1>
+Updated: 26 August 2020
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+
+pamdepth - change the depth (color resolution) in a Netpbm image
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>pamdepth</b> <i>newmaxval</i> [<i>netpbmfile</i>]
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>pamdepth</b> reads a Netpbm image as input, changes its depth (color
+resolution), and writes out the resulting Netpbm image.  I.e. the output has a
+different maxval from the input, but all the same colors (apart from rounding
+error).
+
+<p>Reducing the depth results in some loss of information.
+
+<p>Here is an example of the effect at the image format level: Assume you
+start with an image with maxval 100 and sample values of 50 and 100.  You
+tell <b>pamdepth</b> to change it to depth 150.  The output has maxval
+200 and sample values 75 and 150.
+
+<p>This program works on multi-image streams.
+
+<p>Be careful of off-by-one errors when choosing the new maxval.  For
+instance, if you want the color values to be five bits wide, use a
+maxval of 31, not 32.
+
+<p>One important use of <b>pamdepth</b> is to convert a new format
+2-byte-per-sample PNM file to the older 1-byte-per-sample format.
+Before April 2000, essentially all raw (binary) format PNM files had a
+maxval less than 256 and one byte per sample, and many programs may
+rely on that.  If you specify a <i>newmaxval</i> less than 256, the
+resulting file should be readable by any program that worked with PNM
+files before April 2000.
+
+<h3 id="output_format">Output Format</h3>
+
+<p>The output format (PBM, etc.) and, in the case of PAM, tuple type, of the
+output is usually the same as the input.
+
+<p>However, changing the depth of a black and white image does not make
+sense, except to turn it into a grayscale image, so if the input is a black
+and white image, <b>pamdepth</b> makes the output grayscale.  To be more
+precise, if the input is a PBM image, the output is PGM, and if the input
+is a PAM with tuple type BLACK_AND_WHITE or BLACK_AND_WHITE_ALPHA, the
+output is a PAM with tuple type GRAYSCALE or GRAYSCALE_ALPHA, respectively.
+
+<p>This conversion happens even if the new maxval is 1.
+
+<p>Before Netpbm 10.92 (September 2020), <b>pamdepth</b> failed if the input
+was PAM with a black and white tuple type and the new maxval was anything but
+1.  But it always promoted PBM to PGM.
+
+  
+<h2 id="options">OPTIONS</h2>
+
+<p>There are no command line options defined specifically
+for <b>pamdepth</b>, but it recognizes the options common to all
+programs based on libnetpbm (See <a href="index.html#commonoptions">
+Common Options</a>.)
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<a href="pnm.html">pnm</a>,
+<a href="pam.html">pam</a>,
+<a href="pnmquant.html">pnmquant</a>,
+<a href="ppmdither.html">ppmdither</a>
+<a href="pambrighten.html">pambrighten</a>
+<a href="pamfunc.html">pamfunc</a>
+
+<h2 id="history">HISTORY</h2>
+
+<p><b>pamdepth</b> was new in Netpbm 10.32 (February 2006).  It replaced
+<b>pnmdepth</b>, by Jef Poskanzer.  <b>pamdepth</b> is backward compatible
+with <b>pnmdepth</b> and adds the ability to process arbitrary PAM images
+and the ability to process multi-image input streams.  <b>pnmdepth</b>
+handled only PNM images and ignored all but the first in any stream.
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#history">HISTORY</a>
+</ul>
+</body>
+</html>

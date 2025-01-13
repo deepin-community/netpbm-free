@@ -1,0 +1,470 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Pnmtops User Manual</title></head>
+<body>
+<h1>pnmtops</h1>
+Updated: 20 April 2018
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+pnmtops - convert PNM image to Postscript
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>pnmtops</b>
+[<b>-scale=</b><i>s</i>]
+[<b>-dpi=</b><i>N</i>[<b>x</b><i>N</i>]]
+[<b>-imagewidth=</b><i>n</i>]
+[<b>-imageheight=</b><i>n</i>]
+[<b>-width=</b><i>N</i>]
+[<b>-height=</b><i>N</i>]
+[<b>-equalpixels</b>]
+[<b>-bitspersample=</b><i>N</i>]
+[<b>-turn</b>|<b>-noturn</b>]
+[<b>-rle</b>|<b>-runlength</b>]
+[<b>-flate</b>]
+[<b>-ascii85</b>]
+[<b>-nocenter</b>|<b>-center</b>]
+[<b>-nosetpage</b>|<b>-setpage</b>]
+[<b>-level=</b><i>N</i>]
+[<b>-dict</b>]
+[<b>-vmreclaim</b>]
+[<b>-psfilter</b>]
+[<b>-noshowpage</b>]
+[<b>-verbose</b>]
+[<i>pnmfile</i>]
+
+<p>All options can be abbreviated to their shortest unique prefix.
+You may use two hyphens instead of one.  You may separate an option
+name and its value with white space instead of an equals sign.
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>pnmtops</b> reads a Netpbm image stream as input and produces
+Encapsulated Postscript (EPSF) as output.
+
+<p>(Note: people usually render the name as "PostScript," but we use
+standard typography in the Netpbm manual, so capitalize only the first
+letter).
+
+<p>If the input file is in color (PPM), <b>pnmtops</b> generates a
+color Postscript file.  Some Postscript interpreters can't handle
+color Postscript.  If you have one of these you will need to run your
+image through <b>ppmtopgm</b> first.
+
+<p>If you specify no output dimensioning options, the output image is
+dimensioned as if you had specified <b>-scale=1.0</b>, which means
+approximately 72 pixels of the input image generate one inch of output
+(if that fits the page).
+
+<p>Use <b>-imagewidth</b>, <b>-imageheight</b>, <b>-equalpixels</b>,
+<b>-width</b>, <b>-height</b>, and <b>-scale</b> to adjust that.
+
+<p>Each image in the input stream becomes one complete one-page Postscript 
+program in the output.  (This may not be the best way to create a multi-page
+Postscript stream; someone who knows Postscript should work on this).
+
+<p>The line at the top of the file produced by <b>pnmtops</b> is
+either "%!PS-Adobe-3.0 EPSF-3.0" or just
+"%!PS-Adobe-3.0".  The numbers do not reflect the Postscript
+language level, but the version of the DSC comment specification and
+EPS specification implemented.  The Postscript language level is in the
+"%%LanguageLevel:" comment.  <b>pnmtops</b> omits "EPSF-3.0" if you
+specify <b>-setpage</b>, because it is incorrect to claim EPS
+compliance if the file uses <b>setpagedevice</b>.
+
+
+<h3>What is Encapsulated Postscript?</h3>
+
+<p>Encapsulated Postscript (EPSF) is a subset of Postscript (i.e. the
+set of streams that conform to EPSF is a subset of those that conform
+to Postscript).  It is designed so that an EPSF stream can be embedded
+in another Postscript stream.  A typical reason to do that is to have an
+EPSF stream that describes a picture you can put in a larger document.
+
+<p>But EPSF is not an image format -- converting from Netpbm format to EPSF
+really means generating a program to print that Netpbm image on paper.  Note
+that there are myriad ways to print an image on paper; <b>pnmtops</b>
+command line options let you control some of them.
+
+<p>An Encapsulated Postscript document conforms to the DSC (Document
+Structuring Convention).  The DSC defines some Postscript comments
+(they're comments from a Postscript point of view, but have semantic
+value from a DSC point of view).
+
+<p>More information about Encapsulated Postscript is at 
+<a href="http://www.tailrecursive.org/postscript/eps.html">
+http://www.tailrecursive.org/postscript/eps.html</a>.
+
+<p>Many of the ideas in <b>pnmtops</b> come from Dirk Krause's <b>bmeps</b>.
+See <a href="#seealso">SEE ALSO</a>.
+
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>pnmtops</b> recognizes the following
+command line options:
+
+<dl compact>
+<dt><b>-imagewidth</b>, <b>-imageheight</b>
+<dd>
+Tells how wide and high you want the image on the page, in inches.
+The aspect ratio of the image is preserved, so if you specify both of these,
+the image on the page will be the largest image that will fit within the
+box of those dimensions.
+<p>
+If these dimensions are greater than the page size, you get Postscript
+output that runs off the page.
+
+<p>You cannot use <b>imagewidth</b> or <b>imageheight</b> with
+<b>-scale</b> or <b>-equalpixels</b>.
+
+<dt><b>-equalpixels</b>
+
+<dd>
+This option causes the output image to have the same number of pixels
+as the input image.  So if the output device is 600 dpi and your image
+is 3000 pixels wide, the output image would be 5 inches wide.
+
+<p>You cannot use <b>-equalpixels</b> with <b>-imagewidth</b>,
+<b>-imageheight</b>, or <b>-scale</b>.
+
+<dt><b>-bitspersample=</b><i>N</i>
+
+<dd>
+This option selects the number of bits for each component of each pixel in
+the Postscript output.  By default, <b>pnmtops</b> chooses the value that
+corresponds to the maxval of the PNM input, subject to constraints of the
+Postscript language.  In particular, if you don't select Postscript level
+2 (<b>-level</b>) with built-in Postscript (<b>-psfilter</b>), the most
+bits per pixel you can have is 8.
+<p>
+The value must be 1, 2, 4, 8, or 12, with 12 being restricted to the
+case described above.
+
+<p>This option was new in Netpbm 10.51 (June 2010).
+
+<dt><b>-scale</b>
+<dd>
+tells how big you want the image on the page.  The value is the number of
+inches of output image that you want 72 pixels of the input to generate.
+
+<p>But <b>pnmtops </b> rounds the number to something that is an
+integral number of output device pixels.  E.g. if the output device is
+300 dpi and you specify <b>-scale=1.0</b>, then 75 (not 72) pixels of
+input becomes one inch of output (4 output pixels for each input
+pixel).  Note that the <b>-dpi</b> option tells <b>pnmtops</b> how
+many pixels per inch the output device generates.
+
+<p>If the size so specified does not fit on the page (as measured
+either by the <b>-width</b> and <b>-height</b> options or the default
+page size of 8.5 inches by 11 inches), <b>pnmtops</b> ignores the
+<b>-scale</b> option, issues a warning, and scales the image to fit on
+the page.
+
+<dt><b>-dpi=</b><i>N</i>[<b>x</b><i>N</i>]
+
+<dd>
+     
+<p>This option specifies the dots per inch resolution of your output
+device.  The default is 300 dpi.  In theory PostScript is
+device-independent and you don't have to worry about this, but in
+practice its raster rendering can have unsightly bands if the device
+pixels and the image pixels aren't in sync.
+
+<p>Also this option is crucial to the working of the
+<b>equalpixels</b> option.
+
+<p>If you specify <i>N</i><b>x</b><i>N</i>, the first number is the
+horizontal resolution and the second number is the vertical
+resolution.  If you specify just a single number <i>N</i>, that is the
+resolution in both directions.
+     
+<dt><b>-width</b>, <b>-height</b>
+
+<dd> These options specify the dimensions, in inches, of the page on
+which the output is to be printed.  This can affect the size of the
+output image.
+
+<p>
+The page size has no effect, however, when you specify the 
+<b>-imagewidth</b>, <b>-imageheight</b>, or <b>-equalpixels</b> options.
+
+<p>These options may also affect positioning of the image on the page and
+even the paper selected (or cut) by the printer/plotter when the
+output is printed.  See the <b>-nosetpage</b> option.
+
+<p>
+The default is 8.5 inches by 11 inches.
+
+<dt><b>-turn</b>
+
+<dt><b>-noturn</b> 
+
+<dd>These options control whether the image gets turned 90 degrees.
+Normally, if an image fits the page better when turned (e.g. the image
+is wider than it is tall, but the page is taller than it is wide), it
+gets turned automatically to better fit the page.  If you specify the
+<b>-turn</b> option, <b>pnmtops </b> turns the image no matter what
+its shape; If you specify <b>-noturn</b>, <b>pnmtops</b> does
+<em>not</em> turn it no matter what its shape.
+
+<dt><b>-rle</b>
+
+<dt><b>-runlength</b>
+
+<dd>These identical options tell <b>pnmtops</b> to use run length
+compression in encoding the image in the Postscript program.  This may
+save time if the host-to-printer link is slow; but normally the
+printer's processing time dominates, so <b>-rle</b> has no effect (and
+in the absence of buffering, may make things slower).
+
+<p>This may, however, make the Postscript program considerable smaller.
+
+<p>This usually doesn't help at all with a color image and
+<b>-psfilter</b>, because in that case, the Postscript program
+<b>pnmtops</b> creates has the red, green, and blue values for each
+pixel together, which means you would see long runs of identical bytes
+only in the unlikely event that the red, green, and blue values for a
+bunch of adjacent pixels are all the same.  But without
+<b>-psfilter</b>, the Postscript program has all the red values, then
+all the green values, then all the blue values, so long runs appear
+wherever there are long stretches of the same color.
+
+<p>Here is an explanation by Jef Poskanzer of why he invented the
+<b>-rle</b> option:
+
+<blockquote>
+I just spent a few hours modifying my pbmtops filter to produce run length
+encoded PostScript output.  The results are not spectacular for me - yes, the
+files are smaller, but the printing times are about the same.  But I'm
+printing over the network.  If you were stuck with the serial line, this would
+be a big win.  I've appended a sample program generated by my filter.  If
+anyone sees ways to improve the code, please let me know, I'm not much of a
+PostScript hacker.  This version of pbmtops will be distributed to
+comp.sources.misc and expo.lcs.mit.edu sometime in October. - Jef
+</blockquote>
+
+<p>This is from a forum about Postscript
+(http://www.lngpstscrpt.tk/re-postscript-run-length-encoding-again), extracted
+in October 2010.  Jef added -rle in August 1988.  In those days, RS-232 lines
+(referred to as "serial" in the quotation) were typically 9600bps.  2400 bps
+lines were still around.  What the quotation calls "the network" is probably a
+10 Mbps Ethernet connection.
+
+<dt><b>-flate</b>
+
+<dd>This option tells <b>pnmtops</b> to use "flate"
+compression (i.e. compression via the "Z" library -- the
+same as PNG).
+
+<p>See the <b>-rle</b> option for information about compression in general.
+
+<p>You must specify <b>-psfilter</b> if you specify <b>-flate</b>.
+
+<p>There exist modern versions of <b>pnmtops</b> that cannot do flate
+compression; these versions were built without the Z library and built not to
+require the Z library.  If you have such a version, it fails with an
+explanatory error message when you specify <b>-flate</b>.
+
+<p>This option was new in Netbpm 10.27 (March 2005).
+
+<p>Before Netpbm 10.32 (February 2006), you could not specify <b>-rle</b>
+and <b>-flate</b> together.
+
+
+<dt><b>-ascii85</b>
+
+<dd>By default, <b>pnmtops</b> uses "asciihex" encoding of
+the image raster.  The image raster is a stream of bits, while a Postscript
+program is text, so there has to be an encoding from bits to text.  Asciihex
+encoding is just the common hexadecimal representation of bits.  E.g. 8
+1 bits would be encoded as the two characters "FF".
+
+<p>With the <b>-ascii85</b> option, <b>pnmtops</b> uses
+"ascii85" encoding instead.  This is an encoding in which 32
+bits are encoded into five characters of text.  Thus, it produces less
+text for the same raster than asciihex.  But ascii85 is not available
+in Postscript Level 1, whereas asciihex is.
+
+<p>This option was new in Netbpm 10.27 (March 2005).
+
+<dt><b>-psfilter</b>
+
+<dd><b>pnmtops</b> can generate two different kinds of Encapsulated
+Postscript programs to represent an image.  By default, it generates a
+program that redefines <b>readstring</b> in a custom manner and
+doesn't rely on any built-in Postscript filters.  But with the
+<b>-psfilter</b> option, <b>pnmtops</b> leaves <b>readstring</b> alone
+and uses the built-in Postscript filters <b>/ASCII85Decode</b>,
+<b>/ASCIIHexDecode</b>, <b>/RunLengthDecode</b>, and <b>/FlateDecode</b>.
+
+<p>This option was new in Netbpm 10.27 (March 2005).  Before that, 
+<b>pnmtops</b> always used the custom <b>readstring</b>.
+
+<p>The custom code can't do flate or ascii85 encoding, so you must use
+<b>-psfilter</b> if you want those (see <b>-flate</b>, <b>-ascii85</b>).
+
+<dt><b>-level</b>
+
+<dd>This option determines the level (version number) of Postscript that
+<b>pnmtops</b> uses.  By default, <b>pnmtops</b> uses Level 2.  Some
+features of <b>pnmtops</b> are available only in higher Postscript levels,
+so if you specify too low a level for your image and your options,
+<b>pnmtops</b> fails.  For example, <b>pnmtops</b> cannot do a color image
+in Level 1.
+
+<p>This option was new in Netpbm 10.27 (March 2005).  Before that,
+<b>pnmtops</b> always used Level 2.
+
+<dt><b>-dict</b>
+
+<dd>This causes the Postscript program create a separated dictionary
+for its local variables and remove it from the stack as it exits.
+
+<p>This option was new in Netbpm 10.27 (March 2005).
+
+<dt><b>-vmreclaim</b>
+
+<dd>This option causes the Postscript program to force a memory garbage
+collection as it exits.
+
+<p>This option was new in Netbpm 10.27 (March 2005).
+
+<dt><b>-nocenter</b>
+<dd>
+     By default, <b>pnmtops</b> centers the image on the output page.
+     You can cause <b>pnmtops</b> to instead put the image against the
+     lower left corner of the page with the <b>-nocenter </b>
+     option.  This is useful for programs which can include
+     PostScript files, but can't cope with pictures which are not
+     positioned in the lower left corner.
+     <p>
+     If you want to position an image on the page arbitrarily, use
+     <b>pamcomp</b> to create an image of the full page with the image in
+     question at the proper place and the rest of the page white, and use
+     <b>pnmtops</b> to convert the composed result to Encapsulated Postscript.
+     <p>
+     For backward compatibility, <b>pnmtops</b> accepts the option
+     <b>-center</b>, but it has no effect.
+
+<dt><b>-setpage</b>
+<dd>
+     This causes <b>pnmtops</b> to include a "setpagedevice"
+     directive in the output.  This causes the output to violate specifications
+     of EPSF encapsulated Postscript, but if you're not using it in an
+     encapsulated way, may be what you need.  The directive tells the
+     printer/plotter what size paper to use (or cut).  The dimensions it
+     specifies on this directive are those selected by the
+     <b>-width</b> and <b>-height</b> options or defaulted.
+
+     <p>From January through May 2002, the default was to include
+     "setpagedevice" and this option did not exist.  Before
+     January 2002, there was no way to include "setpagedevice"
+     and neither the <b>-setpage</b> nor <b>-nosetpage</b> option existed.
+     
+<dt><b>-nosetpage</b>
+<dd>
+     This tells <b>pnmtops</b> not to include a "setpagedevice"
+     directive in the output.  This is the default, so the option has no
+     effect.
+
+     <p>See the <b>-setpage</b> option for the history of this option.
+
+<dt><b>-noshowpage</b>
+<dd>
+     This tells <b>pnmtops</b> not to include a "showpage"
+     directive in the output.  By default, <b>pnmtops</b> includes a
+     "showpage" at the end of the EPSF program.  According to
+     EPSF specs, this is OK, and the program that includes the EPSF is
+     supposed to redefine showpage so this doesn't cause undesirable
+     behavior.  But it's often easier just not to have the showpage.
+
+     <p>This options was new in Netpbm 10.27 (March 2005).  Earlier
+     versions of <b>pnmtops</b> always include the showpage.
+
+<dt><b>-showpage</b>
+<dd>
+    This tells <b>pnmtops</b> to include a "showpage" directive
+    at the end of the EPSF output.  This is the default, so the option has
+    no effect.
+
+    <p>This option was new in Netpbm 10.27 (March 2005).
+
+<dt><b>-verbose</b>
+<dd>
+    This causes informational messages about the conversion process and
+    result.
+
+</dl>
+
+<h2 id="limitations">LIMITATIONS</h2>
+
+<p>If the PNM image has a maxval greater than 255, <b>pnmtops</b> will
+produce output with 8 bits per sample resolution unless you specify
+-psfilter, even though Postscript Level 2 has a 12 bits per sample
+format.  <b>pnmtops</b>'s custom raster-generating code just doesn't
+know the 12 bit format.
+
+<h2 id="applications">APPLICATIONS</h2>
+
+<p>You can use the Postscript output a number of ways.  Many printers take
+Postscript input (but you still need some kind of printer driver to transport
+the Postscript to the printer).
+
+<p>There is also the Ghostscript program (not part of Netpbm), which takes
+Postscript as input and generates an output stream to control any of myriad
+models of printer (but you still need some kind of printer driver to transport
+that stream to the printer).
+
+<p>Ghostscript also can convert the Postscript file to PDF, which is a very
+popular document and image format.  Use Ghostscript's <b>pdfwrite</b> output
+device type.  The program <b>ps2pdf</b> (distributed with Ghostscript) is a
+convenient way to run Ghostscript with <b>pdfwrite</b>.
+
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<p><a href="http://dktools.sourceforge.net/bmpp.html"><b>bmpp</b></a> converts
+from Netpbm and other formats to Encapsulated Postscript.
+
+<b>bmpp</b> has a few functions <b>pnmtops</b> does not, such as the ability
+to use LZW compression.
+
+<p>
+<b><a href="pnm.html">pnm</a></b>,
+<b>gs</b>,
+<b><a href="psidtopgm.html">psidtopgm</a></b>,
+<b><a href="pstopnm.html">pstopnm</a></b>,
+<b><a href="pbmtolps.html">pbmtolps</a></b>,
+<b><a href="pbmtoepsi.html">pbmtoepsi</a></b>,
+<b><a href="pbmtopsg3.html">pbmtopsg3</a></b>,
+<b><a href="ppmtopgm.html">ppmtopgm</a></b>,
+
+
+<h2 id="history">HISTORY</h2>
+
+<p>Copyright (C) 1989, 1991 by Jef Poskanzer.
+
+<p>Modified November 1993 by Wolfgang Stuerzlinger, <a
+href="mailto:wrzl@gup.uni-linz.ac.at">wrzl@gup.uni-linz.ac.at</a>
+
+<p>The program was originally <b>pbmtops</b>.  It became <b>pgmtops</b> in
+October 1988 and was merged with <b>ppmtops</b> to form <b>pnmtops</b> in
+January 1991.  <b>ppmtops</b> came into being some time before September 1989.
+
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#limitations">LIMITATIONS</a>
+<li><a href="#applications">APPLICATIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#history">HISTORY</a>
+</ul>
+</body>
+</html>

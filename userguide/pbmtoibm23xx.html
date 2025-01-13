@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Pbmtoibm23xx User Manual</title></head>
+<body>
+<h1>pbmtoibm23xx</h1>
+Updated: 28 January 2022
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+pbmtoibm23xx - convert a PBM image to IBM 23XX printer stream
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>pbmtoibm23xxx</b>
+<b>-xres=</b><i>dpi</i>
+<b>-yres=</b><i>dpi</i>
+[<b>slow</b>
+[<i>pbmfile</i> ...]
+
+<p>Minimum unique abbreviation of option is acceptable.  You may use double
+hyphens instead of single hyphen to denote options.  You may use white
+space in place of the equals sign to separate an option name from its value.
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>pbmtoibm23xx</b> reads one or more PBM files as input and
+writes an IBM 23XX printer command stream to generate all the images in
+all the files to Standard Output.
+
+<p>If you don't specify any file names, <b>pbmtoibm23xx</b> reads from
+Standard Input.
+
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>pbmtoibm23xx</b> recognizes the following
+command line options:
+
+<dl>
+<dt><b>-xres=</b><i>dpi</i>
+
+<dd>This option specifies the horizontal resolution in dots per inch.
+Valid values are 60, 120, and 240.
+
+<p>This option is mandatory.
+
+<dt><b>-yres=</b><i>dpi</i>
+
+<dd>This option specifies the vertical resolution in dots per inch.
+Valid values are 60, 120, and 240.
+
+<p>This option is mandatory.
+
+<dt><b>-slow</b>
+
+<dd>
+Use the slower printing mode where two modes with the same resolution
+are available.  This usually produces better quality prints.  This
+affects only modes with horizontal resolution 120, but might affect
+other modes in future versions of the program.
+     
+</dl>
+
+<h2 id="limitations">LIMITATIONS</h2>
+
+<p>There are probably better ways to control the IBM 23XX printers.  Let
+me know if you find any.
+
+<h2 id="history">HISTORY</h2>
+
+<p><b>pbmtoibm23xx</b> was new in Netpbm 10.25 (October 2004).
+
+<h2 id="seealso">SEE ALSO</h2>
+
+
+<a href="pbm.html">pbm</a>,
+Ghostscript (<b>gs</b>).
+
+<h2 id="author">AUTHOR</h2>
+
+<p>Copyright (C) 2004 Jorrit Fahlke &lt;jorrit@jorrit.de&gt;.  Copying
+policy: GNU GPL version 2
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#limitations">LIMITATIONS</a>
+<li><a href="#history">HISTORY</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#author">AUTHOR</a>
+</ul>
+</body>
+</html>

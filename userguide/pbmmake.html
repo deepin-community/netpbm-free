@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Pbmmake User Manual</title></head>
+<body>
+<h1>pbmmake</h1>
+Updated: 13 December 2003
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+
+pbmmake - create a blank bitmap of a specified size
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>pbmmake</b>
+[<b>-white</b>|<b>-black</b>|<b>-gray</b>]
+<i>width</i>
+<i>height</i>
+
+<p>You can abbreviate any option to its shortest unique prefix.
+
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>pbmmake</b> produces a PBM image of the specified width and
+height, either all black, all white, or a dithered gray.  The default
+is white.
+
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>pbmmake</b> recognizes the following
+command line options:
+
+<dl compact>
+<dt><b>-white</b>
+<dt><b>-black</b>
+<dt><b>-gray</b>
+
+<p>These options specify the color of the output.  <b>-white</b> means
+all pixels are white.  <b>-black</b> means all pixels are black.
+<b>-gray</b> means black and white pixels alternate.
+
+<p>You may specify only one of these.  The default is all white.
+
+</dl>
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<a href="pgmmake.html">pgmmake</a>,
+<a href="ppmmake.html">ppmmake</a>,
+<a href="pbm.html">pbm</a>
+
+<h2 id="author">AUTHOR</h2>
+
+Copyright (C) 1989 by Jef Poskanzer.
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#author">AUTHOR</a>
+</ul>
+</body>
+</html>

@@ -1,9 +1,0 @@
-#/bin/sh
-
-# This trivial script is for use as "MANCP" program.  I.e. you can set
-# the makefile variable MANCP to the name of this program if you want
-# your man pages to be installed in nroff source, but gzipped, format.
-
-# Note that a MANCP program takes arguments as if it were 'cp'.
-
-gzip $1 --to-stdout --no-name >$2

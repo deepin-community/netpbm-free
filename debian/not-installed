@@ -1,0 +1,5 @@
+usr/VERSION
+usr/pkgconfig_template
+usr/pkginfo
+usr/sharedlink/libnetpbm.so
+usr/staticlink/libnetpbm.a

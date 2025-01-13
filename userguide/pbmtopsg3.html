@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Pbmtopsg3 User Manual</title></head>
+<body>
+<h1>pbmtopsg3</h1>
+Updated: 12 March 2017
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+pbmtopsg3 - convert PBM images to Postscript with G3 fax compression
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>pbmtopsg3</b>
+[<b>--title=</b><i>title</i>]
+[<b>--dpi=</b><i>dpi</i>]
+[<i>filespec</i>]
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>pbmtopsg3</b> converts the PBM images in the input PBM file to
+pages in a Postscript file encoded with G3 fax compression.
+
+<p><b>pnmtops</b> is a more general program for converting from the Netpbm
+formats to Postscript, though it cannot produce the particular subformat
+that <b>pbmtopsg3</b> does.
+
+<p>If you don't specify <i>filespec</i>, the input is from Standard
+Input.
+
+<p>Remember that you can create a multi-image PBM file simply by
+concatenating single-image PBM files, so if each page is in a
+different file, you might do:
+
+<pre>
+cat faxpage* | pbmtopsg3 &gt;fax.ps
+</pre>
+
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>pbmtopsg3</b> recognizes the following
+command line options:
+
+<dl compact>
+<dt><b>-title</b>
+
+<dd>The Postscript title value.  Default is no title.
+
+<dt><b>-dpi</b>
+
+<dd>The resolution of the Postscript output.  Default is 72 dpi.
+
+</dl>
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<b><a href="pnmtops.html">pnmtops</a></b>,
+<b><a href="pstopnm.html">pstopnm</a></b>,
+<b>gs</b>,
+<b><a href="pstopnm.html">pstopnm</a></b>,
+<b><a href="pbmtolps.html">pbmtolps</a></b>,
+<b><a href="pbmtoepsi.html">pbmtoepsi</a></b>,
+<b><a href="pbmtog3.html">pbmtog3</a></b>,
+<b><a href="g3topbm.html">g3topbm</a></b>,
+<b><a href="pbm.html">pbm</a></b>,
+<b><a href="faxformat.html">fax formats</a></b>
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+</ul>
+</body>
+</html>

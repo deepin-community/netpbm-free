@@ -1,0 +1,179 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>G3topbm User Manual</title></head>
+<body>
+<h1>g3topbm</h1>
+Updated: 02 July 2023
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+g3topbm - convert a Group 3 fax file into a PBM image
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>g3topbm</b>
+[<b>-reversebits</b>]
+[<b>-stretch</b>]
+[<b>-width=</b><i>pixels</i> | paper_size={A3|A4|A5|A6|B4}]
+[<b>-stop_error</b>]
+[<b>-correctlong</b>]
+[<b>-kludge</b>]
+[<i>g3file</i>]
+
+<p>Minimum unique abbreviation of option is acceptable.  You may use double
+hyphens instead of single hyphen to denote options.  You may use white
+space in place of the equals sign to separate an option name from its value.
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>g3topbm</b> reads a Group 3 fax file with MH (Modified Huffman)
+compression as input and produces a PBM image as output.
+
+<p><b>g3topbm</b> tolerates various deviations from the standard,
+so as to recover some of the image if there was a transmission error.
+One thing it tolerates is lines of varying length.  The standard requires
+all the lines to be the same length; <b>g3topbm</b> makes the output
+image as wide as the longest line in the input and pads the others on
+the right.  It warns you when it does this.
+
+<p>You can use the <b>stop_error</b> option to make <b>g3topbm</b>
+insist on valid input.
+
+<p>There is no Netpbm program that understands the other G3 fax
+compression methods: MR (Modified Read) and MMR (Modified Modified Read).
+
+<p>Note that the Group 3 fax file format does not include any kind of a
+signature so that <b>g3topbm</b> might verify it's actually looking at a G3
+file or that the compression method is MH.  The program will interpret any
+sequence of bytes you give it as if it is G3 and, while typically issuing a
+lot of error messages about the file not conforming to the G3 MH format, will
+produce output (unless you use
+<b>-stoperror</b>).  In particular, if you feed <b>g3topbm</b> an MR or MMR
+file, it will not tell you of your mistake.
+
+<p>There are subformats of TIFF that use the Group 3 fax encodings
+inside.  See <b>tifftopnm</b>.
+
+
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>g3topbm</b> recognizes the following
+command line options:
+
+<dl compact>
+<dt><b>-reversebits</b>
+
+<dd>Tells <b>g3topbm</b> to interpret bits least-significant first,
+instead of the default most-significant first.  Apparently some fax
+modems do it one way and others do it the other way.  If you get a
+whole bunch of "bad code word" messages, try using this
+option.
+
+<dt><b>-stretch</b>
+
+<dd>This option tells <b>g3topbm</b> to stretch the image vertically by
+duplicating each row.  This is for the low-quality transmission mode.
+
+<dt><b>-width=</b><i>pixels</i>
+
+<dd>This option tells <b>g3topbm</b> that the image is supposed to be
+<i>pixels</i> pixels wide.  If any line in it is not that size, <b>g3topbm</b>
+issues a warning or fails, depending on whether you specify
+<b>-stop_error</b>.
+
+<p>You cannot specify both <b>-width</b> and <b>-paper_size</b>.
+
+<p>This option was new in Netpbm 10.33 (March 2006).
+
+<dt><b>-paper_size=</b>{<b>A3</b>,<b>A4</b>,<b>A5</b>,<b>A6</b>,<b>B4</b>}
+
+<dd>This option tells <b>g3topbm</b> for what size paper this image is
+supposed to be formatted.  <b>g3topbm</b> uses the width of the paper
+the same way as with the <b>-width</b> option.  <b>g3topbm</b>
+does not use the height of the paper for anything.
+
+<p>You cannot specify both <b>-width</b> and <b>-paper_size</b>.
+
+<p>This option was new in Netpbm 10.33 (March 2006).
+
+<dt><b>-stop_error</b>
+
+<dd>This option tells <b>g3topbm</b> to fail when it finds a problem
+in the input.  "Fail" means it terminates with a nonzero
+status code with the contents of the output file undefined.
+
+<p>If you don't specify this option, <b>g3topbm</b> does its best to
+work around input errors and salvage as much of the image as possible
+in the output image.  It first tries to resynchronize to a later line
+by searching for the next End Of Line marker, skipping any lines or
+partial lines in between.  It saves the beginning of the line in which
+it encountered the problem.  If the input file ends prematurely,
+<b>g3topbm</b> produces output containing the lines up to where it
+encountered the problem.
+
+<p><b>g3topbm</b> issues warning messages when it continues in spite of
+input errors.
+
+<p>This option was new in Netpbm 10.24 (August 2004).  Before that,
+<b>g3topbm</b> always failed when it encountered premature EOF and
+never failed when it encountered other problems.
+
+<dd><b>-correctlong</b>
+
+<p>This option helps with certain corrupted input files.  Faxes often are
+corrupted because of communication line errors.  A particularly annoying
+corruption causes a line to be much longer than it is supposed to be.  One way
+that can happen is where an End of Line marker is missing, so two consecutive
+lines turn into one.
+
+<p>Without this option, <b>g3topbm</b> faithfully renders the document as
+coded, so the output PBM image simply contains that long line.  This is an
+especially problematic corruption because it makes the entire output image
+about twice as wide as it is supposed to be.  But with <b>-correctlong</b>,
+<b>g3topbm</b> truncates that line so the overall effect of the input
+corruption is that a line is missing rather than that the image is twice as
+wide as it is supposed to be.
+
+<p>Specifically, with <b>-correctlong</b>, the program looks at the lengths of
+all the lines (which would all be the same length in an uncorrupted G3 image)
+and considers the line length that occurs the most to be the intended image
+width.  It truncates every line that is longer than that.
+
+<p>The program warns you when corruption has caused the input image to have
+lines of more than one length, whether you specify <b>-correctlong</b> or not.
+  
+<p>Note that there is no point to specifying <b>-correctlong</b> if you also
+specify <b>-stop_error</b>.
+  
+<P>This option was new in Netpbm 11.04 (September 2023).
+    
+<dt><b>-kludge</b>
+
+<dd>Tells <b>g3topbm</b> to ignore the first few lines of the file; sometimes
+fax files have some junk at the beginning.
+
+</dl>
+
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<a href="pbmtog3.html">pbmtog3</a>,
+<a href="tifftopnm.html">tifftopnm</a>,
+<a href="pbm.html">pbm</a>,
+<a href="faxformat.html">fax formats</a>
+
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+</ul>
+</body>
+</html>

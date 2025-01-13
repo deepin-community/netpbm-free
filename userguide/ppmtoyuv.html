@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Ppmtoyuv User Manual</title></head>
+<body>
+
+<h1>ppmtoyuv</h1>
+Updated: 06 June 2005
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+ppmtoyuv - convert a PPM image to an Abekas YUV file
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>ppmtoyuv</b>
+[<i>ppmfile</i>]
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>ppmtoyuv</b> reads a PPM image as input and produces an Abekas
+YUV file as output.
+
+<p>The output file contains a raster of four byte YUV codes, each
+uniquely associated with two side-by-side pixels in the image.  The raster
+contains rows in order from top to bottom, and within each row columns
+from left to right.  So the output file size in bytes is twice the number of
+pixels in the image.
+
+<p>Each YUV code is associated with two pixels from the input image that we
+will call the left pixel and the right pixel.  The 2nd byte of the code is
+the Y value of the left pixel.  The 4th byte of the code is the Y value of
+the right pixel.  The 1st byte of the code is an average of the U value of
+the pixel <em>to the left of the left pixel</em>, the left pixel, and the
+right pixel.  The 3rd byte of the code is analogous for V values.  These
+averages are weighted arithmetic means where the left pixel is weighted
+double what the other two pixels are weighted.
+
+<p>This format is reminiscent of but rather different from the common
+YUV 4:2:0 format (aka YUV 420) and the similar YUV 4:4:4, YUV 4:2:2,
+YUV 4:1:1, YUV 4:1:1s, and YUV 4:1:0.  In YUV 4:2:0, the raster is
+different for even numbered lines and odd numbered lines.  On even
+numbered lines, there are twice as many bits for Y of each pixel as
+for U or V.  On odd numbered lines, there are the same number of bits
+for Y as on even numbered lines, but no bits at all for U and V.
+
+<p>Another YUV-based format is YUV4MPEG2, which is a movie format
+normally used with <a
+href="http://mjpeg.sourceforge.net"><b>MJPEGTools</b></a>.  Netpbm
+does not have converters for this format, but <b>MJPEGTools</b> does.
+
+<h2 id="options">OPTIONS</h2>
+
+<p>There are no command line options defined specifically
+for <b>ppmtoyuv</b>, but it recognizes the options common to all
+programs based on libnetpbm (See <a href="index.html#commonoptions">
+Common Options</a>.)
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<a href="yuvtoppm.html">yuvtoppm</a>,
+<a href="ppmtoeyuv.html">ppmtoeyuv</a>,
+<a href="ppmtoyuvsplit.html">ppmtoyuvsplit</a>,
+<a href="ppm.html">ppm</a>,
+<a href="http://mjpeg.sourceforge.net">pnmtoy4m</a>,
+<a href="http://mjpeg.sourceforge.net">y4mtopnm</a>
+
+
+<h2 id="author">AUTHOR</h2>
+
+<p>Marc Boucher <a
+href="mailto:marc@PostImage.COM">marc@PostImage.COM</a>, based on
+Example Conversion Program, A60/A64 Digital Video Interface Manual,
+page 69.
+
+<p>Copyright (C) 1991 by DHD PostImage Inc.
+
+<p>Copyright (C) 1987 by Abekas Video Systems Inc.
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#author">AUTHOR</a>
+</ul>
+</body>
+</html>

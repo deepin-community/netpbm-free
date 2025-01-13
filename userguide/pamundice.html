@@ -1,0 +1,253 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Pamundice User Manual</title></head>
+<body>
+<h1>pamundice</h1>
+Updated: 26 April 2020
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+pamundice - combine grid of images (tiles) into one
+
+<h2 id="example">EXAMPLE</h2>
+
+<pre>
+<kbd>
+    $ pamdice myimage.ppm -outstem=myimage_part -width=10 -height=8
+    $ pamundice myimage_part_%1d_%1a.ppm -across=10 -down=8 &gt;myimage.ppm
+
+    $ pamundice myimage.ppm myimage_part_%2a -across=13 -hoverlap=9
+</kbd>
+</pre>
+
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>pamundice</b>
+
+[<b>-across=</b><i>n</i>]
+
+[<b>-down=</b><i>n</i>]
+
+[<b>-hoverlap=</b><i>pixels</i>]
+
+[<b>-voverlap=</b><i>pixels</i>]
+
+[<b>-verbose</b>]
+
+{<i>input_filename_pattern</i>,
+<b>-listfile=</b><i>filename</i>}
+
+
+<p>You can use the minimum unique abbreviation of the options.  You can use
+two hyphens instead of one.  You can separate an option name from its value
+with white space instead of an equals sign.
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>pamundice</b> reads a bunch of Netpbm images as input and combines them
+as a grid of tiles into a single output image of the same kind on Standard
+Output.
+
+<p>You can optionally make the pieces overlap.
+
+<p>The images can either be in files whose names indicate where they go in the
+  output (e.g. &quot;myimage_part_03_04&quot; could be the image for Row 3,
+  Column 4 - see the <i>input_filename_pattern</i> argument) or listed in a
+  file, with a <b>-listfile</b> option.
+
+<p>The input images must all have the same format (PAM, PPM, etc.)
+and maxval and for PAM must have the same depth and tuple type.
+All the images in a rank (horizontal row of tiles) must have the
+same height.  All the images in a file (vertical column of tiles)
+must have the same width.  But it is not required that every rank
+have the same height or every file have the same width.
+
+<p><b>pamdice</b> is the inverse of <b>pamundice</b>.  You can use
+<b>pamundice</b> to reassemble an image sliced up by <b>pamdice</b>.
+You can use <b>pamdice</b> to recreate the tiles of an image created
+by <b>pamundice</b>, but to do this, the original ranks must all have
+been the same height except for the bottom one and the original files
+must all have been the same width except the right one.
+
+<p>One use for this is to process an image in pieces when the whole image is
+too large to process.  For example, you might have an image so large that an
+image editor can't read it all into memory or processes it very slowly.  You
+can split it into smaller pieces with <b>pamdice</b>, edit one at a time, and
+then reassemble them with <b>pamundice</b>.
+
+<p>Of course, you can also use <b>pamundice</b> to compose various kinds of
+checkerboard images, for example, you could write a program to render a
+chessboard by computing an image of each square, then using <b>pamundice</b>
+to assemble them into a board.
+  
+<p>An alternative to join images in a single direction (i.e. a single
+rank or a single file) is <b>pamcat</b>.  <b>pamcat</b> gives you more
+flexibility than <b>pamundice</b> in identifying the input images: you
+can supply them on Standard Input or as a list of arbitrarily named
+files.
+
+<p>To join piecewise photographs, use <b>pnmstitch</b> instead of
+<b>pamundice</b>, because it figures out where the pieces overlap,
+even if they don't overlap exactly vertically or horizontally.
+
+<p>To create an image of the same tile repeated in a grid, that's
+<b>pnmtile</b>.
+
+<p><b>pnmindex</b> does a similar thing to <b>pamundice</b>: it
+combines a bunch of small images in a grid into a big one.  But its
+purpose is to produce a an index image of the input images.  So it
+leaves space between them and has labels for them, for example.
+
+
+<h2 id="arguments">ARGUMENTS</h2>
+
+<p>Unless you use a <b>-listfile</b> option,, there is one non-option
+argument, and it is mandatory: <i>input_filename_pattern</i>.  This
+tells <b>pamundice</b> what files contain the input tiles.
+
+<p><b>pamundice</b> reads the input images from files which are named
+with a pattern that indicates their positions in the combined image.
+For example, <b>tile_00_05.ppm</b> could be the 6th tile over in the
+1st rank, while <b>tile_04_01</b> is the 2nd tile over in the 5th rank.
+
+<p>You cannot supply any of the data on Standard Input, and the files
+must be the kind that <b>pamundice</b> can close and reopen and read
+the same image a second time (e.g. a regular file is fine; a named
+pipe is probably not).
+
+<p><i>input_filename_pattern</i> is a printf-style pattern.  (See the
+standard C library <b>printf</b> subroutine).  For the example above,
+it would be <b>tile_%2d_%2a.ppm</b>.  The only possible conversion
+specifiers are:
+
+<dl>
+
+<dt><b>d</b>
+<dd>"down": The rank (row) number, starting with 0.
+
+<dt><b>a</b>
+<dd>"across": The file (column) number, starting with 0.
+
+<dt><b>%</b>
+<dd>The per cent character (%).
+
+</dl>
+
+<p>The number between the % and the conversion specifier is the
+precision and is required.  It says how many characters of the file
+name are described by that conversion.  The rank or file number is
+filled with leading zeroes as necessary.
+
+<p>So the example <b>tile_%2d_%2a.ppm</b> means to get the name of
+the file that contains the tile at Rank 0, File 5, you:
+
+<ul>
+
+<li>replace the "%2d" with the rank number, as a 2 digit
+decimal number: "00"
+
+<li>Replace the "%2a" with the file number, as a 2 digit
+decimal number: "05"
+</ul>
+
+<p>Note that this pattern describes file names that <b>pamdice</b>
+produces, except that the precision may be more or less.
+(<b>pamdice</b> uses however many digits are required for the highest
+numbered image).
+
+
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>pamundice</b> recognizes the following
+command line options:
+
+<dl compact>
+<dt><b>-across=</b><i>N</i>
+
+<dd>This is the number of tiles across in the grid, i.e. the number of
+tiles in each rank, or the number of files.
+
+<p>Default is 1.
+
+
+<dt><b>-down=</b><i>N</i>
+
+<dd>This is the number of tiles up and down in the grid, i.e. the
+number of tiles in each file, or the number of ranks.
+
+<p>Default is 1.
+
+<dt><b>-hoverlap=</b><i>pixels</i>
+
+<dd>This is the amount in pixels to overlap the tiles horizontally.
+<b>pamundice</b> clips this much off the right edge of every tile
+before joining it to the adjacent image to the right.  The tiles along
+the right edge remain whole.
+
+<p>There must not be any input image narrower than this.
+
+<p>Note that this undoes the effect of the same <b>-hoverlap</b>
+option of <b>pamdice</b>.
+
+<p>Default is zero -- no overlap.
+
+<dt><b>-voverlap=</b><i>pixels</i>
+
+<dd>This is analogous to <b>-hoverlap</b>, but <b>pamundice</b>
+clips the bottom edge of each image before joining it to the one below.
+
+<dt><b>-listfile=</b><i>filename</i>
+<dd>This option names a file that contains the names of all the input files.
+This is an alternative to specifying a file name pattern as an argument.
+
+<p>The named file contains file name, one per line.  Each file contains the
+  image for one tile, in row-major order, top to bottom, left to right.  So
+  the first file is the upper left tile, the second is the one to right of
+  that, etc.  The number of lines in the file must be equal to the number of
+  tiles in the output, the product of the <b>-across</b> and <b>-down</b>
+  values.
+  
+<p>The file names have no meaning to <b>pamundice</b>.  You can use the same
+  file multiple times to have identical tiles in the output.
+
+<p>This option was new in Netpbm 10.90 (March 2020).
+
+<dt><b>-verbose</b>
+
+<dd>Print information about the processing to Standard Error.
+
+</dl>
+
+<h2 id="history">HISTORY</h2>
+
+<p><b>pamundice</b> was new in Netpbm 10.39 (June 2007).  Before that,
+<b>pamcat</b> is the best substitute.
+
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<b><a href="pamdice.html">pamdice</a></b>,
+<b><a href="pamcat.html">pamcat</a></b>,
+<b><a href="pnmindex.html">pnmindex</a></b>,
+<b><a href="pnmtile.html">pnmtile</a></b>,
+<b><a href="pnm.html">pnm</a></b>
+<b><a href="pam.html">pam</a></b>
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#example">EXAMPLE</a>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#arguments">ARGUMENTS</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#history">HISTORY</a>
+<li><a href="#seealso">SEE ALSO</a>
+</ul>
+</body>
+</html>

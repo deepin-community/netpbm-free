@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Ppmntsc User Manual</title></head>
+<body>
+<h1>ppmntsc</h1>
+Updated: 19 April 2000
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+
+ppmntsc - Make RGB colors legal for NTSC or PAL color systems.
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>ppmntsc</b>
+
+[<b>--pal</b>]
+[<b>--legalonly</b>]
+[<b>--illegalonly</b>]
+[<b>--correctedonly</b>]
+[<b>--verbose</b>]
+[<b>--debug</b>]
+[<i>infile</i>]
+
+<p>Minimum unique abbreviations of options are acceptable.
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p>This program makes colors legal in the NTSC (or PAL) color systems.
+Often, images generated on the computer are made for use in movies
+which ultimately end up on a television screen.  However, the range of colors
+(as specified by their RGB values) on a computer does not match the
+range of colors that can be represented using the NTSC (or PAL)
+systems.  If an image with "illegal" colors is sent directly
+to an NTSC (or PAL) video system for recording, the
+"illegal" colors will be clipped.  This may result in an
+undesirable looking picture.
+
+<p>This utility tests each pixel in an image to see if it falls
+within the legal NTSC (or PAL) range.  If not, it raises or lowers the
+pixel's saturation in the output so that it does fall within legal
+limits.  Pixels that are already OK just go unmodified into the
+output.
+
+<p>Input is from the file named <i>input</i>.  If <i>input</i> is
+<b>-</b>, input is from Standard Input.  If you don't specify
+<i>input</i>, input is from Standard Input.
+
+<p>Output is always to Standard Output.
+
+<p>This program handles multi-image PPM input, producing multi-image
+PPM output.
+
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>ppmntsc</b> recognizes the following
+command line options:
+
+<dl compact>
+
+<dt><b>--pal</b>
+<dd>
+Use the PAL transform instead of the default NTSC.
+
+<dt><b>--verbose</b>
+<dd>
+Print a grand total of the number of illegal pixels.
+
+<dt><b>--debug</b>
+<dd>
+Produce a humongous listing of illegal colors and their legal counterparts.
+NOTE:  This option may produce a great deal of output.
+
+<dt><b>--legalonly</b>
+<dd>
+Output only pixels that are already legal.  Output black in place of pixels
+that are not.
+
+<dt><b>--illegalonly</b>
+<dd>
+Output only pixels that are illegal (and output them uncorrected).
+Output black in place of pixels that are already legal.
+
+<dt><b>--correctedonly</b>
+<dd>
+Output only pixels that are corrected versions of illegal pixels.  Output
+black in place of pixels that are already legal.
+
+</dl>
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<b><a href="pamdepth.html">pamdepth</a></b>,
+<b><a href="ppmdim.html">ppmdim</a></b>,
+<b><a href="pambrighten.html">pambrighten</a></b>,
+<b><a href="ppm.html">ppm</a></b>
+
+<h2 id="author">AUTHOR</h2>
+
+Wes Barris, Minnesota Supercomputer Center, Inc., Bryan Henderson
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#author">AUTHOR</a>
+</ul>
+</body>
+</html>

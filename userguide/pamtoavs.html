@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Pamtoavs User Manual</title></head>
+<body>
+<h1>pamtoavs</h1>
+Updated: 07 February 2010
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+
+<p>pamtoavs - convert a Netpbm image to an AVS X image
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<p><b>pamtoavs</b>
+[<i>netpbmfile</i>]
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>pamtoavs</b> reads a Netpbm image as input and produces a Stardent
+<abbr title="Application Visualization System">AVS</abbr>
+X image as output. AVS X images are one of the few image formats <a
+href="http://www.gnuplot.info/">Gnuplot</a>&nbsp;v4.2 and later can use.
+
+<p><i>netpbmfile</i> is the input file, which defaults to Standard Input.
+Output is always on Standard Output.
+
+<p>Try the following:
+
+<pre>
+    gnuplot&gt; plot 'myimage.avs' binary filetype=avs with rgbimage
+</pre>
+
+<p>See the <a href="http://www.gnuplot.info/documentation.html">Gnuplot
+manual</a> for more information.
+
+
+<h2 id="options">OPTIONS</h2>
+
+<p>There are no command line options defined specifically
+for <b>pamtoavs</b>, but it recognizes the options common to all
+programs based on libnetpbm (See <a href="index.html#commonoptions">
+Common Options</a>.)
+
+<h2 id="author">AUTHOR</h2>
+
+<p>Copyright&nbsp;&copy; 2010 Scott Pakin,
+<a href="mailto:scott+pbm@pakin.org">scott+pbm@pakin.org</a>
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<p><a href="avstopam.html">avstopam</a>,
+<a href="http://www.gnuplot.info/">gnuplot</a>,
+<a href="pam.html">pam</a>
+
+<hr>
+
+<h2 id="index">Table Of Contents</h2>
+
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#author">AUTHOR</a>
+<li><a href="#seealso">SEE ALSO</a>
+</ul>
+
+</body>
+</html>

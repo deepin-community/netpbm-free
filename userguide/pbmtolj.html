@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Pbmtolj User Manual</title></head>
+<body>
+<h1>pbmtolj</h1>
+Updated: 23 April 2005
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+pbmtolj - convert a PBM image to HP LaserJet format
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>pbmtolj</b>
+[<b>-resolution</b> <i>N</i>]
+[<b>-float</b>]
+[<b>-noreset</b>]
+[<b>-packbits</b>]
+[<b>-delta</b>]
+[<b>-compress</b>]
+[<i>pbmfile</i>]
+[<b>-copies</b> <i>N</i>]
+
+<p>You can abbreviate any option to its shortest unique prefix.
+
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>pbmtolj</b> reads a PBM image as input and produces HP LaserJet
+data as output.  You can send this data to a LaserJet or DeskJet printer
+(at least some of them).
+
+<p>Each pixel in the input PBM image becomes one dot in the printed
+output.  Therefore, you must make sure the width and height of the
+input are appropriate for the print resolution you choose and the
+print area you want.  E.g. if you print at 300 dpi and want the image
+to print as 8 inches by 10, you must supply a PBM that is 2400
+pixels wide by 3000 pixels high.  You can adjust the size of the
+input with <b>pamscale</b>, <b>pamstretch</b>, <b>pbmreduce</b>, or
+<b>pamenlarge</b>.
+
+<p>The input may be a multi-image PBM stream.  Each input image
+becomes a page of output.  But before Netpbm 10.28 (June 2005), images
+after the first one are ignored.
+
+<p>Note that there is no ljtopbm tool.
+
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>pbmtolj</b> recognizes the following
+command line options:
+
+<dl compact>
+<dt><b>-resolution</b>
+
+<dd>Specifies the resolution of the output device, in dpi.  Another
+way to look at this is as a declaration of the resolution of the input
+image (PBM images don't have inherent resolution).  Typical values are
+75, 100, 150, 300, and 600.  The default is 75.
+
+<dt><b>-float</b>
+
+<dd>Suppresses positioning commands.  By default, <b>pbmtolj</b>
+places the sequence <i>ESC &amp; l 0 E</i> in the output, which means
+to force the top margin to zero.  With <b>-float</b>, <b>pbmtolj</b>
+omits that command.
+
+<dt><b>-noreset</b>
+
+<dd>Prevents pbmtolj from writing the reset sequences to the beginning
+and end of the output file.
+
+<dt><b>-packbits</b>
+
+<dd>Enables use of TIFF packbits compression.
+
+<dt><b>-delta</b>
+
+<dd>Enables use of delta-between-rows compression.
+
+<dt><b>-compress</b>
+
+<dd>Enables use of both TIFF packbits, and delta-between-rows compression.
+
+<dt><b>-copies</b>
+
+<dd>Specifies the number of copies. The default is 1.  This option
+controls the "number of copies" printer control;
+<b>pbmtolj</b> generates only one copy of the image.
+
+</dl>
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<a href="pnmtopclxl.html"><b>pnmtopclxl</b></a>,
+<a href="ppmtolj.html"><b>ppmtolj</b></a>,
+<a href="pjtoppm.html"><b>pjtoppm</b></a>,
+<a href="ppmtopj.html"><b>ppmtopj</b></a>,
+<a href="ppmtopjxl.html"><b>ppmtopjxl</b></a>,
+<a href="thinkjettopbm.html"><b>thinkjettopbm</b></a>,
+<a href="pbm.html">pbm</a>
+
+<h2 id="author">AUTHOR</h2>
+
+Copyright (C) 1988 by Jef Poskanzer and Michael Haberler.
+<b>-float</b> and <b>-noreset</b> options added by Wim Lewis.
+<b>-delta</b>, <b>-packbits</b>, and <b>-compress</b> options added by
+Dave Platt.
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#author">AUTHOR</a>
+</ul>
+</body>
+</html>

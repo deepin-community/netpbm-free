@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Ddbugtopbm User Manual</title></head>
+<body>
+<h1>ddbugtopbm</h1>
+Updated: 21 August 2002
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+ddbugtopbm - convert Diddle or DiddleBug sketches to PBM files
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>ddbugtopbm</b>
+
+<h2 id="examples">EXAMPLES</h2>
+
+<pre>
+<b>ddbugtopbm &lt;/path/to/palm/backup/dir/DiddleBugDB.pdb</b>
+
+<b>ddbugtopbm &lt;/path/to/palm/backup/dir/DiddleDB.pdb</b>
+
+<b>ddbugtopbm &lt;/path/to/palm/backup/dir/DiddleIDB.pdb</b>
+</pre>
+
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>ddbugtopbm</b> converts all sketches present in a database used
+by the PalmOS programs <b>Diddle</b> or <b>DiddleBug</b> into
+appropriately-named PBM files.  The backup copy of DiddleBug's
+database you should use as this program's input is usually called
+<b>DiddleBugDB.pdb</b>.  Or if you use the original Diddle, it has two
+separate DBs - <b>DiddleDB.pdb</b>, containing unnamed `scratch'
+sketches, and <b>DiddleIDB.pdb</b>, containing the saved (and named)
+sketches which are listed by its `index' option.  You can feed this
+program any of these three on standard input.
+
+<h2 id="options">OPTIONS</h2>
+
+<p>There are no command line options defined specifically
+for <b>ddbugtopbm</b>, but it recognizes the options common to all
+programs based on libnetpbm (See <a href="index.html#commonoptions">
+Common Options</a>.)
+
+<h2 id="using">USING THE PROGRAM</h2>
+
+<p>I recommend you <em>not</em> run <b>ddbugtopbm</b> from your Palm
+backup directory, i.e. don't run it from the directory the DB will
+normally be in.  Instead, run it from some other directory (perhaps you
+could make a directory purely to hold the PBM files, just to keep
+things simple) and use an absolute or relative path to the DB.
+
+<p>The filenames used for the output PBMs are based on the names given
+to each sketch; if you have an unnamed sketch, it's given a name along
+the lines of <b>sketch-0123.pbm</b>.
+
+<p>While the named sketches will overwrite any existing PBM file with
+the same name, the unnamed ones won't - they'll just try using another
+filename.  (I think this is probably the right approach, as you can't
+really tell the unnamed sketches apart.)
+
+
+
+<h2 id="limitations">LIMITATIONS</h2>
+
+<p>The DiddleBug DB reader is only known to work with DBs from
+DiddleBug version 2.50. But it should probably work on later versions,
+and I think it'll work on DBs from version 2.15 as well.
+
+<p>It might fall over if fed an empty database, and doesn't do much
+(if any) checking of the input.
+
+
+<h2 id="author">AUTHOR</h2>
+
+Russell Marks (<a href="mailto:rus@svgalib.org">rus@svgalib.org</a>).
+
+<p>Mitch Blevins's decompression code is directly from DiddleBug
+itself, which like ddbugtopbm is distributed under the terms of the
+GNU GPL.
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<p>
+<a href="palmtopnm.html">palmtopnm</a>,
+<a href="pbm.html">pbm</a>
+
+<p>Jens-Chr. Heyer's `didcon' script does something similar.
+
+<h2 id="history">HISTORY</h2>
+
+<p><b>ddbugtopbm</b> was new in Netpbm 10.18 (August 2003).  It was written
+and independently distributed in August 2002.
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#examples">EXAMPLES</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#using">USING THE PROGRAM</a>
+<li><a href="#limitations">LIMITATIONS</a>
+<li><a href="#author">AUTHOR</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#history">HISTORY</a>
+</ul>
+</body>
+</html>

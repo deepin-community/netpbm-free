@@ -1,0 +1,30 @@
+From 273e01226c0089028a0865d9c0f8637146e4bf5a Mon Sep 17 00:00:00 2001
+From: Andreas Metzler <ametzler@bebt.de>
+Date: Sat, 30 Dec 2023 18:17:31 +0100
+Subject: [PATCH] Fix typo in ppm_readppm() prototype
+
+https://bugs.debian.org/576008
+---
+ userguide/libppm.html | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/libppm.html b/libppm.html
+index 5459aab..429b635 100644
+--- a/userguide/libppm.html
++++ b/userguide/libppm.html
+@@ -53,11 +53,11 @@ libppm - functions for PPM programs
+ 
+ <p>
+ <b>pixel ** ppm_readppm(</b><b>FILE *</b> <i>fp</i><b>,</b>
+   <b>int *</b> <i>colsP</i><b>,</b>
+   <b>int *</b> <i>rowsP</i><b>,</b>
+-  <b>pixvalP *</b> <i>maxvalP</i><b>);</b>
++  <b>pixval *</b> <i>maxvalP</i><b>);</b>
+ 
+ <p>
+ <b>void ppm_writeppminit(</b><b>FILE * <i>fp</i>,</b>
+   <b>int</b> <i>cols</i><b>,</b>
+   <b>int</b> <i>rows</i><b>,</b>
+-- 
+2.43.0
+

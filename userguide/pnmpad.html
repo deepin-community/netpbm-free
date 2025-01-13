@@ -1,0 +1,328 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Pnmpad User Manual</title></head>
+<body>
+<h1>pnmpad</h1>
+Updated: 09 December 2023
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+
+pnmpad - add borders to a PNM image
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>pnmpad </b>
+[<b>-color=</b><i>color</i>
+[<b>-promote=</b>{<b>none</b>|<b>format</b>|<b>all</b>}]
+|<b>-detect-background</b>
+|<b>-extend-edge</b>
+|<b>-white</b>
+|<b>-black</b>
+]
+<br>
+[<b>-width=</b><i>pixels</i>]
+[<b>-halign=</b><i>ratio</i>]
+[<b>-mwidth=</b><i>pixels</i>]
+<br>
+[<b>-left=</b><i>pixels</i>]
+[<b>-right=</b><i>pixels</i>]
+<br>
+[<b>-height=</b><i>pixels</i>]
+[<b>-valign=</b><i>ratio</i>]
+[<b>-mheight=</b><i>pixels</i>]
+<br>
+[<b>-top=</b><i>pixels</i>]
+[<b>-bottom=</b><i>pixels</i>]
+<br>
+[<b>-reportonly</b>]
+[<b>-verbose</b>]
+<br>
+[<i>pnmfile</i>]
+
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>pnmpad</b> reads a PNM image as input and outputs a PNM image
+that is the input image plus black or white borders of the sizes
+specified.
+
+<p>If you just need to convert an image to a certain size regardless
+of the original dimensions, <b>pamcut</b> with the <b>-pad</b> option
+may be a better choice.
+
+<p><b>pnmmargin</b> does essentially the same thing, but allows you to
+add borders of any color and requires all four borders to be the same
+size.
+
+<p>You can use <b>pamcomp</b> to add borders of any content - solid color,
+  pattern, or whatever.  For example, if you wanted to add 10 pixels of red
+  borders to the top and bottom of a 100x100 image, you could create a
+  100x120 red image (e.g. with <b>ppmmake</b>) and then use <b>pamcomp</b>
+  to insert your 100x100 image into the center of it.
+  
+
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>pnmpad</b> recognizes the following
+command line options:
+
+<p>All options can be abbreviated to their shortest unique prefix.  You
+may use two hyphens instead of one to designate an option.  You may
+use either white space or an equals sign between an option name and
+its value.
+
+<dl>
+<dt><b>-color=</b><i>color</i>
+<dt><b>-detect-background</b>
+<dt><b>-extend-edge</b>
+<dt><b>-white</b>
+<dt><b>-black</b>
+
+<dd>This specifies the color of the padding.  <i>color</i> is like
+the <a href="libnetpbm_image.html#colorname">argument of
+the <b>pnm_parsecolor()</b> library routine</a>.
+
+<p><b>-detect-background</b> means the program uses the color of the
+top left pixel of the input as the pad color.  Note that this could cause
+odd results if you aren&apos;t padding the top or left of the image.
+  
+<p>You may specify only one of <b>-white</b>, <b>-black</b>, <b>-color</b>,
+and <b>-detect-background</b>.
+  
+<p><b>-extend-edge</b> says to pad by duplicating the adjacent edge of the
+image pixel by pixel.  E.g. if the top row of the image is 20 white pixels
+followed by 10 black pixels, every row of padding added to the top of the
+image is 20 white pixels followed by 20 black pixels.
+
+<p>By default, the padding is black.
+
+<p><b>-white</b> and <b>-black</b> are for backward compatibility.
+<b>-color</b>, <b>-detect-background</b>, and <b>-extend-edge</b> were new
+with Netpbm 11.05 (December 2023).
+  
+<dt><b>-left=</b><i>pixels</i>
+<dt><b>-right=</b><i>pixels</i>
+<dt><b>-width=</b><i>width</i>
+<dt><b>-halign=</b><i>ratio</i>
+<dt><b>-mwidth=</b><i>pixels</i>
+
+<dd>Specify amount of left and right padding in pixels.
+
+<p><b>-left</b> and <b>-right</b> directly specify the amount of
+padding added to the left and right sides, respectively, of the image.
+
+<p>Alternatively, you can specify <b>-width</b> and just one of
+<b>-left</b> and <b>-right</b> and <b>pnmpad</b> calculates the required
+padding on the other side to make the output <i>width</i> pixels wide.  If
+the <b>-width</b> value is less than the width of the input image plus the
+specified padding, <b>pnmpad</b> ignores <b>-width</b>.
+
+<p>If you specify all three of <b>-width</b>, <b>-left</b>, and
+<b>-right</b>, you must ensure that the <b>-left</b> and <b>-right</b>
+padding are sufficient to make the image at least as wide as
+<b>-width</b> specifies, and in that case <b>-width</b> has no effect on the
+output.  Otherwise, <b>pnmpad</b> fails.
+
+<p>When you specify <b>-width</b> without <b>-left</b> or
+<b>-right</b>, and <b>-width</b> is larger than the input image,
+<b>pnmpad</b> chooses left and right padding amounts in a certain
+ratio.  That ratio defaults to half, but you can set it to anything
+(from 0 to 1) with the <b>-halign</b> option.  If the input image is
+already at least as wide as <b>-width</b> specifies, <b>pnmpad</b>
+adds no padding.
+
+<p>Common values for <b>-halign</b> are:
+<dl compact>
+<dt><b>0.0</b> <dd>left aligned
+
+<dt><b>0.5</b> <dd>center aligned (default)
+
+<dt><b>1.0</b> <dd>right aligned
+</dl>
+
+<p><b>-mwidth=</b><i>pixels</i> says to pad to a multiple of
+<i>pixels</i> pixels.  E.g. if <i>pixels</i> is 10, the output image width
+will be a multiple of 10 pixels.  <b>pnmpad</b> adds to whatever padding the
+other options say to do to get to this multiple.  It divides that padding
+between the left and right sides of the image to maintain the ratio the other
+options produce.  E.g. if you say <b>-left=10 -right=10 -mwidth=50</b> with a
+100-pixel image, you end up with a 150-pixel image with the extra padding
+split evenly between left and right for a total of 25 pixels of padding
+on the left and 25 on the right.  If the other options indicate no
+padding, <b>pnmpad</b> adds padding in the ratio specified by <b>-halign</b>
+and if <b>-halign</b> is not specified, equally on both sides.
+
+<p>Before Netpbm 10.97 (December 2021), <b>pnmpad</b> does not allow
+<b>-halign</b> with <b>-mwidth</b> and adds padding only on the right
+when <b>-mwidth</b> is specified and the other options indicate no padding.
+  
+<p>Before Netpbm 10.72 (September 2015), there is no <b>-mwidth</b>.
+
+<p>Before Netpbm 10.23 (July 2004), <b>pnmpad</b> did not allow the
+<b>-left</b> or <b>-right</b> option together with <b>-width</b>.
+
+<dt><b>-top=</b><i>pixels</i>
+<dt><b>-bottom=</b><i>pixels</i>
+<dt><b>-height=</b><i>height</i>
+<dt><b>-valign=</b><i>ratio</i>
+<dt><b>-mheight=</b><i>pixels</i>
+
+<dd>
+These options determine the vertical padding.  They are analogous to the
+horizontal padding options above.
+
+<dt><b>-promote=</b>{<b>none</b>|<b>format</b>|<b>all</b>}
+
+<dd>This option tells what to do when the <b>-color</b> option specifies a
+color that cannot be represented in the input format, which ordinarily is also
+the output format.  For example, if the input is PGM (which can represent only
+shades of gray), and you specify <b>-color=red</b>, should <b>pnmpad</b> make
+the padding gray or make the output PPM?
+    
+<dl>
+  <dt><b>none</b>
+    <dd>Make the output have the same format and maxval as the input.
+      Adjust the pad color to the nearest color possible in that format
+      (black, white, or a shade of gray).
+  <dt><b>format</b>
+    <dd>Make the output have the same maxval as the input, but make
+      the output format PPM if the pad color is not black, white, or gray.
+  <dt><b>all</b>
+    <dd>Make the format and maxval of the output capable of representing the
+      pad color.  Make the format the least expressive format capable of
+      representing the pad color.  Make the maxval the larger of 255 and
+      the maxval of the input image.
+</dl>
+
+<p>The default is <b>-promote=all</b>.
+
+<p>Note that this promotion happens even if no actual padding happens, meaning
+it isn&apos;t really necessary.  The promotion is based on
+what <em>would</em> be required to represent padding of the specified color.
+
+<p>This option is valid only when you also specify <b>-color</b>.
+
+<p>This option was new in Netpbm 11.05 (December 2023).
+
+<dt><b>-reportonly</b>
+<dd>
+  This causes <b>pnmpad</b> to write to Standard Output a description of the
+  padding it would have done instead of producing an output image.  See
+  <a href="#reportonly">below</a> for a description of this output and ways
+  to use it.
+
+<p>This option was new in Netpbm 10.89 (December 2019).
+
+<dt><b>-verbose</b>
+
+<dd>
+This causes verbose messages.
+
+</dl>
+
+<h2 id="reportonly">REPORT ONLY</h2>
+
+<p>When you specify <b>-reportonly</b>, <b>pnmpad</b> does not produce an
+  output image.  Instead, it writes to Standard Output a description of the
+  padding it would have done without <b>-reportonly</b>.
+
+<p>That description is one line of text, containing 6 decimal numbers of
+  pixels, separated by spaces:
+
+<ol>
+  <li>left padding
+  <li>right padding
+  <li>top padding
+  <li>bottom padding
+  <li>output width
+  <li>output height
+</ol>
+
+<p>Example:
+  <pre>
+    <span style="font-family: monospace">
+      4 3 0 2 100 100
+    </span>
+  </pre>
+
+<p>One use for this is to make padding which is fancier than the black and
+  white that <b>pnmpad</b> can do.
+
+<p>In the following example, we pad an image with 10 pixels of gray all
+  around, without knowing the original image dimensions beforehand.  We do
+  this by generating a gray image with <b>pbmmake</b> and then pasting the
+  subject image into the middle of it.
+
+<p>The example uses shell arrays, such as exist in Bash, but not Dash.
+  
+  <pre>
+    <kbd>
+    pad=($(pnmpad -reportonly -left=10 -right=10 -top=10 -bottom=10 input.ppm))
+    pbmmake -gray ${pad[4]} ${pad[5]} | \
+      pnmpaste input.ppm ${pad[0]} ${pad[2]} -
+    </kbd>
+  </pre>
+    
+
+<h2 id="history">HISTORY</h2>
+
+<p>The command line syntax was originally more of a traditional Unix syntax,
+  with single-character margin size options <b>-l</b>, <b>-r</b>, <b>-t</b>,
+  and <b>-b</b> that took arguments concatenated to the option name, such
+  as <b>-l50</b>.  This is in contrast to the more modern syntax used by
+  essentially all Netpbm programs, in which an option such as <b>-left</b>
+  (which can still be abbreviated <b>-l</b>) must have its name and value as
+  separate command line arguments (e.g. <b>-l 50</b>).
+
+  The new syntax was accepted and the old syntax deprecated and removed from
+  documentation in Netpbm 9.25 (March 2002), and was no longer accepted in
+  Netpbm 11.05 (December 2023).
+
+  The code was broken for most of that time so that an attempt to use the old
+  syntax would fail anyway.  The bug was discovered only in testing; no user
+  ever reported encountering it.
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<b><a href="pbmmake.html">pbmmake</a></b>,
+<b><a href="pnmpaste.html">pnmpaste</a></b>,
+<b><a href="pamcut.html">pamcut</a></b>,
+<b><a href="pnmcrop.html">pnmcrop</a></b>,
+<b><a href="pamcomp.html">pamcomp</a></b>,
+<b><a href="pnmmargin.html">pnmmargin</a></b>,
+<b><a href="pbm.html">pbm</a></b>
+
+
+<h2 id="author">AUTHOR</h2>
+
+<p>Copyright (C) 2002 by Martin van Beilen
+
+<p>Copyright (C) 1990 by Angus Duggan
+
+<p>Copyright (C) 1989 by Jef Poskanzer.
+
+<p>Permission to use, copy, modify, and distribute this software and
+its documentation for any purpose and without fee is hereby granted,
+provided that the above copyright notice appear in all copies and that
+both that copyright notice and this permission notice appear in
+supporting documentation.  This software is provided "as is"
+without express or implied warranty.
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#reportonly">REPORT ONLY</a>
+<li><a href="#history">HISTORY</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#author">AUTHOR</a>
+</ul>
+</body>
+</html>

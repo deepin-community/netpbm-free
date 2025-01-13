@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Pnmscalefixed User Manual</title></head>
+<body>
+<h1>pnmscalefixed</h1>
+Updated: 01 July 2020
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+
+pnmscalefixed - scale a PNM file quickly
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<b>pnmscalefixed</b> is like <b>pamscale</b> except that
+it uses fixed point arithmetic internally instead of floating point,
+which may make it run faster.  In turn, it is less accurate and may
+distort the image.  It also lacks many of the features of <b>pamscale</b>.
+
+<p>Use the <b>pamscale</b> user manual with <b>pnmscalefixed</b>.  This
+document only describes the difference.  Avoid any feature mentioned in
+the <b>pamscale</b> manual as not existing before Netpbm 9.9.
+
+<p><b>pnmscalefixed</b> uses fixed point 12 bit arithmetic.  By
+contrast, <b>pamscale</b> uses floating point arithmetic which on most
+machines is probably 24 bit precision.  This makes
+<b>pnmscalefixed</b> run faster (30% faster in one experiment), but
+the imprecision can cause distortions at the right and bottom edges.
+
+<p>The distortion takes the following form: One pixel from the edge of
+the input is rendered larger in the output than the scaling factor
+requires.  Consequently, the rest of the image is smaller than the
+scaling factor requires, because the overall dimensions of the image
+are always as requested.  This distortion will usually be very hard to
+see.
+
+<p><b>pnmscalefixed</b> with the <b>-verbose</b> option tells you how
+much distortion there is.
+
+<p>The amount of distortion depends on the size of the input image and how
+close the scaling factor is to an integral 1/4096th.
+
+<p>If the scaling factor is an exact multiple of 1/4096, there is no
+distortion.  So, for example doubling or halving an image causes no
+distortion.  But reducing it or enlarging it by a third would cause
+some distortion.  To consider an extreme case, scaling a 100,000 row
+image down to 50,022 rows would create an output image with all of the
+input squeezed into the top 50,000 rows, and the last row of the input
+copied into the bottom 22 rows of output.
+
+<p><b>pnmscalefixed</b> could probably be modified to use 16 bit or
+better arithmetic without losing anything.  The modification would
+consist of a single constant in the source code.  Until there is a
+demonstrated need for that, though, the Netpbm maintainer wants to
+keep the safety cushion afforded by the original 12 bit precision.
+
+<p><b>pnmscalefixed</b> does not have <b>pamscale</b>'s <b>-nomix</b>
+option.
+
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>pnmscalefixed</b> recognizes the following
+command line options:
+
+<dl compact>
+<dt><b>-xsize</b>
+<dt><b>-width</b>
+<dt><b>-ysize</b>
+<dt><b>-height</b>
+<dt><b>-xscale</b>
+<dt><b>-yscale</b>
+<dt><b>-pixels</b>
+<dt><b>-xysize</b>
+<dt><b>-reduce</b>
+
+<dd>
+<p>These options determine the scale factors.  See the
+<a href="pamscale.html"><b>pamscale</b></a> user manual for details.
+
+<dt><b>-verbose</b>
+
+<dd>
+<p>Report details of the transformation.
+</dl>
+
+<h2 id="history">HISTORY</h2>
+
+<p><b>pnmscalefixed</b> was originally <b>pnmscale</b>. In Netpbm 9.9
+(November 2000) <b>pnmscale</b> was rewritten to use floating point
+arithmetic; the former fixed point arithmetic version was renamed
+<b>pnmscalefixed</b>.
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<b><a href="pamscale.html">pamscale</a></b>,
+<b><a href="pamstretch.html">pamstretch</a></b>,
+<b><a href="pamstretch-gen.html">pamstretch-gen</a></b>,
+<b><a href="pbmreduce.html">pbmreduce</a></b>,
+<b><a href="pbmpscale.html">pbmpscale</a></b>,
+<b><a href="pamenlarge.html">pamenlarge</a></b>,
+<b><a href="pnmscale.html">pnmscale</a></b>,
+<b><a href="pnm.html">pnm</a></b>,
+<b><a href="pam.html">pam</a></b>
+
+<hr>
+
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#history">HISTORY</a>
+<li><a href="#seealso">SEE ALSO</a>
+</ul>
+</body>
+</html>

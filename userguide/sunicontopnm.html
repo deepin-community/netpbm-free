@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Sunicontopnm User Manual</title></head>
+<body>
+<h1>sunicontopnm</h1>
+Updated: 23 October 2010
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+sunicontopnm - convert a Sun icon into a Netpbm image
+
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>sunicontopnm</b>
+[<i>iconfile</i>]
+
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>sunicontopnm</b> reads a Sun icon as input and produces a PBM or PGM
+image as output.
+
+<p>If the input is of the Depth=8 variety, the output is PGM.  Otherwise,
+it is PBM.  Before Netpbm 10.53 (December 2010), the program would not work
+on a Depth=8 icon.
+
+<p>If the input is color, the output is still PGM (the program can't do
+any better because developers haven't figured out how).  If you know the
+palette used by the Sun icon image, you can use <b>pamlookup</b> to
+convert the PGM output to the proper color Netpbm image.
+
+
+<h2 id="options">OPTIONS</h2>
+
+<p>There are no command line options defined specifically
+for <b>sunicontopnm</b>, but it recognizes the options common to all
+programs based on libnetpbm (See <a href="index.html#commonoptions">
+Common Options</a>.)
+
+<h2 id="sunicons">ABOUT SUN ICONS</h2>
+
+<p>It seems that this icon format was used in Sunview and was usable in its
+successor Openlook/Openwindows in Sun 4.1.1, which offered backward
+compatibility for Sunview, including the icons.  Sunview's desktop was
+monochrome.  OpenWindows had color icons.  Sun 4 came with OpenWindows.
+OpenWindows appears to have been an X-based gui so presumably the icons were
+mostly XPM files.
+
+<p>So in addition to <b>sunicontopnm</b>, you should try <b>xpmtoppm</b> and
+<b>xbmtopbm</b> on icons from a Sun Workstation.
+
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<a href="pbmtosunicon.html">pbmtosunicon</a>,
+<a href="winicontoppm.html">winicontoppm</a>,
+<a href="xpmtoppm.html">xpmtoppm</a>,
+<a href="xbmtopbm.html">xbmtopbm</a>,
+<a href="infotopam.html">infotopam</a>,
+<a href="pbm.html">pbm</a>
+<a href="pgm.html">pgm</a>
+
+<h2 id="history">HISTORY</h2>
+
+<p>Jef Poskanzer wrote the program under the name <b>icontopbm</b> in 1988.
+
+<p>In October 2010, Prophet Of The Way (afu@wta.att.ne.jp) converted it to use
+the more recent "packed PBM" library functions, thus speeding it up
+
+<p>Netpbm 10.53 (December 2010) renamed the program to <b>sunicontopnm</b>.
+This name reflects the fact that there are lots of kinds of icons in the world
+besides the Sun variety, Windows ones being most popular.  It also takes
+into account the new Depth=8 capability (see below).
+
+<p>Netpbm 10.53 (December 2010) added the ability to work with Depth=8
+icon input and input with 32 bit "items."  Whereas the previous
+program always produced PBM output, the new program produced PGM in the
+Depth=8 case.
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#sunicons">ABOUT SUN ICONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#history">HISTORY</a>
+</ul>
+</body>
+</html>
+

@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Ppmcolormask User Manual</title></head>
+<body>
+<h1>ppmcolormask</h1>
+Updated: 01 May 2006
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+ppmcolormask - produce mask of areas of a certain color in a PPM file
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>ppmcolormask</b> <b>-color=</b><i>color_list</i> [<i>ppmfile</i>]
+
+<p>
+<b>ppmcolormask</b> <i>color</i> [<i>ppmfile</i>]
+
+<h2 id="examples">EXAMPLES</h2>
+
+<pre>
+<code>
+    ppmcolormask -color red testimg.ppm &gt;redmask.pbm
+    pamcomp background.ppm testimg.ppm -alpha=redmask.pbm &gt;test.ppm
+
+    ppmcolormask -color=red,pink,salmon testimg.ppm &gt;reddishmask.pbm
+
+    ppmcolormask -color=bk:red,bk:orange,bk:yellow testimg.ppm &gt;firemask.pbm
+
+</code>
+</pre>
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>ppmcolormask</b> reads a PPM file as input and produces a PBM
+(bitmap) file as output.  The output file is the same dimensions as
+the input file and is black in all places where the input file is a
+color indicated by the <b>-color</b> option, and white everywhere
+else.
+
+<p>The output of <b>ppmcolormask</b> is useful as a transparency mask input
+to <b>pamcomp</b>.  Note that you don't need <b>ppmcolormask</b> and
+<b>pamcomp</b> if you are ultimately converting to PNG with
+<b>pnmtopng</b> because the <b>-transparent</b> option on <b>pnmtopng</b> does
+the same thing.
+
+<p><i>ppmfile</i> is the input file.  If you don't specify
+<i>ppmfile</i>, the input is from Standard Input.
+
+<p>The output goes to Standard Output.
+
+<p>In the obsolete alternative syntax, specifying the <i>color</i>
+names a single exact color to be masked.
+
+<p><b>ppmchange</b> does a similar thing: it modifies an image by
+changing colors you specify to other colors you specify.  The two
+programs give you somewhat different means of specifying colors in the
+input image.
+
+<p>To make a mask of an image's background, without having to tell it
+what color it is, use <b>pambackground</b>.
+
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>ppmcolormask</b> recognizes the following
+command line option:
+
+<dl>
+<dt><b>-color=</b><i>color_list</i>
+
+<dd>This mandatory option specifies the colors that are to be masked
+(where the image is one of these colors, the output mask will be black).
+
+<p>Examples:
+
+<ul>
+<li><b>-color=red</b>
+<li><b>-color=red,pink,salmon</b>
+<li><b>-color=rgb:80/80/ff</b>
+<li><b>-color=bk:red,bk:orange,bk:yellow</b>
+</ul>
+
+<p><i>color_list</i> is a list of colors separated by commas.  Each
+color is either an exact color name as described for the <a
+href="libnetpbm_image.html#colorname">argument of the <b>pnm_parsecolor()</b>
+library routine</a> or one of the <a
+href="libppm.html#berlinkay">Berlin-Kay color names</a>.  In the
+latter case, all colors that are better described by that Berlin-Kay
+color name than any other are in the mask set.
+
+<p>The algorithm <b>ppmcolormask</b> uses to determine to which colors
+a Berlin-Kay color name applies is based on a Sugeno-type fuzzy
+inference system developed by <a
+href="mailto:kenan@unix.ba">Kenan Kalajdzic</a> in 2006.  The
+fuzzy model consists of partially linear membership functions defined
+in the HSV color space.  Although more complex algorithms for fuzzy
+color matching exist, this algorithm is intentionally simplified to
+achieve a satisfactory speed using relatively compact code.
+
+<p>This option was new in Netpbm 10.34 (June 2006).  Before that,
+you must use the <i>color</i> argument and cannot specify a Berlin-Kay
+color.
+
+</dl>
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<b><a href="pamfind.html">pamfind</a></b>,
+<b><a href="pambackground.html">pambackground</a></b>,
+<b><a href="ppmchange.html">ppmchange</a></b>,
+<b><a href="pgmtoppm.html">pgmtoppm</a></b>,
+<b><a href="pamcomp.html">pamcomp</a></b>,
+<b><a href="pbmmask.html">pbmmask</a></b>,
+<b><a href="pnmtopng.html">pnmtopng</a></b>,
+<b><a href="ppm.html">ppm</a></b>
+
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#examples">EXAMPLES</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+</ul>
+</body>
+</html>

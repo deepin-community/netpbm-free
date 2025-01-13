@@ -1,0 +1,200 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Ppmlabel User Manual</title></head>
+<body>
+
+<h1>ppmlabel</h1>
+Updated: 15 April 2006
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+ppmlabel - add text to a PPM image
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>ppmlabel</b>
+
+[<b>-angle</b> <i>angle</i>]
+
+[<b>-background</b> { <b>transparent</b> | <i>color</i> } ]
+
+[<b>-color</b> <i>color</i>]
+
+[<b>-file</b> <i>filename</i>]
+
+[<b>-size</b>
+
+<i>textsize</i>]
+
+[<b>-text</b> <i>text_string</i>]
+
+[<b>-x</b> <i>column</i>]
+
+[<b>-y</b> <i>row</i>]
+
+...
+
+[<i>ppmfile</i>]
+
+
+<h2 id="example">EXAMPLE</h2>
+
+<pre>
+<code>
+    ppmlabel -x 50 -y 50 -text hello \
+             -angle -30 -text there \
+             testimg.ppm 
+</code>
+</pre>
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>ppmlabel</b> uses the text drawing facilities of <b>libnetpbm</b>'s
+"ppmd" component to add text to a PBM image.  You control
+the location, size, baseline angle, color of the text, and background
+color (if any) with command line arguments.  You can specify the text
+on the command line or supply it in files.
+
+<p>You can add any number of separate labels in a single invocation of
+<b>ppmlabel</b>, limited only by any restrictions your environment has
+on the number and size of program arguments (e.g. a shell's command 
+size limit).
+
+<p>If you don't specify <i>ppmfile</i>, <b>ppmlabel</b> reads its input
+PPM image from Standard Input.
+
+<p>The output image goes to Standard Output.
+
+<p>A more sophisticated way to add a label to an image is to use
+<b>pbmtext</b> or <b>pbmtextps</b> to create an image of the text, then
+<b>pamcomp</b> to overlay it onto the base image.
+
+<p>Another more general program is <b>ppmdraw</b>.  It is slightly harder
+to use for simple labelling.
+
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>ppmlabel</b> recognizes the following
+command line options:
+
+<p>The arguments on the <b>ppmlabel</b> command line are not options in
+the strict sense; they are commands which control the placement and
+appearance of the text being added to the input image.  They are
+executed left to right, and any number of arguments may appear.
+
+<p>You can abbreviate any option to its shortest unique prefix.
+
+<dl compact>
+<dt><b>-angle</b><i> angle</i>
+
+<dd>This option sets the angle of the baseline of subsequent text.
+<i>angle</i> is an integral number of degrees, measured
+counterclockwise from the row axis of the image.
+
+<dt><b>-background</b> { <b>transparent</b> | <i>color</i> }
+
+<dd>If the argument is <b>transparent</b>, <b>ppmlabel</b> draws the
+text over the existing pixels in the image.  If you specify a
+<i>color</i> (see the <b>-color</b> option below for information on
+how to specify colors), <b>ppmlabel</b> generates background rectangles
+enclosing subsequent text, and those rectangles are filled with that
+color.
+
+<dt><b>-color</b> <i>color</i>
+
+<dd>This option sets the color for subsequent text.
+
+<p>Specify the color (<i>color</i>) as described for the <a
+href="libnetpbm_image.html#colorname">argument of the <b>pnm_parsecolor()</b>
+library routine</a>.
+
+<p><b>-colour</b> is an acceptable alternate spelling.
+
+<dt><b>-file</b> <i>filename</i>
+
+<dd>This option causes <b>ppmlabel</b> to read lines of text from the file
+named <i>filename</i> and draw it on successive lines.
+
+<dt><b>-size</b> <i>textsize</i>
+
+<dd>This option sets the height of the tallest characters above the
+baseline to <i>textsize</i> pixels.
+
+<dt><b>-text</b> <i>text_string</i>
+
+<dd>This option causes <b>ppmlabel</b> to draw the specified text
+string.  It advances the location for subsequent text down 1.75 times
+the current <i>textsize</i>.  That lets you draw multiple lines of
+text in a reasonable manner without specifying the position of each
+line.
+<p>
+Note that if you invoke <b>ppmlabel</b> via a shell command and your
+text string contains spaces, you'll have to quote it so the shell treats
+the whole string as a single token.  E.g.
+<pre>
+  $ ppmlabel -text "this is my text" baseimage.ppm &gt;annotatedimage.ppm
+</pre>
+
+
+<dt><b>-x</b> <i>column</i>
+
+<dd>This option sets the pixel column at which subsequent text will
+be left justified.  Depending on the shape of the first character, the
+actual text may begin a few pixels to the right of this point.
+
+<dt><b>-y</b> <i>row</i>
+
+<dd>This option sets the pixel row which will form the baseline of
+subsequent text.  Characters with descenders, such as "y," will extend
+below this line.  
+
+</dl>
+
+<h2 id="limitations">LIMITATIONS</h2>
+
+<p>Text strings are restricted to 7 bit ASCII.  The text font used by
+<b>ppmlabel</b> doesn't include definitions for 8 bit ISO 8859/1 characters.
+
+<p>When drawing multiple lines of text with a non-transparent
+background, it should probably fill the space between the lines with
+the background color.  This is tricky to get right when the text is
+rotated to a non-orthogonal angle.
+
+<h2 id="seealso">SEE ALSO</h2>
+
+
+<b><a href="ppmmake.html">ppmmake</a></b>,
+<b><a href="ppmdraw.html">ppmdraw</a></b>,
+<b><a href="pbmtext.html">pbmtext</a></b>,
+<b><a href="pbmtextps.html">pbmtextps</a></b>,
+<b><a href="pamcomp.html">pamcomp</a></b>,
+<b><a href="ppm.html">ppm</a></b>
+
+
+<h2 id="author">AUTHOR</h2>
+
+Copyright (C) 1995 by John Walker (<a href="mailto:kelvin@fourmilab.ch">kelvin@fourmilab.ch</a>)<br>
+WWW home page: <a href="http://www.fourmilab.ch/">http://www.fourmilab.ch/</a><br>
+
+<p>Permission to use, copy, modify, and distribute this software and
+its documentation for any purpose and without fee is hereby granted,
+without any conditions or restrictions.  This software is provided
+``as is'' without express or implied warranty.
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#example">EXAMPLE</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#limitations">LIMITATIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#author">AUTHOR</a>
+</ul>
+</body>
+</html>

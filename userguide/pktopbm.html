@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Pktopbm User Manual</title></head>
+<body>
+<h1>pktopbm</h1>
+Updated: 15 September 2023
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+
+pktopbm - convert packed (PK) format font into PBM
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+pktopbm pkfile [ -x width ] [ -y height ] [-c num] pbmfile ...
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>pktopbm</b> reads a packed (PK) font file as input, and produces
+PBM images as output. If the filename "-" is used for any of
+the filenames, the standard input stream (or standard output where
+appropriate) will be used. If either the width or height is specified,
+this value will be used for all bitmaps produced. Also if one or both
+values are specified, the bitmap will be relocated with the hoffset
+and voffset given in the pkfile. The basepoint will be placed in the
+lower left corner of the bitmap if the bitmap is bigger than the
+specified size it will be truncated at the top or right.
+
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>pktopbm</b> recognizes the following
+command line options:
+
+<dl compact>
+<dt><b>-character</b> <i>num</i>
+  <dd>
+    This is the code point (character number) to which the first
+    specified output file pertains.  Ergo, there is no output for any
+    code point lower than this.
+
+<dt><b>-x</b> <i>width</i>
+<dd>
+  The width of the image in columns.
+
+  The default is what is specified in the font file.
+
+<dt><b>-y</b> <i>width</i>
+<dd>
+The height of the image in rows.  
+
+The default is what is specified in the font file.
+</dl>
+
+<h2 id="history">HISTORY</h2>
+
+<p>Before Netpbm 11.04 (September 2023), the program would sometimes add
+  the suffix &quot;.pk&quot; to the specified input file name.  It also
+  let you specify multiple <b>-c</b> options, with each applying to the
+  output file names that came after it.
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<a href="pbmtopk.html">pbmtopk</a>,
+<a href="pbm.html">pbm</a>
+
+<h2 id="author">AUTHOR</h2>
+
+Adapted from Tom Rokicki's pxtopk by Angus Duggan &lt;<a
+href="mailto:ajcd@dcs.ed.ac.uk">ajcd@dcs.ed.ac.uk</a>&gt;.  &lt;<a
+href="mailto:bartel@informatik.tu-muenchen.de">bartel@informatik.tu-muenchen.de</a>&gt;
+in March 1995.
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#history">HISTORY</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#author">AUTHOR</a>
+</ul>
+</body>
+</html>

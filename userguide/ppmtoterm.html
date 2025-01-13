@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Ppmtoterm User Manual</title></head>
+<body>
+<h1>ppmtoterm</h1>
+Updated: 17 June 2017
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+
+ppmtoterm - convert a PPM image to a ANSI ISO 6429 ascii image
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>ppmtoterm</b>
+
+[<i>ppmfile</i>]
+
+<p>All options can be abbreviated to their shortest unique prefix.
+You may use two hyphens instead of one.  You may separate an option
+name and its value with white space instead of an equals sign.
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>. 
+
+<p>This program tries to produce an accurate representation of a PPM
+image on an terminal that implements the ANSI ISO 6429 standard.  It
+approximates colors, finding the minimum Cartesian distance between the
+input RGB vectors and the ones in the generated palette.  As the
+available color palette is somewhat restricted, you get the best
+results when the colors in the original image are few and the RGB
+intensities are close to zero, half of maximum, and maximum.
+
+<p>You can usually get good results with cartoons or images with
+plain colors (no gradients).  With photos, results can vary, but are
+usually not very accurate.
+
+<p>The output image has one line for each row and one character for each
+column of the input image.  E.g. an 80 pixel by 25 pixel PPM image would
+fill up an 80x25 terminal screen.  Use <b>pamscale</b> or <b>pamcut</b>
+to make your image fit properly on your screen.
+
+<p>Furthermore, use <b>pamscale</b> to recover the proper aspect ratio,
+because a character on a terminal screen is rarely square.  Typically, a
+character is twice has high as it is wide, so in order for a 20x20 image to
+appear square on your terminal, as it should, you'll want to squash it
+vertically or stretch it horizontally by a factor of two (resulting int 10x20
+characters are 20x40 characters).
+
+<p>The image starts at the current cursor position on the terminal
+screen.  Each successive row starts at Column 0 on the screen.  If you want
+to shift the image up or down, for example to center it, use
+<b>pnmpad</b> on the input.
+
+<p>This program was born with the objective of displaying nice color
+images on the Linux console, e.g. a proper logo at Linux boot.
+
+<p><b>ppmtoascii</b> does a similar things, but combines 2 or 8 pixels into
+one character, where the character roughly represents those particular pixels,
+whereas <b>ppmtoterm</b> displays each character of the image as a single
+pixel.
+
+<p><b>pbmto4425</b> does a similar thing for black and white images, using
+line drawing characters, on some terminals.
+
+<h2 id="options">OPTIONS</h2>
+
+<p>There are no command line options defined specifically
+for <b>ppmtoterm</b>, but it recognizes the options common to all
+programs based on libnetpbm (See <a href="index.html#commonoptions">
+Common Options</a>.)
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<b><a href="pamscale.html">pamscale</a></b>,
+<b><a href="pamcut.html">pamcut</a></b>,
+<b><a href="ppmtoascii.html">ppmtoascii</a></b>,
+<b><a href="pbmtoascii.html">pbmtoascii</a></b>,
+<b><a href="pbmto4425.html">pbmto4425</a></b>,
+<b><a href="ppm.html">ppm</a></b>
+
+
+<h2 id="author">AUTHOR</h2>
+
+Copyright (C) 2002 by Ero Carrera.
+
+
+<h2 id="history">HISTORY</h2>
+
+<p>This program was new in Netpbm 10.9 (August 2002).
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#author">AUTHOR</a>
+<li><a href="#history">HISTORY</a>
+</ul>
+</body>
+</html>
+

@@ -1,0 +1,21 @@
+Description: Let stdin-ppm3.test succeed with picttoppm removal
+Author: Andreas Metzler <ametzler@debian.org>
+Origin: vendor
+Forwarded: not-needed
+Last-Update: 2023-09-20
+
+--- a/test/stdin-ppm3.ok
++++ b/test/stdin-ppm3.ok
+@@ -9,11 +9,11 @@ neotoppm: 0 0 0 0
+ ppmtopcx: 0 0 0 0
+ pcxtoppm: 0 0 0 0
+ ppmtopi1: 0 0 0 0
+ pi1toppm: 0 0 0 0
+ ppmtopict: 0 0 0 0
+-picttoppm: 0 0 0 0
++picttoppm: 88 88 0 0
+ ppmtopj: 0 0 0 0
+ pjtoppm: 0 0 0 0
+ ppmtospu: 0 0 0 0
+ sputoppm: 0 0 0 0
+ ppmtoxpm -name small: 0 0 0 0

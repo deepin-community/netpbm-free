@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Pgmramp User Manual</title></head>
+<body>
+<h1>pgmramp</h1>
+Updated: 15 February 2014
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+
+pgmramp - generate a grayscale ramp
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>pgmramp</b>
+{<b>-lr</b>|<b>-tb</b>|<b>-rectangle</b>|<b>-ellipse</b>|<b>-diagonal</b>}
+[<b>-maxval=</b><i>maxval</i>]
+<i>width</i> <i>height</i>
+
+<p>All options can be abbreviated to their shortest unique prefix.
+You may use two hyphens instead of one to designate an option.  You
+may use either white space or an equals sign between an option name
+and its value.
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p>Generates a graymap of the specified size containing a
+black-to-white ramp.  These ramps are useful for multiplying with
+other images, using <b>pamarith</b>.
+
+<p>The ramp is linear in brightness, not intensity.  I.e. the
+gamma-corrected sample values in the PGM rise linearly with distance
+from the corner of the image.  If you want a ramp that is linear in
+light intensity, use <b>pnmgamma</b> with <b>pgmramp</b>.
+
+<p>Options let you choose the shape of the ramp (left to right, inside
+out, etc.).  You can use <b>pamflip</b> to get more shapes.  For
+example, the <b>-lr</b> option gives you a left to right ramp and
+
+<pre>
+<kbd>
+    $ pgmramp -lr 100 100 | pamflip -lr
+</kbd>
+</pre>
+
+gives you a right to left ramp.
+
+<p>To generate a simple ramp of all the values from 0 to maxval, and not
+necessarily a graphic image, use <b><a href="pamseq.html">pamseq</a></b>.
+
+<p><b>ppmrainbow</b> does something similar to what <b>pgmramp</b> does,
+but for color.  The image fades between two colors of your choice.
+
+
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>pgmramp</b> recognizes the following
+command line options:
+
+<p>
+You must specify exactly one of the ramp type options.
+
+<dl compact>
+<dt><b>-lr</b>
+<dd>
+A left to right ramp.  Black on the left; white on the right.
+
+<dt><b>-tb</b>
+<dd>
+A top to bottom ramp.  Black on top; white on the bottom.
+
+<dt><b>-rectangle</b>
+<dd>
+An outside-in rectangular ramp.  It is black around the edges and white
+in the center.
+
+<dt><b>-ellipse</b>
+<dd>
+An outside-in elliptical ramp.  It is black around the edge and white
+in the center.
+
+<dt><b>-diagonal</b>
+<dd>
+A ramp from top left corner diagonally down to bottom right.  Black at
+the top left; white at the bottom right.
+<p>
+This option was new in Netpbm 10.66 (March 2014).
+
+<dt><b>-maxval=</b><i>maxval</i>
+<dd>
+     The maxval for the generated image.  Default is 255.
+<p>
+     This option was new in Netpbm 10.1 (June 2002).  Before that, the maxval
+     is always 255.
+     
+</dl>
+
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<a href="pamflip.html"><b>pamflip</b></a>,
+<a href="pamarith.html"><b>pamarith</b></a>,
+<a href="pnmgamma.html"><b>pnmgamma</b></a>,
+<a href="pamseq.html"><b>pamseq</b></a>,
+<a href="ppmrainbow.html"><b>ppmrainbow</b></a>,
+<a href="pamgradient.html"><b>pamgradient</b></a>,
+<a href="pgm.html">pgm</a>
+
+
+<h2 id="author">AUTHOR</h2>
+
+Copyright (C) 1989 by Jef Poskanzer.
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#author">AUTHOR</a>
+</ul>
+</body>
+</html>

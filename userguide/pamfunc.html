@@ -1,0 +1,338 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Pamfunc User Manual</title></head>
+<body>
+<h1>pamfunc</h1>
+Updated: 09 September 2020
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+pamfunc - Apply a simple monadic arithmetic function to a Netpbm image
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>pamfunc</b>
+{
+<b>-multiplier=</b><i>realnum</i> |
+<b>-divisor=</b><i>realnum</i> |
+<b>-adder=</b><i>integer</i> |
+<b>-subtractor=</b><i>integer</i> |
+<b>-min=</b><i>wholenum</i> |
+<b>-max=</b><i>wholenum</i>
+<b>-andmask=</b><i>hexmask</i>
+<b>-ormask=</b><i>hexmask</i>
+<b>-xormask=</b><i>hexmask</i>
+<b>-not</b>
+<b>-shiftleft=</b><i>count</i>
+<b>-shiftright=</b><i>count</i>
+[<b>-changemaxval</b>]
+}
+[<i>filespec</i>]
+
+<p>All options can be abbreviated to their shortest unique prefix.
+You may use two hyphens instead of one.  You may separate an option
+name and its value with white space instead of an equals sign.
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>pamfunc</b> reads a Netpbm image as input and produces a Netpbm
+image as output, with the same format, and dimensions as the
+input.  <b>pamfunc</b> applies a simple transfer function to each
+sample in the input to generate the corresponding sample in the
+output.  The options determine what function.
+
+<p>The samples involved are PAM samples.  If the input is PBM, PGM, or PPM,
+the output will be that same format, but <b>pamfunc</b> applies the functions
+to the PAM equivalent samples, yielding PAM equivalent samples.  This can
+be nonintuitive in the <a href="#pbmoddness">PBM</a> case.
+  
+<p><b>pamarith</b> is the same thing for binary functions -- it takes
+two images as input and applies a specified simple arithmetic function
+(e.g. addition) on pairs of samples from the two to produce the single
+output image.
+
+
+<h3 id="values">Values</h3>
+
+<p>The functions fall into two categories: arithmetic (such as multiply by 5)
+and bit string (such as and with 01001000).  For the arithmetic functions, the
+function arguments and results are the fraction that a sample is of the
+maxval, i.e. normal interpretation of PAM tuples.  But for the bit string
+functions, the value is the the bit string whose value as a binary cipher is
+the sample value, and the maxval indicates the width of the bit string.
+
+<h4>Arithmetic functions</h4>
+
+<p>The arithmetic functions are those selected by the options
+<b>-multiplier</b>, <b>-divisor</b>, <b>-adder</b>, <b>-subtractor</b>,
+<b>-min</b>, and <b>-max</b>.
+
+<p>As an example, consider an image with maxval 100 and a sample value of 10
+and a function of "multiply by 5." The argument to the function is
+10/100 (0.1) and the result is 5 * 0.1 = 0.5.  In the simplest case, the
+maxval of the output is also 100, so the output sample value is 0.5 * 100 =
+50.  As you can see, we could just talk about the sample values themselves
+instead of these fractions and get the same result (10 * 5 = 50), but we
+don't.
+
+<p>Where it makes a practical difference whether we consider the values to be
+the fraction of the maxval or the sample value alone is where <b>pamfunc</b>
+uses a different maxval in the output image than it finds in the input
+image.  See <b>-changemaxval</b>.
+
+<p>So remember in reading the descriptions below that the values are 0.1 and
+0.5 in this example, not 10 and 50.  All arguments and results are in the
+range [0,1].
+
+<h4>Bit string functions</h4>
+
+<p>The bit string functions are those selected by the options
+<b>-andmask</b>, <b>-ormask</b>, <b>-xormask</b>, <b>-not</b>,
+<b>-shiftleft</b>, and <b>-shiftright</b>.
+
+<p>With these functions, the maxval has a very different meaning than in
+normal Netpbm images: it tells how wide (how many bits) the bit string is.
+The maxval must be a full binary count (a power of two minus one, such as
+0xff) and the number of ones in it is the width of the bit string.
+
+<p>As an example, consider an image with maxval 15 and a sample value of 5
+and a function of "and with 0100".  The argument to the function is
+0101 and the result is 0100.
+
+<p>In this example, it doesn't make any practical difference what we consider
+the width of the string to be, as long as it is at least 3.  If the maxval
+were 255, the result would be the same.  But with a bit shift operation,
+it matters.  Consider shifting left by 2 bits.  In the example, where
+the input value is 0101, the result is 0100.  But if the maxval were 255,
+the result would be 00010100.
+
+<p>For a masking function, the mask value you specify must not have
+more significant bits than the width indicated by the maxval.
+
+<p>For a shifting operation, the shift count you specify must not be
+greater than the width indicated by the maxval.
+
+<h4 id="pbmoddness">PBM Oddness</h4>
+
+<p>If you're familiar with the PBM format, you may find <b>pamfunc</b>'s
+operation on PBM images to be nonintuitive.  Because in PBM black is
+represented as 1 and white as 0 (1.0 and 0.0 normlized), you might be
+expecting adding 1 to white to yield black.
+
+<p>But the PBM format is irrelevant, because <b>pamfunc</b> operates on the
+numbers found in the PAM equivalent (see above).  In a PAM black and white
+image, black is 0 and white is 1 (0.0 and 1.0 normalized).  So white plus 1
+(clipped to the maximum of 1.0) is white.
+
+
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>pamfunc</b> recognizes the following
+command line options:
+
+<dl compact>
+<dt><b>-multiplier=<i>realnum</i></b>
+
+<dd>
+     <p>This option makes the transfer function that of multiplying by
+     <i>realnum</i>.  <i>realnum</i> must be nonnegative.  If the result
+     is greater than one, it is clipped to one.
+
+     <p>Where the input is a PGM or PPM image, this has the effect of
+     dimming or brightening it.  For a different kind of brightening,
+     see <a href="pambrighten.html"><b>pambrighten</b></a> and
+     <a href="ppmflash.html"><b>ppmflash</b></a>
+
+     <p>Also, see <a href="ppmdim.html"><b>ppmdim</b></a>, which does the same
+     thing as <b>pamfunc -multiplier</b> on a PPM image with a multiplier
+     between zero and one, except it uses integer arithmetic, so it may be
+     faster.
+
+     <p>And <a href="ppmfade.html"><b>ppmfade</b></a> can generate a whole
+     sequence of images of brightness declining to black or increasing to
+     white, if that's what you want.
+     
+<dt><b>-divisor=<i>realnum</i></b>
+
+<dd>
+     <p>This option makes the transfer function that of dividing by
+     <i>realnum</i>.  <i>realnum</i> must be nonnegative.  If the result
+     is greater than one, it is clipped to one.
+
+     <p>This is the same function as you would get with <b>-multiplier</b>,
+     specifying the multiplicative inverse of <i>realnum</i>.
+     
+<dt><b>-adder=<i>integer</i></b>
+
+<dd>
+     <p>This option makes the transfer function that of adding
+     <i>integer</i>/<i>maxval</i>.  If the result is greater than one, it is
+     clipped to one.  If it is less than zero, it is clipped to zero.
+
+     <p>Note that in mathematics, this entity is called an "addend,"
+     and an "adder" is a snake.  We use "adder" because
+     it makes more sense.
+     
+<dt><b>-subtractor=<i>integer</i></b>
+
+<dd>
+     <p>This option makes the transfer function that of subtracting
+     <i>integer</i>/<i>maxval</i>.  If the result is greater than one, it is
+     clipped to one.  If it is less than zero, it is clipped to zero.
+
+     <p>Note that in mathematics, this entity is called a
+     "subtrahend" rather than a "subtractor." We use
+     "subtractor" because it makes more sense.
+
+     <p>This is the same function as you would get with <b>-adder</b>,
+     specifying the negative of <i>integer</i>.
+     
+<dt><b>-min=<i>wholenum</i></b>
+
+<dd>
+     <p>This option makes the transfer function that of taking the maximum of
+     the argument and <i>wholenum</i>/<i>maxval</i>.  I.e the minimum value in
+     the output will be <i>wholenum</i>/<i>maxval</i>.
+
+     If <i>wholenum</i>/<i>maxval</i> is greater than one, though, every value
+     in the output will be one.
+
+<dt><b>-max=<i>wholenum</i></b>
+
+<dd>
+     <p>This option makes the transfer function that of taking the minimum of
+     the argument and <i>wholenum</i>/<i>maxval</i>.  I.e the maximum value in
+     the output will be <i>wholenum</i>/<i>maxval</i>.
+
+     If <i>wholenum</i>/<i>maxval</i> is greater than one, the function is
+     idempotent -- the output is identical to the input.
+     
+<dt><b>-andmask=<i>hexmask</i></b>
+
+<dd>
+     <p>This option makes the transfer function that of bitwise anding
+     with <i>hexmask</i>.
+
+     <p><i>hexmask</i> is in hexadecimal.  Example: <kbd>0f</kbd>
+
+     <p>This option was new in Netpbm 10.40 (September 2007).
+
+<dt><b>-ormask=<i>hexmask</i></b>
+
+<dd>
+     <p>This option makes the transfer function that of bitwise
+     inclusive oring with <i>hexmask</i>.
+
+     <p>This is analogous to <b>-andmask</b>.
+
+     <p>This option was new in Netpbm 10.40 (September 2007).
+
+<dt><b>-xormask=<i>hexmask</i></b>
+
+<dd>
+     <p>This option makes the transfer function that of bitwise
+     exclusive oring with <i>hexmask</i>.
+
+     <p>This is analogous to <b>-andmask</b>.
+
+     <p>This option was new in Netpbm 10.40 (September 2007).
+
+<dt><b>-not</b>
+
+<dd>
+     <p>This option makes the transfer function that of bitwise logical
+     inversion (e.g. sample value 0xAA becomes 0x55).
+
+     <p><b>pnminvert</b> does the same thing for a bilevel visual image
+     which has maxval 1 or is of PBM type.
+
+     <p>This option was new in Netpbm 10.40 (September 2007).
+
+<dt><b>-shiftleft=<i>count</i></b>
+
+<dd>
+     <p>This option makes the transfer function that of bitwise shifting
+     left by <i>count</i> bits.
+
+     <p>This option was new in Netpbm 10.40 (September 2007).
+
+<dt><b>-shiftright=<i>count</i></b>
+
+<dd>
+     <p>This option makes the transfer function that of bitwise shifting
+     right by <i>count</i> bits.
+
+     <p>This is analogous to <b>-shiftleft</b>.
+
+     <p>This option was new in Netpbm 10.40 (September 2007).
+
+<dt><b>-changemaxval</b>
+
+<dd>
+  <p>This option tells <b>pamfunc</b> to use a different maxval in the output
+image than the maxval of the input image, if it helps.  By default, the maxval
+of the output is unchanged from the input and <b>pamfunc</b> modifies the
+sample values as necessary to perform the operation.
+
+<p>But there is one case where <b>pamfunc</b> can achieve the same result just
+by changing the maxval and leaving the sample values unchanged: dividing by a
+number 1 or greater, or multiplying by a number 1 or less.  For example, to
+halve all of the values, <b>pamfunc</b> can just double the maxval.
+
+<p>With <b>-changemaxval</b>, <b>pamfunc</b> will do just that.
+
+<p>As the Netpbm formats have a maximum maxval of 65535, for large divisors,
+<b>pamfunc</b> may not be able to use this method.
+
+<p>An advantage of dividing by changing the maxval is that you don't lose
+precision.  The higher maxval means higher precision.  For example, consider
+an image with a maxval of 100 and sample value of 10.  You divide by 21 and
+then multiply by 21 again.  If <b>pamfunc</b> does this by changing the sample
+values while retaining maxval 100, the division will result in a sample value
+of 0 and the multiplication will also result in zero.  But if <b>pamfunc</b>
+instead keeps the sample value 10 and changes the maxval, the division will
+result in a maxval of 2100 and the multiplication will change it back to 100,
+and the round trip is idempotent.
+
+<p>This option was new in Netpbm 10.65 (December 2013).
+
+</dl>
+
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<b><a href="ppmdim.html">ppmdim</a></b>,
+<b><a href="pambrighten.html">pambrighten</a></b>,
+<b><a href="pamdepth.html">pamdepth</a></b>,
+<b><a href="pamarith.html">pamarith</a></b>,
+<b><a href="pamsummcol.html">pamsummcol</a></b>,
+<b><a href="pamsumm.html">pamsumm</a></b>,
+<b><a href="ppmfade.html">ppmfade</a></b>,
+<b><a href="pnminvert.html">pnminvert</a></b>,
+
+<b><a href="pam.html">pam</a></b>,
+
+<b><a href="pnm.html">pnm</a></b>,
+
+<h2 id="history">HISTORY</h2>
+
+<p>This program was added to Netpbm in Release 10.3 (June 2002).
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+  <ul>
+  <li><a href="#values">Values</a>
+  </ul>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#history">HISTORY</a>
+</ul>
+</body>
+</html>

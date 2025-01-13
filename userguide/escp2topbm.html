@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Escp2topbm User Manual</title></head>
+<body>
+<h1>escp2topbm</h1>
+Updated: 14 July 2015
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+
+escp2topbm - convert an ESC/P2 printer file to a PBM image
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>escp2topbm</b>
+[<i>printfile</i>]
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>escp2topbm</b> reads an ESC/P2 printer control stream as input.
+It produces a PBM image as output.
+
+<p><b>escp2topbm</b> filters the raster graphic content from an Epson
+ESC/P2 printer control stream and writes the image it would print as a
+standard (raw) PBM image.
+
+<p>The input is from the file named by the <i>printfile</i> argument, or
+from Standard Input if you don't specify <i>printfile</i>.  The output is
+to Standard Output.
+
+<p><b>escp2topbm</b> understands compression modes 0 (uncompressed)
+and 1 (RLE compressed) in the Epson input stream.
+
+<h2 id="options">OPTIONS</h2>
+
+<p>There are no command line options defined specifically
+for <b>escp2topbm</b>, but it recognizes the options common to all
+programs based on libnetpbm (See <a href="index.html#commonoptions">
+Common Options</a>.)
+
+<p>Before Netpbm 10.72 (September 2015), the Netpbm common option
+<b>-plain</b> has no effect on <b>escp2topbm</b> .
+
+<h2 id="hints">HINTS</h2>
+
+<p>As <b>escp2topbm</b> is a simple program, created mainly to test
+<b>pbmtoescp2</b>, there are some restrictions:
+
+<ul>
+<li><b>escp2topbm</b> looks only at "ESC." sequences and ignores
+all data outside these Escape sequences.
+
+<li><b>escp2topbm</b> assumes that only one raster graphic is in the
+printer stream.  If this isn't true, the result is garbage.
+
+<li><b>escp2topbm</b> assumes that all "ESC."  sequences use the same
+width value.  If this isn't true, the result is garbage.
+</ul>
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<b><a href="pbmtoescp2.html">pbmtoescp2</a></b>,
+<b><a href="pbm.html">pbm</a></b>
+
+<h2 id="author">AUTHOR</h2>
+
+<p>Copyright (C) 2003 by Ulrich Walcher 
+(<a href="mailto:u.walcher@gmx.de">u.walcher@gmx.de</a>).
+
+<h2 id="history">HISTORY</h2>
+
+<p><b>escp2topbm</b> was added to Netpbm in Release 10.18 (August 2003);
+it was created around the same time.
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#hints">HINTS</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#author">AUTHOR</a>
+<li><a href="#history">HISTORY</a>
+</ul>
+
+</body>
+</html>

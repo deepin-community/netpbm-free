@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Pamtable User Manual</title></head>
+<body>
+<h1>pamtable</h1>
+Updated: 15 April 2017
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+
+pamtable - print the raster as a table of numerical sample values
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>pamtable</b>
+
+[<b>-tuple</b>]
+[<b>-hex</b>]
+
+[<i>netpbmfile</i>]
+
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>pamtable</b> prints the raster of a Netpbm image as a table of numerical
+sample values.  For example, a 5-pixel wide, 2-pixel high rainbow (black, red,
+green, blue, white) PPM image with maxval 255 would appear as follows:
+
+<pre>
+<span style="font-family: monospace">
+
+        0   0   0|255   0   0|  0 255   0|  0   0 255|255 255 255
+        0   0   0|255   0   0|  0 255   0|  0   0 255|255 255 255
+
+</span>
+</pre>
+
+<p>There are other output formats possible.  See the command line options.
+
+<p>If you care to see only certain rows or columns, use <b>pamcut</b> to
+filter the input.
+
+<p>If you care to see only certain planes, use <b>pamchannel</b> to filter the
+input.
+
+<p><b>pamtable</b> prints vertical bars between tuples, unless there is only
+one sample per tuple, in which case it prints a single space between tuples.
+
+<p><b>pamtable</b> prints a single space between samples within a tuple.
+
+<p>For each sample, <b>pamtable</b> prints the numerical value from the Netpbm
+image, uninterpreted.  It prints it in decimal, right justified in the minimum
+number of spaces required to print the maxval of the image.
+
+<p>If you want the samples to print more densely, use <b>pamdepth</b> to
+reduce the maxval (thus making the decimal numbers for the samples narrower).
+
+<p>The <b>less</b> program (not part of Netpbm) is good for browsing through
+the table.  Use its <b>--chop-long-lines</b> option and use cursor movement
+keys to scroll around in the image.
+
+
+<h2 id="arguments">ARGUMENTS</h2>
+
+<p>The only possible argument is the name of the file containing the input
+Netpbm image.  This is optional; if you don't specify any arguments, the input
+comes from Standard Input.
+
+
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm (most
+notably <b>-quiet</b>, see <a href="index.html#commonoptions"> Common
+Options</a>), <b>pamtable</b> recognizes the following command line options:
+
+<dl compact>
+<dt><b>-tuple</b>
+
+<dd>Print the tuple values in mathematical tuple notation, like this:
+
+<pre>
+<span style="font-family: monospace">
+
+        (0, 0, 0) (255, 0, 0) (0, 255, 0) (0, 0, 255) (255, 255, 255)
+        (0, 0, 0) (255, 0, 0) (0, 255, 0) (0, 0, 255) (255, 255, 255)
+
+</span>
+</pre>
+    
+<p>This option was new in Netpbm 10.11.00 (September 2022).
+
+<dt><b>-hex</b>
+
+<dd>Display sample values in hexadecimal instead of decimal.
+
+<p>This option is not valid with <b>-tuple</b>.
+
+<p>This option was new in Netpbm 10.11.00 (September 2022).
+
+  
+<dt><b>-verbose</b>
+
+<p>Print additional messages about the processing.
+  
+<dd>
+
+</dl>
+
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<a href="pamfile.html">pamfile</a>,
+<a href="pamcut.html">pamcut</a>,
+<a href="pamchannel.html">pamchannel</a>,
+<a href="pnm.html">pnm</a>,
+<a href="pam.html">pam</a>,
+<a href="pamslice.html">pamslice</a>,
+<a href="ppmtoarbtxt.html">ppmtoarbtxt</a>,
+<a href="ppmtoterm.html">ppmtoterm</a>,
+
+
+<h2 id="history">HISTORY</h2>
+
+<p><b>pamtable</b> was new in Netpbm 10.79 (June 2017).
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#arguments">ARGUMENTS</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#history">HISTORY</a>
+</ul>
+</body>
+</html>

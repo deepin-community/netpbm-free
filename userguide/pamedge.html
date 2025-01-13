@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Pamedge User Manual</title></head>
+<body>
+<h1>pamedge</h1>
+Updated: 11 January 2003
+<br>
+
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+pamedge - edge-detect an image
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>pamedge</b> [<i>imagefile</i>]
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>pamedge</b> reads a Netpbm image (PNM or PAM) and produces
+an image that outlines the edges.
+
+<p>The output image is of the same type as the input, except that the
+maxval of the output is at least 255 and if the input is PBM, the output
+is PGM.
+
+<p>You can pipe the result through <kbd>pamditherbw -threshold</kbd> and
+play with the threshold value to get a PBM (bilevel image) of the edges.
+
+The edge detection technique used is to take the Pythagorean sum of
+two Sobel gradient operators at 90 degrees to each other.  For more
+details see "Digital Image Processing" by Gonzalez and
+Wintz, chapter 7.
+
+<p>The maxval of the output is the same as the maxval of the input, except at
+least 255.  The effect is better with larger maxvals, so you may want to
+increase the maxval of the input by running it through <b>pamdepth</b> first.
+
+<h2 id="options">OPTIONS</h2>
+
+<p>There are no command line options defined specifically
+for <b>pamedge</b>, but it recognizes the options common to all
+programs based on libnetpbm (See <a href="index.html#commonoptions">
+Common Options</a>.)
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<b><a href="pgmenhance.html">pgmenhance</a></b>,
+<b><a href="pamditherbw.html">pamditherbw</a></b>,
+<b><a href="pamdepth.html">pamdepth</a></b>,
+<b><a href="pammasksharpen.html">pammasksharpen</a></b>,
+<b><a href="pamsharpness.html">pamsharpness</a></b>,
+<b><a href="pamsharpmap.html">pamsharpmap</a></b>,
+<b><a href="pam.html">pam</a></b>,
+<b><a href="pnm.html">pnm</a></b>
+
+<h2 id="history">HISTORY</h2>
+
+<p><b>pamedge</b> was added to Netpbm in Release 10.14 (March 2003).
+It replaced <b>pgmedge</b>, which was the same thing, but worked only on
+PGM and PBM images.
+
+
+<h2 id="author">AUTHOR</h2>
+
+Copyright (C) 1991 by Jef Poskanzer.  Adapted to <b>pnmedge</b> Peter
+Kichgessner in 1995, and then to <b>pamedge</b> by Bryan Henderson in
+2003.
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#history">HISTORY</a>
+<li><a href="#author">AUTHOR</a>
+</ul>
+</body>
+</html>

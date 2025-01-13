@@ -1,0 +1,540 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Pnmtopng User Manual</title></head>
+<body>
+<h1>pnmtopng</h1>
+Updated: 13 March 2019
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+pnmtopng - convert a PNM image to PNG
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>pnmtopng</b>
+[<b>-verbose</b>]
+[<b>-downscale</b>]
+[<b>-interlace</b>]
+[<b>-alpha=</b><i>file</i>]
+[<b>-transparent=</b>[<b>=</b>]<i>color</i>]
+[<b>-background=</b><i>color</i>]
+[<b>-palette=</b><i>palettefile</i>]
+[<b>-gamma=</b><i>value</i>]
+[<b>-hist</b>]
+[<b>-text=</b><i>file</i>]
+[<b>-ztxt=</b><i>file</i>]
+<br>
+[<b>-rgb=&quot;</b><i>wx</i> <i>wy</i>
+  <i>rx</i> <i>ry</i> <i>gx</i> <i>gy</i> <i>bx</i> <i>by</i><b>&quot;</b>]
+[<b>-size=&quot;</b><i>x</i> <i>y</i> <i>unit</i><b>&quot;</b>]
+[<b>-srgbintent=</b><i>intent</i>]
+[<b>-modtime=&quot;</b>[<i>yy</i>]<i>yy</i><b>-</b><i>mm</i><b>-</b><i>dd</i>
+  <i>hh</i><b>:</b><i>mm</i><b>:</b><i>ss</i><b>&quot;</b>]
+[<b>-nofilter</b>]
+[<b>-sub</b>]
+[<b>-up</b>]
+[<b>-avg</b>]
+[<b>-paeth</b>]
+[<b>-compression=</b><i>n</i>]
+[<b>-comp_mem_level=</b><i>n</i>]
+<br>
+[<b>-comp_strategy=</b>{<b>huffman_only</b>|<b>filtered</b>}]
+[<b>-comp_method=</b><b>deflated</b>]
+[<b>-comp_window_bits=</b><i>n</i>]
+[<b>-comp_buffer_size=</b><i>n</i>]
+[<b>-force</b>]
+[<b>-libversion</b>]
+[<i>pnmfile</i>]
+
+
+<?makeman .SH OPTION USAGE ?>
+<p>
+Obsolete options:
+<p>
+[<b>-filter </b><i>n</i>]
+
+<p>
+Options available only in older versions:
+<p>
+[<b>-chroma</b> <i>wx wy rx ry gx gy bx by</i>]
+[<b>-phys</b> <i>x</i> <i>y</i> <i>unit</i>]
+<br>
+[<b>-time </b>[<i>yy</i>]<i>yy</i><b>-</b><i>mm</i><b>-</b><i>dd</i>
+  <i>hh</i><b>:</b><i>mm</i><b>:</b><i>ss</i>]
+
+<p>Minimum unique abbreviation of option is acceptable.  You may use double
+hyphens instead of single hyphen to denote options.  You may use white
+space in place of the equals sign to separate an option name from its value.
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>pnmtopng</b> reads a PNM image as input and produces a PNG image as
+output.
+
+<p>Color component values in PNG files are either eight or sixteen
+bits wide, so <b>pnmtopng</b> will automatically scale colors to have
+a maxval of 255 or 65535.
+
+<p>For a grayscale image, <b>pnmtopng</b> produces a PNG bit depth 1,
+2, 4, 8 or 16.  When the input image has a small maxval, the output
+PNG image has a correspondingly small bit depth.  But in mapping the
+PNM maxval to the PNG maxval (which is by definition the maximum value
+that can be represented in the number of bits), a fair amount of
+distortion happens with these low maxvals.  For example, with a PNM
+maxval of 5 and a PNG maxval of 7, the input sample 2 becomes the
+output sample 3.  The input brightness is 2/5 = .40, while the output
+brightness is 3/7 = .43.  Note that this is not a problem if you view
+the maxval as a precision, because in .4 and .43 are identical within
+the precision implied by maxval 5.  Indeed, if you convert this PNG
+back to a maxval 5 PGM, the pixel's value will again be 2, exactly as
+it was originally.  But if you need precisely the same colors in the
+output PNG as in the input PNM, make sure your input PNM has a maxval
+which is a power of two minus one.  If you can't do that, then convert
+it with <b>pamdepth</b> to something with a large maxval that is a
+power of two minus one (255 and 65535 are good choices) to minimize
+the error.
+
+
+<h2 id="options">OPTIONS</h2>
+
+<h3 id="notesyntax">Note: Option Syntax of Older Versions</h3>
+
+<p><b>pnmtopng</b> changed in Netpbm 10.30 (October 2005) to use the
+standard Netpbm command line syntax.  Before that, you could not
+use double hyphens to denote an option and could not use an equal
+sign to separate an option name from its value.  And the options had
+to come before the non-option program arguments.
+
+<p>Furthermore, the options <b>-chroma</b>, <b>-phys</b>, and
+<b>-time</b> were replaced by <b>-rgb</b>, <b>-size</b>, and
+<b>-modtime</b>, respectively.  The only difference, taking
+<b>-phys</b>/<b>-size</b> as an example, is that <b>-phys</b> takes
+multiple program arguments as the option argument, whereas <b>-size</b>
+takes a single program argument which is composed of multiple words.
+E.g. the old shell command
+
+<pre>
+<kbd>
+   pnmtopng -phys 800 800 0 input.pnm &gt; output.png
+</kbd>
+</pre>
+
+<p>is equivalent to the new shell command
+
+<pre>
+<kbd>
+   pnmtopng -size "800 800 0" input.pnm &gt; output.png
+</kbd>
+</pre>
+
+<p>If you're writing a program that needs to work with both new and old
+, have it first try with the new syntax, and if it fails
+with "unrecognized option," fall back to the old syntax.
+
+<h3 id="curroptions">Current Options</h3>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>pnmtopng</b> recognizes the following
+command line options:
+
+<dl compact>
+<dt><b>-verbose</b>
+<dd>
+This causes <b>pnmtopng</b> to display information about the format of the
+output file.
+<p>&nbsp;
+
+<dt><b>-downscale</b>
+<dd>
+This enables <b>pnmtopng</b> to scale maxvalues of more then 65535 to 16
+bits. Since this means loss of image data, <b>pnmtopng</b> does not do it by
+default.
+<p>&nbsp;
+
+<dt><b>-interlace</b>
+<dd>
+This causes the PNG file to be interlaced, in Adam7 format.  The interlaced
+format is one in which the raster data starts with a low-resolution
+representation of the entire image, then continues with additional information
+for the entire image, then even more information, etc.  In Adam7 in
+particular, there are seven such passes of the whole image.  This is useful
+when you are receiving the image over a slow communication line as someone is
+waiting to see it.  The simplest thing to do in that case is wait for the
+entire image to arrive and then display it instantly, but then the user is
+wasting time staring at a blank space until the whole image arrives.  With the
+standard non-interlaced format, the data arrives row-by-row starting at the
+top, so the displayer could display each row of the image as it arrives and
+gradually paint down to the bottom.  But with an interlaced image, the
+displayer can start by showing a low-resolution version of the image, then
+gradually improve the display as more data arrives.
+<p>&nbsp;
+     
+<dt><b>-alpha=</b><i>filename</i>
+
+<dd>This specifies the transparency (alpha) channel of the image.  You supply
+the transparency channel as a standard PGM transparency mask (see
+the <a href="pgm.html">PGM</a> specification.  <b>pnmtopng</b> does not
+necessarily represents the transparency information as a transparency channel
+in the PNG format.  If it can represent the transparency information through a
+palette, it will do so in order to make a smaller PNG file.
+<b>pnmtopng</b> even sorts the palette so it can omit the opaque colors
+from the transparency part of the palette and save space for the palette.
+<p>&nbsp;
+
+<dt><b>-transparent=</b><i>color</i>
+<dd>
+<b>pnmtopng</b> marks the specified color as transparent in the PNG image.
+
+<p>Specify the color (<i>color</i>) as described for the <a
+href="libnetpbm_image.html#colorname">argument of the <b>pnm_parsecolor()</b>
+library routine</a>.
+E.g. <b>red</b> or
+<b>rgb:ff/00/0d</b>.  If the color you specify is not present in the
+image, <b>pnmtopng</b> selects instead the color in the image that is
+closest to the one you specify.  Closeness is measured as a Cartesian
+distance between colors in RGB space.  If multiple colors are
+equidistant, <b>pnmtopng</b> chooses one of them arbitrarily.
+
+<p>However, if you prefix your color specification with
+"=", e.g.
+
+<pre>
+<kbd>
+                    -transparent =red
+</kbd>
+</pre>
+
+<p> only the exact color you specify will be transparent.  If that
+color does not appear in the image, there will be no transparency.
+<b>pnmtopng</b> issues an information message when this is the case.
+
+<dt><b>-background=</b><i>color</i>
+<dd>
+Causes <b>pnmtopng</b> to create a background color chunk in the PNG output
+which can be used for subsequent transparency channel or transparent color
+conversions.  Specify <i>color</i> the same as for <b>-transparent</b>.
+<p>&nbsp;
+
+<dt><b>-palette=</b><i>palettefile</i>
+
+<dd>This option specifies a palette to use in the PNG.  It forces
+<b>pnmtopng</b> to create the paletted (colormapped) variety of PNG --
+if that isn't possible, <b>pnmtopng</b> fails.  If the palette you
+specify doesn't contain exactly the colors in the image,
+<b>pnmtopng</b> fails.  Since <b>pnmtopng</b> will automatically
+generate a paletted PNG, with a correct palette, when appropriate, the
+only reason you would specify the <b>-palette</b> option is if you care
+in what order the colors appear in the palette.  The PNG palette has colors
+in the same order as the palette you specify.
+
+<p>You specify the palette by naming a PPM file that has one pixel for
+each color in the palette.
+
+<p>Alternatively, consider the case that have a palette and you want
+to make sure your PNG contains only colors from the palette,
+approximating if necessary.  You don't care what indexes the PNG uses
+internally for the colors (i.e. the order of the PNG palette).  In
+this case, you don't need <b>-palette</b>.  Pass the Netpbm input
+image and your palette PPM through <b>pnmremap</b>.  Though you might
+think it would, using <b>-palette</b> in this case wouldn't even save
+<b>pnmtopng</b> any work.
+
+<dt><b>-gamma=</b><i>value</i>
+
+<dd>Causes <b>pnmtopng</b> to create a gAMA chunk.  This information helps
+describe how the color values in the PNG must be interpreted.  Without
+the gAMA chunk, whatever interprets the PNG must get this information
+separately (or just assume something standard).  If your input is a true
+PPM or PGM image, you should specify <b>-gamma=.52</b>.  But sometimes 
+people generate images which are ostensibly PPM except the image uses a 
+different gamma transfer function than the one specified for PPM.  A common
+case of this is when the image is created by simple hardware that doesn't
+have digital computational ability.  Also, some simple programs that generate
+images from scratch do it with a gamma transfer in which the gamma value is
+1.0.
+<p>&nbsp;
+
+<dt><b>-hist</b>
+
+<dd>Use this parameter to create a chunk that specifies the frequency
+(or histogram) of the colors in the image.
+<p>&nbsp;
+
+<dt><b>-text=</b><i>filename</i>
+
+<dd>
+This option lets you include arbitrary text strings in the PNG output, as tEXt
+chunks.
+
+<p>
+<i>filename</i> is the name of a file that contains your text strings.
+
+<p>The output contains a distinct tEXt chunk for each entry in the file.
+
+<p>Here is an example of a text string file:
+
+<pre>
+	Title           PNG file
+	Author          John Doe
+	Description     how to include a text chunk
+                        PNG file
+	"Creation Date" 2015-may-11
+	Software        pamtopng
+</pre>
+
+<p>The file is divided into entries, each entry comprising consecutive lines
+of text.  The first line of an entry starts in the first column (i.e. the
+first column is not white space) and every other line has white space in the
+first column.  The first entry starts in the first line, so it is not valid
+for the first line of the file to have white space in its first column.
+
+<p>The first word in an entry is the key of the text string
+(e.g. &quot;Title&quot;).  It begins in column one of the line and continues
+up to, but not including, the first delimiter character or the end of the
+line, whichever is first.  You can enclose the key in double quotes in
+which case the key can consists of multiple words.  The quotes are not
+part of the key.  The text string per se begins after the key and any
+delimiter characters after it, plus the text in subsequent continuation lines.
+
+<p>There is no limit on the length of a file line or entry or key or text
+string.  There is no limit on the number of entries.
+
+<dt><b>-ztxt=</b><i>filename</i>
+
+<dd>The same as <b>-text</b>, except the text string is compressed in the PNG
+output.  <b>pnmtopng</b> uses zTXt chunks instead of a tEXt chunks, unless the
+key for the text string starts with &quot;A&quot; or &quot;T&quot;.  This
+odd exception exists for backward compatibility; we don't know why the program
+was originally designed this way, except that the distinction was meant to
+roughly identify the keys &quot;Author&quot; and &quot;Title&quot;.
+<p>&nbsp;
+
+<dt><b>-rgb=</b><i>chroma_list</i>
+
+<dd>This option specifies how red, green, and blue component values
+of a pixel specify a particular color, by telling the chromaticities
+of those 3 primary illuminants and of white (i.e. full strength of
+all three).
+
+<p>The <i>chroma_list</i> value is a blank-separated list of 8 floating
+point decimal numbers:  the CIE-1931 X and Y chromaticities (in that
+order) of each of white, red, green, and blue, in that order.
+
+<p>This information goes into the PNG's cHRM chunk.
+
+<p>In a shell command, make sure you use quotation marks so that the
+blanks in <i>chroma_list</i> don't make the shell see multiple command
+arguments.
+
+<p>This option was new in Netpbm 10.30 (October 2005).  Before that,
+the option <b>-chroma</b> does the same thing, but with slightly
+different syntax.
+
+<dt><b>-size="</b><i>x</i> <i>y</i> <i>unit</i><b>"</b>
+
+<dd>This option determines the aspect ratio of the individual pixels
+of your image as well as the physical resolution of it.
+
+<p><i>unit</i> is either <b>0</b> or <i>1</i>.  When it is <i>1</i>,
+the option specifies the physical resolution of the image in pixels
+per meter.  For example, <b>-size="10000 15000 1"</b> means
+that when someone displays the image, he should make it so that 10,000
+pixels horizontally occupy 1 meter and 15,000 pixels vertically occupy
+one meter.  And even if he doesn't take this advice on the overall
+size of the displayed image, he should at least make it so that each
+pixel displays as 1.5 times as high as wide.
+
+<p>When <i>unit</i> is <b>0</b>, that means there is no advice on
+the absolute physical resolution; just on the ratio of horizontal to 
+vertical physical resolution.
+
+<p>This information goes into the PNG's pHYS chunk.
+
+<p>When you don't specify <b>-size</b>, <b>pnmtopng</b> creates the image
+with no pHYS chunk, which means square pixels of no absolute resolution.
+
+<p>This option was new in Netpbm 10.30 (October 2005).  Before that,
+the option <b>-phys</b> does the same thing, but with slightly
+different syntax.
+
+<dt><b>-srgbintent=</b><i>intent</i>
+<dd>This asserts that the input is a pseudo-Netpbm image that uses an
+sRGB color space (unlike true Netpbm) and indicates how you intend for the
+colors to be rendered.  It causes <b>pnmtopng</b> to include an sRGB chunk
+in the PNG image that specifies that intent, so see the PNG documentation for
+more information on what this really means.
+
+<p><i>intent</i> is one of:
+
+<ul>
+<li><b>perceptual</b>  
+<li><b>relativecolorimetric</b>  
+<li><b>saturation</b>  
+<li><b>absolutecolorimetric</b>  
+</ul>
+
+<p>This option was new in Netpbm 10.71 (June 2015).  Before that,
+<b>pnmtopng</b> never generates an sRGB chunk.
+
+<dt><b>-modtime="</b>[<i>yy</i>]<i>yy-mm-dd hh:mm:ss</i><b>"</b> 
+
+<dd>This option allows you to specify the modification time value to
+be placed in the PNG output.  You can specify the year parameter
+either as a two digit or four digit value.
+
+<p>This option was new in Netpbm 10.30 (October 2005).  Before that,
+the option <b>-time</b> does the same thing, but with slightly
+different syntax.
+
+<dt><b>-filter=</b><i>n</i>
+
+<dd>This option is obsolete.  Before Netpbm 10.22 (April 2004), this was
+the only way to specify a row filter.  It specifies a single type of
+row filter, by number, that <b>pnmtopng</b> must use on each row.
+
+<p>Use <b>-nofilter</b>, <b>-sub</b>, <b>-up</b>, <b>-avg</b>, and
+<b>-paeth</b> in current Netpbm.
+
+<dt><b>-nofilter</b>
+<dt><b>-sub</b>
+<dt><b>-up</b>
+<dt><b>-avg</b>
+<dt><b>-paeth</b>
+
+<dd>Each of these options permits <b>pnmtopng</b> to use one type of
+row filter.  <b>pnmtopng</b> chooses whichever of the permitted
+filters it finds to be optimal.  If you specify none of these options,
+it is the same as specifying all of them -- <b>pnmtopng</b> uses any
+row filter type it finds optimal.
+
+<p>These options were new with Netpbm 10.22 (April 2004).  Before that,
+you could use the <b>-filter</b> option to specify one permitted row
+filter type.  The default, when you specify no filter options, was the
+same.
+
+<dt><b>-compression=</b><i>n</i>
+
+<dd>This option sets set the compression level of the zlib
+compression.  Select a level from 0 for no compression (maximum speed)
+to 9 for maximum compression (minimum speed).
+
+<p>The default is the default of the zlib library.
+
+<dt><b>-comp_mem_level=</b><i>n</i>
+
+<dd>This option sets the memory usage level of the zlib compression.
+Select a level from 1 for minimum memory usage (and minimum speed) to
+9 for maximum memory usage (and speed).
+
+<p>The default is the default of the zlib library.
+
+<p>This option was new in Netpbm 10.30 (October 2005).
+
+<dt><b>-comp_strategy=</b>{<b>huffman_only</b>|<b>filtered</b>}
+
+<dd>This options sets the compression strategy of the zlib compression.
+See Zlib documentation for information on what these strategies are.
+
+<p>The default is the default of the zlib library.
+
+<p>This option was new in Netpbm 10.30 (October 2005).
+
+<dt><b>-comp_method=</b><b>deflated</b>
+
+<dd>This option does nothing.  It is here for mathematical
+completeness and for possible forward compatibility.  It theoretically
+selects the compression method of the zlib compression, but the Z
+library knows only one method today, so there's nothing to choose.
+
+<p>The default is the default of the zlib library.
+
+<p>This option was new in Netpbm 10.30 (October 2005).
+
+<dt><b>-comp_window_bits=</b><i>N</i>
+
+<dd>This option tells how big a window the zlib compression algorithm
+uses.  The value is the base 2 logarithm of the window size in bytes,
+so 8 means 256 bytes.  The value must be from 8 to 15 (i.e. 256 bytes
+to 32K).
+
+<p>See Zlib documentation for details on what this window size is.
+
+<p>The default is the default of the zlib library.
+
+<p>This option was new in Netpbm 10.30 (October 2005).
+
+<dt><b>-comp_buffer_size</b>=<i>N</i>
+
+<dd>This option determines in what size pieces <b>pnmtopng</b> does the
+zlib compression.  One compressed piece goes in each IDAT chunk in the
+PNG.  So the bigger this value, the fewer IDAT chunks your PNG will have.
+Theoretically, this makes the PNG smaller because 1) you have less
+per-IDAT-chunk overhead, and 2) the compression algorithm has more data
+to work with.  But in reality, the difference will probably not be
+noticeable above about 8K, which is the default.
+
+<p>The value <i>n</i> is the size of the compressed piece (i.e. the
+compression buffer) in bytes.
+
+<p>This option was new in Netpbm 10.30 (October 2005).
+
+
+<dt><b>-force</b>
+
+<dd>
+When you specify this, <b>pnmtopng</b> limits its optimizations.  The
+resulting PNG output is as similar to the Netpbm input as possible.  For
+example, the PNG output will not be paletted and the transparency channel will
+be represented as a full transparency channel even if the information could be
+represented more succinctly with a transparency chunk.
+<p>&nbsp;
+
+<dt><b>-libversion</b>
+
+<dd>
+This option causes <b>pnmtopng</b> to display version information
+about itself and the libraries it uses, <strong>in addition to all its
+normal function</strong>.  Do not confuse this with the Netpbm common
+option <b>-version</b>, which causes the program to display version
+information about the Netpbm library and do nothing else.
+
+<p>You can't really use this option in a program that invokes
+<b>pnmtopng</b> and needs to know which version it is.  Its function
+has changed too much over the history of <b>pnmtopng</b>.  The option
+is good only for human eyes.
+
+</dl>
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<a href="pngtopam.html">pngtopam</a>, 
+<a href="pamtopng.html">pamtopng</a>,
+<a href="pnmremap.html">pnmremap</a>,
+<a href="pnmgamma.html">pnmgamma</a>, 
+<a href="pnm.html">pnm</a>
+
+<p>For information on the PNG format, see <a
+href="http://schaik.com/png">http://schaik.com/png</a>.
+
+<h2 id="author">AUTHOR</h2>
+
+Copyright (C) 1995-1997 by Alexander Lehmann and Willem van Schaik.
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+  <ul>
+  <li><a href="#notesyntax">Note: Option Syntax of Older Versions</a>
+  <li><a href="#curroptions">Current Options</a>
+  </ul>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#author">AUTHOR</a>
+</ul>
+</body>
+</html>

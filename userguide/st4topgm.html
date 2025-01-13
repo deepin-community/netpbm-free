@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>St4topgm User Manual</title></head>
+<body>
+<h1>st4topgm</h1>
+Updated: 20 January 2015
+<br>
+<a href="#index">Table Of Contents</a>
+<h2>NAME</h2>
+
+st4topgm - convert an SBIG ST-4 camera file to PGM
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>st4topgm</b>
+
+[<i>st4file</i>]
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>st4topgm</b> reads an image file in the native format used
+by the Santa Barbara Instrument Group (SBIG) ST-4 astronomical CCD cameras,
+and produces a PGM image as output.  This format is not to be confused with
+the format most other SBIG cameras use, for which you can use
+<b>sbigtopgm</b>.
+
+<p>Additional information on SBIG cameras and documentation of the file format
+is available at the Web
+site, <a href="http://www.sbig.com/">http://www.sbig.com/</a>.
+
+
+<h2 id="options">OPTIONS</h2>
+
+<p>There are no command line options defined specifically
+for <b>st4topgm</b>, but it recognizes the options common to all
+programs based on libnetpbm (See <a href="index.html#commonoptions">
+Common Options</a>.)
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<b><a href="pgmtost4.html">pgmtost4</a></b>
+<b><a href="sbigtopgm.html">sbigtopgm</a></b>
+<b><a href="pgm.html">pgm</a></b>
+
+<h2 id="history">HISTORY</h2>
+
+<p>Bryan Henderson wrote <b>st4topgm</b> for Sourceforge Netpbm in 
+January 2015.  However, there has been another program by the same name for
+the same purpose since December 2003, in the Debian version of Netpbm.
+It was written by Justin Pryzby &lt;justinpryzby@users.sf.net&gt;.
+
+<p>Bryan discovered the Debian version when Prophet of the Way did a
+comparison of the two Netpbms in January 2015.  It was the only program that
+the Debian version had that the Netpbm version did not (not counting one that
+really didn't belong in any Netpbm), so Bryan decided to add it.  Because it
+was a small program, Bryan decided to write a replacement in the Netpbm coding
+style rather than just copy Pryzby's code, but Bryan endeavoured to keep the
+same function.
+
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#history">HISTORY</a>
+</ul>
+</body>
+</html>

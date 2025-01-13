@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Pamenlarge User Manual</title></head>
+<body>
+<h1>pamenlarge</h1>
+Updated: 07 January 2019
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+pamenlarge - Enlarge a Netpbm image N times by duplicating pixels
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>pamenlarge</b>
+[<b>-scale=</b><i>integer</i>]
+[<b>-xscale=</b><i>integer</i>]
+[<b>-yscale=</b><i>integer</i>]
+[<i>filename</i>]
+
+<b>pamenlarge</b> <i>N</i> [<i>pnmfile</i>]
+
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>pamenlarge</b> reads a Netpbm image as input, replicates its pixels
+<i>N</i> times, and produces a Netpbm image as output.  The output is
+the same type of image as the input.
+
+<p>If you enlarge by a factor of 3 or more, you should probably add a
+<b>pnmsmooth</b> step; otherwise, you can see the original pixels in
+the resulting image.
+
+<p>For PBM images, <b>pamenlarge</b> uses special fast algorithms for scale
+factors up to 10.  For larger factors, it uses a simple but slow algorithm.
+As a result, you can often get a significantly faster scale by running
+<b>pamenlarge</b> multiple times.  For example, enlarging by 3 and
+then by 5 is faster than enlarging once by 15.  And because the algorithms
+are different for the different scale factors, some faster than others,
+the order matters too.  For example, the following examples all produce
+the same output -- an image 15 times bigger on edge than the input --
+but at different speeds, each being faster than the one before.
+
+<pre>
+<kbd>
+     $ pamenlarge -scale=15 test.pbm
+     $ pamenlarge -scale=5 test.pbm | pamenlarge -scale=3
+     $ pamenlarge -scale=3 test.pbm | pamenlarge -scale=5
+</kbd>
+</pre>
+
+<p>The special fast cases for factors up to 10 have existed since Release
+10.50 (March 2010).  The special cases for 1, 2, 3, and 5 go back to Release
+10.41 (December 2007).  Before 10.41, there are no special scale factors and
+PBM enlargement is significantly slower than today for all scale factors.
+
+<p><b>pamenlarge</b> can enlarge only by integer factors.  The slower
+but more general <b>pamscale</b> can enlarge or reduce by arbitrary
+factors.  <b>pamscale</b> allows you to enlarge by resampling, which
+gives you smoother enlargements.  But it is much slower.
+
+<p><b>pamstretch</b> is another enlarging program that enlarges by
+integer factors.  It does a simple kind of resampling that gives you a
+smoothed enlargement with less computational cost.
+
+<p><b>pbmreduce</b> can reduce by integer factors, but only for PBM
+images.
+
+<h2 id="arguments">ARGUMENTS</h2>
+
+<p>As with most Netpbm programs, you can give the input file name as an
+argument or omit that argument and have it come from Standard Input (and
+you can specify &quot;-&quot; for the argument to specify Standard Input
+explicitly).
+
+<p>You can also specify the scale factor as an argument, for backward
+compatibility, but the preferred way to do that is with a <b>-scale</b>
+option, because it is easier to remember and read that way.  The scale factor
+argument goes before the file name argument.
+
+
+
+  
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>pamenlarge</b> recognizes the following
+command line options:
+
+<dl>
+<dt><b>-scale=</b><i>integer</i>
+<dt><b>-xscale=</b><i>integer</i>
+<dt><b>-yscale=</b><i>integer</i>
+
+<dd>These specify the scale factor.  <b>-xscale</b> specifies the horizontal
+scale factor; <b>-yscale</b> specifies the vertical scale factor
+and <b>-scale</b> specifies both.
+
+<p>If you specify <b>-xscale</b> but not <b>-yscale</b>, <b>pamenlarge</b>
+does not scale vertically (i.e. the vertical scale factor is 1).  The converse
+applies if you specify <b>-yscale</b> and not <b>-xscale</b>.
+
+<p>You cannot specify <b>-scale</b> and also <b>-xscale</b> or <b>yscale</b>.
+
+<p>You must specify at least one of these options, unless you use the
+deprecaated method of specifying the scale factor via argument.
+
+<p>These options were all new in Netpbm 10.86 (March 2019).  Before that, use
+the scale argument.
+  
+</dl>
+
+  
+<h2 id="history">HISTORY</h2>
+
+<p><b>pamenlarge</b> was new in Netpbm 10.25 (October 2004).  It is
+designed as a replacement for <b>pnmenlarge</b> by Jef Poskanzer,
+which was in Pbmplus as far back as 1989.  The major difference is that
+<b>pamenlarge</b> can enlarge PAM format images in addition to PNM.
+
+
+<h2 id="seealso">SEE ALSO</h2>
+
+<a href="pbmreduce.html">pbmreduce</a>,
+<a href="pamscale.html">pamscale</a>,
+<a href="pamstretch.html">pamstretch</a>,
+<a href="pbmpscale.html">pbmpscale</a>,
+<a href="pnmsmooth.html">pnmsmooth</a>,
+<a href="pnm.html">pnm</a>
+
+<h2 id="author">AUTHOR</h2>
+
+Copyright (C) 1989 by Jef Poskanzer.
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#arguments">ARGUMENTS</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#history">HISTORY</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#author">AUTHOR</a>
+</ul>
+</body>
+</html>

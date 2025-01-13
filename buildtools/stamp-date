@@ -8,21 +8,40 @@
 # copyright notice and this permission notice appear in supporting
 # documentation.  This software is provided "as is" without express or
 # implied warranty.
-#
-# This shell script creates a file called "compile_time.h" which holds
-# a define stating the compilation time. This is used for the -version
-# flag.
-#
 
-OUTFILE=compile.h
-DATE=`date`
-LOGNAME=${LOGNAME:-UNKNOWN}
-USER=${USER:-$LOGNAME}
-if [ $USER = "UNKNOWN" ]; then
-    USER=`whoami`
+# SOURCE_DATE_EPOCH is an environment variable as described here:
+# https://reproducible-builds.org/specs/source-date-epoch/ on 2017.03.16.
+
+# COMPILED_BY is a similar environment variable whose value is some
+# description of who is doing the build.  If it is not set, we use the
+# value of LOGNAME; if that is not set, we use the value of User; if that
+# is not set, we use the output of program 'whoami'.
+
+SOURCE_DATE_OR_NONE=${SOURCE_DATE_EPOCH:-NONE}
+
+NOW_FROM_DATE_PGM=$(date +%s)
+if [ "$NOW_FROM_DATE_PGM" = "%s" ]; then
+    # This system's 'date' doesn't know %s.  (Solaris 10 for example).
+    # Try Perl
+    BUILD_DATETIME=$(perl -e 'print time()')
+else
+    BUILD_DATETIME=$NOW_FROM_DATE_PGM
 fi
 
-echo "/* compile_time.h  This file tells the package when it was compiled */" > $OUTFILE
-echo "/* DO NOT EDIT - THIS FILE IS MAINTAINED AUTOMATICALLY              */" >> $OUTFILE
-echo "#define COMPILE_TIME \"$DATE\"" >> $OUTFILE
-echo "#define COMPILED_BY \"$USER\"" >> $OUTFILE
+LOGNAME_OR_UNKNOWN=${LOGNAME:-UNKNOWN}
+USER_OR_UNKNOWN=${USER:-$LOGNAME_OR_UNKNOWN}
+COMPILED_BY_OR_UNKNOWN=${COMPILED_BY:-$USER_OR_UNKNOWN}
+if [ "$COMPILED_BY_OR_UNKNOWN" = "UNKNOWN" ]; then
+    COMPILED_BY=$(whoami)
+else
+    COMPILED_BY=$COMPILED_BY_OR_UNKNOWN
+fi
+
+echo "/* This file tells some facts about the building of the package */"
+echo "/* DO NOT EDIT - THIS FILE IS MAINTAINED AUTOMATICALLY */"
+echo "/* Created by the program 'stamp-date'  */"
+if [ "$SOURCE_DATE_OR_NONE" != "NONE" ]; then
+  echo "#define SOURCE_DATETIME $SOURCE_DATE_OR_NONE"
+fi
+echo "#define BUILD_DATETIME $BUILD_DATETIME"
+echo "#define COMPILED_BY \"$COMPILED_BY\""

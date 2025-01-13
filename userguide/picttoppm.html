@@ -1,0 +1,195 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Picttoppm User Manual</title></head>
+<body>
+<h1>picttoppm</h1>
+Updated: 17 June 2006
+<br>
+<a href="#index">Table Of Contents</a>
+
+<h2>NAME</h2>
+picttoppm - convert a Macintosh PICT file to a PPM
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>picttoppm</b>
+
+[<b>-verbose=</b><i>n</i>]
+
+[<b>-fullres</b>]
+
+[<b>-noheader</b>]
+
+[<b>-quickdraw</b>]
+
+<br>
+
+[<b>-fontdir</b> <i>file</i>]
+
+[<i>pictfile</i>]
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>picttoppm</b> reads a PICT file (version 1 or 2) and outputs a PPM
+image.
+
+<p>PICT is an image format that was developed by Apple Computer in 1984 as the
+native format for Macintosh graphics.  A PICT image is encoded in QuickDraw
+commands.  The PICT format is a meta-format that can be used for both bitmap
+images and vector images.  PICT is also known as "Macintosh Picture"
+format, or the QuickDraw Picture format.
+
+<p>PICT files are primarily used to exchange graphics between various
+Macintosh applications.
+
+<p>In MacOS X, PDF replaces PICT as the main graphics format.
+
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>picttoppm</b> recognizes the following
+command line options:
+
+<dl compact>
+<dt><b>-fontdir </b><i>file</i>
+
+<dd>Make the list of BDF fonts in <i>file</i> available for use by
+<b>picttoppm</b> when drawing text.  See below for the format of the
+fontdir file.  This is in addition to the built-in fonts and those in
+the file <b>fontdir</b>.
+
+<dt><b>-fullres</b>
+
+<dd>Force any images in the PICT file to be output with at least their
+full resolution.  A PICT file may indicate that a contained
+image is to be scaled down before output.  This option forces images
+to retain their sizes and prevent information loss.
+This option disables all PICT operations except images.
+
+<dt><b>-noheader</b>
+
+<dd>Do not assume the first 512 bytes of the file are a header.  All PICT
+files have such a header, but this is useful when you have PICT data that was
+not stored in the data fork of a PICT file.
+
+<dt><b>-quickdraw</b>
+
+<dd>Execute only pure quickdraw operations.  In particular, turn off
+the interpretation of special PostScript printer operations.
+
+<dt><b>-verbose=</b><i>n</i>
+
+<dd>Print a whole bunch of information about the PICT file and the conversion
+process that only <b>picttoppm</b> hackers really care about.
+
+<p><i>n</i> is the verbosity level, 0-2.
+
+<p>Before Netpbm 10.98 (March 2022), this option is a flag option that you
+specify multiple times to specify increasing verbosity.
+
+</dl>
+
+<h2 id="limitations">LIMITATIONS</h2>
+
+The PICT file format is a general drawing format.  <b>picttoppm</b>
+does not recognize all the drawing commands, but it does fully
+implement all image commands and mostly implements line, rectangle,
+polygon and text drawing.  It is useful for converting scanned images
+and some drawing conversion.
+
+<p>With <b>-fullres</b>, <b>picttoppm</b> ignores text drawing commands.
+Beginning in Netpbm 10.45 (December 2008), it issues a warning message
+when it omits text for this reason.
+
+<h2 id="fonts">FONTS</h2>
+
+<p>Some of the information in a PICT file is text, with a number
+indicating the font in which the text is supposed to rendered.
+<b>picttoppm</b> has one built-in font, but you can add others by
+directing <b>picttoppm</b> to BDF font files, which you do with font
+directory files.
+
+<p><b>picttoppm</b> automatically uses the file named <b>fontdir</b>
+in the current directory, if it exists.  You may specify an additional
+font directory file with the <b>-fontdir</b> option.
+
+<p>Obviously the font definitions are strongly related to the
+Macintosh.  You can find more font numbers and information about fonts
+in Macintosh documentation.
+
+<h3 id="fontdir">Font Directory File Format</h3>
+
+<p>Each line in the file is either a comment or font information.  A
+comment begins with <b>#</b>.  The font information consists of 4
+whitespace separated fields.  The first is the font number, the second
+is the font size in pixels, the third is the font style and the fourth
+is the name of a BDF file containing the font.  The BDF format is
+defined by the X Window System and is beyond the scope of this document.
+
+<p>The font number indicates the type face.  Here is a list of known
+font numbers and their faces.
+
+<dl>
+<dt>0       <dd>Chicago
+<dt>1       <dd>application font
+<dt>2       <dd>New York
+<dt>3       <dd>Geneva
+<dt>4       <dd>Monaco
+<dt>5       <dd>Venice
+<dt>6       <dd>London
+<dt>7       <dd>Athens
+<dt>8       <dd>San Franciso
+<dt>9       <dd>Toronto
+<dt>11      <dd>Cairo
+<dt>12      <dd>Los Angeles
+<dt>20      <dd>Times Roman
+<dt>21      <dd>Helvetica
+<dt>22      <dd>Courier
+<dt>23      <dd>Symbol
+<dt>24      <dd>Taliesin
+</dl>
+
+<p>The font style indicates a variation on the font.  Multiple
+variations may apply to a font and the font style is the sum of the
+variation numbers which are:
+
+<dl>
+<dt>1       <dd>Boldface
+<dt>2       <dd>Italic
+<dt>4       <dd>Underlined
+<dt>8       <dd>Outlined
+<dt>16      <dd>Shadow
+<dt>32      <dd>Condensed
+<dt>64      <dd>Extended
+</dl>
+
+
+<h2 id="seealso">SEE ALSO</h2>
+
+Inside Macintosh volumes 1 and 5,
+<a href="ppmtopict.html">ppmtopict</a>,
+<a href="ppm.html">ppm</a>
+
+
+<h2 id="author">AUTHOR</h2>
+
+Copyright 1993 George Phillips
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#limitations">LIMITATIONS</a>
+<li><a href="#fonts">FONTS</a>
+  <ul>
+  <li><a href="#fontdir">Font Directory File Format</a>
+  </ul>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#author">AUTHOR</a>
+</ul>
+</body>
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.3//EN">
+<html><head><title>Sldtoppm User Manual</title></head>
+<body>
+<h1>sldtoppm</h1>
+Updated: 10 October 1991
+<br>
+<a href="#index">Table Of Contents</a>
+<h2>NAME</h2>
+
+sldtoppm - convert an AutoCAD slide file to a PPM image
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<b>sldtoppm</b>
+[<b>-adjust</b>]
+[<b>-dir</b>]
+[{<b>-height</b>|<b>-ysize</b>} <i>s</i>]
+[<b>-info</b>]
+[{<b>-lib</b>|<b>-Lib</b>} <i>name</i>]
+[<b>-scale</b> <i>s</i>]
+[<b>-verbose</b>]
+[{<b>-width</b>|<b>-xsize</b>} <i>s</i>]
+[<i>slidefile</i>]
+
+<p>All options can be abbreviated to their shortest unique prefix.
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>This program is part of <a href="index.html">Netpbm</a>.
+
+<p><b>sldtoppm</b> reads an AutoCAD&#174; slide file and outputs a PPM
+image.  If you don't specify <i>slidefile</i>, <b>sldtoppm</b> reads
+input from Standard Input.  <b>sldtoppm</b> uses the <b>ppmdraw</b>
+library to convert the vector and polygon information in the slide
+file to a raster; see the file <b>ppmdraw.h</b> for details on this
+package.
+
+<h2 id="options">OPTIONS</h2>
+
+<p>In addition to the options common to all programs based on libnetpbm
+(most notably <b>-quiet</b>, see <a href="index.html#commonoptions">
+Common Options</a>), <b>sldtoppm</b> recognizes the following
+command line options:
+
+<dl compact>
+<dt><b>-adjust</b>
+
+<dd>If the display on which the slide file was created had non-square
+pixels, when you process the slide with <b>sldtoppm</b> and don't
+specify <b>-adjust</b>, <b>sldtoppm</b> issues the following warning;
+
+<blockquote>
+Warning - pixels on source screen were non-square.
+</blockquote>
+
+<p>Specifying <b>-adjust</b> will correct the image width to
+compensate.  Specifying the <b>-adjust</b> option causes
+<b>sldtoppm</b> to scale the width of the image so that pixels in the
+resulting PPM image are square (and hence circles appear as true
+circles, not ellipses).  The scaling is performed in the vector
+domain, before scan converting the objects.  The results are,
+therefore, superior in appearance to what you'd obtain were you to
+perform the equivalent scaling with <b>pamscale</b> after the bitmap
+had been created.
+
+<dt><b>-dir</b>
+
+<dd>The input is assumed to be an AutoCAD slide library file.  A
+directory listing each slide in the library is printed on standard
+error.
+
+<dt><b>-height</b> <i>size</i>
+
+<dd>Scales the image in the vector domain so it is <i>size</i> pixels
+in height.  If you don't specify <b>-width</b> or <b>-xsize</b>,
+<b>sldtoppm</b> adjusts the width to preserve the pixel aspect ratio.
+
+<dt><b>-info</b>
+
+<dd>Dump the slide file header on standard error, displaying the original
+screen size and aspect ratio among other information.
+
+<dt><b>-lib</b> <i>name</i>
+
+<dd>Extracts the slide with the given <i>name</i> from the slide
+library given as input.  <b>sldtoppm</b> converts the specified
+<i>name</i> to upper case.
+
+<dt><b>-Lib</b><i> name</i>
+
+<dd>Extracts the slide with the given <i>name</i> from the slide
+library given as input.  <b>sldtoppm</b> uses <i>name</i> in the case
+specified; it does not convert it to upper case.
+
+<dt><b>-scale</b> <i>s</i>
+
+<dd>Scales the image by factor <i>s</i>, which may be any floating
+point value greater than zero.  <b>sldtoppm</b> does the scaling after
+aspect ratio adjustment, if any.  Since it does the scaling in the
+vector domain, before rasterisation, the results look much better than
+running the output of <b>sldtoppm</b> through <b>pamscale</b>.
+
+<dt><b>-verbose</b>
+
+<dd>Dumps the slide file header and lists every vector and polygon 
+to Standard Error.
+
+<dt><b>-width</b> <i>size</i>
+
+<dd>Scales the image in the vector domain so it is <i>size</i> pixels
+wide.  If you don't specify <b>-height</b> or <b>-ysize</b>,
+<b>sldtoppm</b> adjusts the height to preserve the pixel aspect ratio.
+
+<dt><b>-xsize</b> <i>size</i>
+
+<dd>Scales the image in the vector domain so it is <i>size</i> pixels
+wide.  If you don't specify <b>-height</b> or <b>-ysize</b>,
+<b>sldtoppm</b> adjusts the height to preserve the pixel aspect ratio.
+
+<dt><b>-ysize</b> <i>size</i>
+
+<dd>Scales the image in the vector domain so it is <i>size</i> pixels
+in height.  If you don't specify <b>-width</b> or <b>-xsize</b>,
+<b>sldtoppm</b> adjusts the width to preserve the pixel aspect ratio.
+
+</dl>
+
+<h2 id="limitations">LIMITATIONS</h2>
+
+<p><b>sldtoppm</b> can convert only Level 2 slides.  Level 1 format
+has been obsolete since the advent of AutoCAD Release 9 in 1987, and
+was not portable across machine architectures.
+
+<p>Slide library items with names containing 8 bit (such as ISO) or 16
+bit (Kanji, for example) characters may not be found when chosen with
+the <b>-lib</b> option unless <b>sldtoppm</b> was built with character
+set conversion functions appropriate to the locale.  You can always
+retrieve slides from libraries regardless of the character set by
+using the <b>-Lib</b> option and specifying the precise name of
+library member.  Use the <b>-dir</b> option to list the slides in a
+library if you're unsure of the exact name.
+
+<h2 id="seealso">SEE ALSO</h2>
+
+AutoCAD Reference Manual: <i>Slide File Format</i>,
+
+<b><a href="pamscale.html">pamscale</a></b>,
+
+<b><a href="ppm.html">ppm</a></b>
+
+<h2 id="author">AUTHOR</h2>
+
+<pre>
+John Walker
+Autodesk SA
+Avenue des Champs-Montants 14b
+CH-2074 MARIN
+Suisse/Schweiz/Svizzera/Svizra/Switzerland
+    <b>Usenet:</b><a href="mailto:kelvin@Autodesk.com">kelvin@Autodesk.com</a>
+    <b>Fax:</b>038/33 88 15
+    <b>Voice:</b>038/33 76 33
+</pre>
+
+<p>
+Permission to use, copy, modify, and distribute this software and its
+documentation for any purpose and without fee is hereby granted,
+without any conditions or restrictions.  This software is provided
+"as is" without express or implied warranty.
+
+<p>AutoCAD and Autodesk are registered trademarks of Autodesk, Inc.
+
+<hr>
+<h2 id="index">Table Of Contents</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a>
+<li><a href="#description">DESCRIPTION</a>
+<li><a href="#options">OPTIONS</a>
+<li><a href="#limitations">LIMITATIONS</a>
+<li><a href="#seealso">SEE ALSO</a>
+<li><a href="#author">AUTHOR</a>
+</ul>
+</body>
+</html>

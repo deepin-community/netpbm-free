@@ -1,0 +1,30 @@
+Description: Use Python3 in manpage creation
+Bug-Debian: https://bugs.debian.org/968024
+Author: Andreas Tille <tille@debian.org>
+Last-Update: Fri, 11 Mar 2022 12:53:24 +0100
+Forwarded: 2023-08-17 mail to maintainer
+
+--- a/buildtools/makeman
++++ b/buildtools/makeman
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/python3
+ #
+ # makeman -- compile netpbm's stereotyped HTML to troff markup
+ #
+--- a/buildtools/manpage.mk
++++ b/buildtools/manpage.mk
+@@ -126,11 +126,11 @@ reportman:
+ # to standard error.
+ %.1 %.3 %.5: $(USERGUIDE)/%.html
+ 	@echo Converting $< to $@
+-	@python $(MAKEMAN) -d $(USERGUIDE) $(<F) 
++	@python3 $(MAKEMAN) -d $(USERGUIDE) $(<F) 
+ 
+ netpbm.1: $(USERGUIDE)/index.html
+ 	@echo Converting $< to $@
+-	@python $(MAKEMAN) -d $(USERGUIDE) index.html
++	@python3 $(MAKEMAN) -d $(USERGUIDE) index.html
+ 	@mv index.1 netpbm.1
+ 
+ # Generate man pages

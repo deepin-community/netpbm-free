@@ -1,3 +1,11 @@
+netpbm-free (2:11.05.02-1deepin2) unstable; urgency=medium
+
+  * fix(cve): CVE-2026-120435 (high) - xpmtoppm: fix buffer overruns
+    with invalid characters-per-pixel value   Upstream:
+    https://sourceforge.net/p/netpbm/code/5336/
+
+ -- deepin-ci-robot <packages@deepin.org>  Tue, 17 Nov 2026 23:17:28 +0800
+
 netpbm-free (2:11.05.02-1deepin1) unstable; urgency=medium
 
   * Rebuild with LTO enabled (dpkg vendor feature optimize/lto).

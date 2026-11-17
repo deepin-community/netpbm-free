@@ -11,6 +11,9 @@ netpbm-free (2:11.05.02-1deepin2) unstable; urgency=medium
     2026-120432)   Upstream:
     https://sourceforge.net/p/netpbm/code/5335/,https://github.com/secur
     ezeron/cve_reports/commit/e22574c7fdef45d541a364428d9028ecde03a952
+  * fix(cve): CVE-2026-120434 (high) - picttoppm: bound-check scanIndex
+    in scanPoly() (CVE-2026-120434)   Upstream:
+    https://sourceforge.net/p/netpbm/code/5331/
 
  -- deepin-ci-robot <packages@deepin.org>  Tue, 17 Nov 2026 23:17:28 +0800
 

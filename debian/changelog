@@ -6,6 +6,11 @@ netpbm-free (2:11.05.02-1deepin2) unstable; urgency=medium
   * fix(cve): CVE-2026-120433 (high) - picttoppm: fix buffer overrun
     with very large polygons in input   Upstream:
     https://sourceforge.net/p/netpbm/code/5328/
+  * fix(cve): CVE-2026-120432 (high) - winicontopam - fix arithmetic
+    overflow causing arbitrary memory access and infinite loops (CVE-
+    2026-120432)   Upstream:
+    https://sourceforge.net/p/netpbm/code/5335/,https://github.com/secur
+    ezeron/cve_reports/commit/e22574c7fdef45d541a364428d9028ecde03a952
 
  -- deepin-ci-robot <packages@deepin.org>  Tue, 17 Nov 2026 23:17:28 +0800
 

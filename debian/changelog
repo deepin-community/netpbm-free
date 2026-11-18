@@ -17,6 +17,9 @@ netpbm-free (2:11.05.02-1deepin2) unstable; urgency=medium
   * fix(cve): CVE-2026-120437 (medium) - tgatoppm.c: validate the color
     index against the colormap range before indexing ColorMap/AlphaMap
     Upstream: https://sourceforge.net/p/netpbm/code/5334/
+  * fix(cve): CVE-2026-120436 (high) - jbigtopnm: fix heap buffer
+    overflow due to integer overflow when computing the output image
+    buffer size   Upstream: https://sourceforge.net/p/netpbm/code/5324/
 
  -- deepin-ci-robot <packages@deepin.org>  Tue, 17 Nov 2026 23:17:28 +0800
 
